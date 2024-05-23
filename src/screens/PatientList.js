@@ -18,6 +18,7 @@ import BookIcon from 'react-native-vector-icons/FontAwesome6'
 import { getAppointment } from '../api/doctor';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getMyAppointment } from '../api/nurse';
+import DataNotFound from '../components/common/DataNotFound';
 const PatientList = ({ navigation }) => {
   const [Patient, setPatient] = useState([]);
 
@@ -25,16 +26,16 @@ const PatientList = ({ navigation }) => {
   const fetchDoctorApointment = async () => {
     try {
       const response = await getAppointment();
-      setPatient(response.data);
+       if(response.data) setPatient(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
   };
-
+// console.log(Patient , "check patient Array")
   const fetchNurseApointment = async () => {
     try {
       const response = await getMyAppointment();
-      setPatient(response.data);
+      if (response.data) setPatient(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -62,10 +63,11 @@ useLayoutEffect
           <Header />
         </View>
         <View style={{ paddingHorizontal: 15, backgroundColor: 'white', paddingBottom: 15 }}>
+          <SearchBar />
         </View>
         <View style={{ paddingHorizontal: 5 }}>
           <ScrollView style={styles.scroll}>
-            {Patient.map((item, index) => {
+            {Patient.length > 1 ? Patient.map((item, index) => {
                 console.log('patent => ', item['patientId']?.username)
               return (
                 <View style={styles.container} key={index}>
@@ -94,7 +96,7 @@ useLayoutEffect
                   </View>
                 </View>
               )
-            })}
+            }) : <DataNotFound />}
           </ScrollView>
         </View>
       </View>

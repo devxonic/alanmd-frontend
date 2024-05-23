@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {getCategories} from '../../api/patient';
+import DataNotFound from './DataNotFound';
+ 
 
 const Card = () => {
   const navigation = useNavigation();
@@ -11,8 +13,9 @@ console.log(categories)
     const fetchCategories = async () => {
       try {
         const response = await getCategories();
-        setCategories(response.data);
+        if(response.data) setCategories(response.data);
         console.log(response.data)
+        console.log( "categoryssssss : "  , categories )
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -26,7 +29,7 @@ console.log(categories)
   return (
     <>
       <View style={styles.main}>
-        {categories.map((category, index) => (
+        {categories.length >1 ? categories.map((category, index) => (
           <TouchableOpacity onPress={()=> navigation.navigate('SeletedCategory',{category})} key={index}>
             <View style={styles.card}>
               <Image
@@ -36,7 +39,7 @@ console.log(categories)
               <Text style={styles.text}>{category.name}</Text>
             </View>
           </TouchableOpacity>
-        ))}
+        )) : <DataNotFound/>}
       </View>
     </>
   );

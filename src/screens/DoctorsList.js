@@ -15,13 +15,16 @@ import {getDoctors} from '../api/auth';
 import SearchBar from '../components/common/SearchBar';
 import { Fonts } from '../components/style';
 import BookIcon from 'react-native-vector-icons/FontAwesome6'
+import DataNotFound from '../components/common/DataNotFound';
 const DoctorsList = ({navigation}) => {
   const [doctors, setDoctors] = useState([]);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await getDoctors();
-        setDoctors(response.data.data);
+        if(response.data)
+        setDoctors(response.data);
+      console.log("doctorssss : " ,doctors)
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -36,10 +39,11 @@ const DoctorsList = ({navigation}) => {
           <Header />
         </View>
         <View style={{paddingHorizontal:15,backgroundColor:'white',paddingBottom:15}}>
+      <SearchBar />
       </View>
         <View style={{paddingHorizontal:5}}>
           <ScrollView style={styles.scroll}>
-            {doctors.map((item, index) => (
+            {doctors.length> 1 ?  doctors.map((item, index) => (
               <View style={styles.container} key={index}>
                 <View style={styles.childOne}>
                   {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
@@ -71,7 +75,7 @@ const DoctorsList = ({navigation}) => {
                   </View>
                 </View>
               </View>
-            ))}
+            )) : <DataNotFound />}
           </ScrollView>
         </View>
       </View>

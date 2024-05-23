@@ -23,7 +23,7 @@ const NurseList = ({route,navigation}) => {
     const fetchNurse = async () => {
       try {
         const response = await getNurse();
-        setUser(response.data);
+        if(response.data)setUser(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -54,6 +54,7 @@ const NurseList = ({route,navigation}) => {
           <Header />
         </View>
         <View style={{paddingHorizontal:15,backgroundColor:'white',paddingBottom:15}}>
+      <SearchBar />
       </View>
         <View style={{paddingHorizontal:5}}>
           <ScrollView style={styles.scroll}>
