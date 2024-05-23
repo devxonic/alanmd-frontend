@@ -109,7 +109,6 @@ const App = ({navigation}) => {
               headerLeft: () => (
                 <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
                    <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Doctor</Text>
                 </TouchableOpacity>
               ),
               title: null, 

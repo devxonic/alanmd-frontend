@@ -109,12 +109,15 @@ const ParticularPatientScreen = ({route, navigation}) => {
 
   const checkforNurse = async ()=> {
     const role = await AsyncStorage.getItem('role');
+    console.log('patient screen role', role);
+
     if(role === 'nurse'){
         setIsNurse(true);
     }
   }
 
   useEffect(() => {
+    checkforNurse();
     if (item) {
       setNotesFile(item.doctorNotesMedia);
       setNotesText(item.doctorNotes);
@@ -222,7 +225,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
           paddingTop: 10,
           justifyContent: 'space-around',
         }}>
-        {!isNurse ? (
+        {isNurse ? (
             <AproveAndCancelButtons
             onPressAprove={()=> navigation.navigate('NurseList', {item})    
             }

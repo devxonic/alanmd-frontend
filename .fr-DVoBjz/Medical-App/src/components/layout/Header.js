@@ -34,10 +34,7 @@ const Header = () => {
           {/* <View style={{backgroundColor:'#116754',padding:10,borderRadius:50}}>
            <LocationIcon name='location' size={20} color={'white'}/>
           </View> */}
-          <View>
-            {/* <Text style={styles.topOneOneHead}>Current Location</Text> */}
-            <Text style={styles.topOneOneText}>Hello, John</Text>
-          </View>
+         
         </View>
         <View style={{flexDirection:'row',width:80,justifyContent:'space-between',alignItems:'center'}}>
         <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
