@@ -297,7 +297,7 @@ const SignIn = () => {
   );
 
   const handleCreateAccountPress = () => {
-    navigation.navigate('SignUp');
+    navigation.navigate('signup');
   };
 
   const handleBackPress = () => {

@@ -15,22 +15,37 @@ import {getDoctors} from '../api/auth';
 import SearchBar from '../components/common/SearchBar';
 import { Fonts } from '../components/style';
 import { assignNurse, getNurse } from '../api/doctor';
+import Loader from '../components/common/Loader';
 const NurseList = ({route,navigation}) => {
   const [user, setUser] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const {item} = route.params
   console.log("NUSRESSSS PARAMSS   ", item.appointmentId)
   useEffect(() => {
     const fetchNurse = async () => {
       try {
+        setIsLoading(true)
         const response = await getNurse();
-        if(response.data)setUser(response.data);
-      } catch (error) {
+        if (response.data) {
+          setUser(response.data);
+          setIsLoading(false);
+        }
+      } catch (error) { 
+        setIsLoading(false);
         console.error('Error fetching categories:', error);
       }
     };
     fetchNurse();
   }, []);
 
+
+  if (isLoading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Loader />
+      </View>
+    );
+  }
   const handleAssignNurse = async (id) => {
     let body = {
       appointmentId: item.appointmentId,
