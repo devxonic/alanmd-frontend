@@ -11,26 +11,40 @@ import React, {useEffect, useState} from 'react';
 import Header from '../components/layout/Header';
 import {DoctorDetails} from '../../Data';
 import Footer from '../components/layout/Footer';
-import {getDoctors} from '../api/auth';
+import {getDoctors} from '../api/doctor';
 import SearchBar from '../components/common/SearchBar';
-import { Fonts } from '../components/style';
+import { Fonts } from '../components/style'
 import BookIcon from 'react-native-vector-icons/FontAwesome6'
 import DataNotFound from '../components/common/DataNotFound';
+import Loader from '../components/common/Loader';
 const DoctorsList = ({navigation}) => {
   const [doctors, setDoctors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setIsLoading(true)
         const response = await getDoctors();
-        if(response.data)
-        setDoctors(response.data);
+        if (response.data) {
+          setDoctors(response.data);
+          setIsLoading(false);
+        }
       console.log("doctorssss : " ,doctors)
       } catch (error) {
+        setIsLoading(false);
         console.error('Error fetching categories:', error);
       }
     };
     fetchCategories();
   }, []);
+
+  if (isLoading) { 
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Loader />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={{backgroundColor:'#e3eeeb',flex:1}}>

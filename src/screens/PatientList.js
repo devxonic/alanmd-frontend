@@ -19,15 +19,21 @@ import { getAppointment } from '../api/doctor';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getMyAppointment } from '../api/nurse';
 import DataNotFound from '../components/common/DataNotFound';
+import Loader from '../components/common/Loader';
 const PatientList = ({ navigation }) => {
   const [Patient, setPatient] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   
   const fetchDoctorApointment = async () => {
-    try {
+    try {setIsLoading(true)
       const response = await getAppointment();
-       if(response.data) setPatient(response.data);
+      if (response.data) {
+        setPatient(response.data);
+        setIsLoading(false);
+      }
     } catch (error) {
+      setIsLoading(false);
       console.error('Error fetching categories:', error);
     }
   };
@@ -55,7 +61,13 @@ const PatientList = ({ navigation }) => {
   }, []);
 
 useLayoutEffect
-
+if (isLoading) {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Loader />
+    </View>
+  );
+}
   return (
     <SafeAreaView style={{ backgroundColor: '#e3eeeb', flex: 1 }}>
       <View style={styles.main}>
