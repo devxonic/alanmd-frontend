@@ -24,7 +24,6 @@ const ParticularPatientScreen = ({ route, navigation }) => {
 
   // const [isNurse, setIsNurse] = useState(false);
   let data = useSelector((state) => (state.user.Role))
-  let isNurse = data == "Nurse" ? true : false;
   console.log(data, "catch KAR NA DATA ")
   const [isLoading, setIsLoading] = useState(false);
 
@@ -111,17 +110,7 @@ const ParticularPatientScreen = ({ route, navigation }) => {
     }
   };
 
-  const checkforNurse = async () => {
-    const role = await AsyncStorage.getItem('role');
-    console.log('patient screen role', role);
-
-    if (role === 'nurse') {
-      setIsNurse(true);
-    }
-  }
-
   useEffect(() => {
-    checkforNurse();
     if (item) {
       setNotesFile(item.doctorNotesMedia);
       setNotesText(item.doctorNotes);
@@ -143,7 +132,7 @@ const ParticularPatientScreen = ({ route, navigation }) => {
             textAlign: 'center',
             color: 'black',
           }}>
-          {isNurse ? 'Appoinment Details' : 'Patient Details'}
+          {data === 'nurse' ? 'Appoinment Details' : 'Patient Details'}
         </Text>
         <View style={styles.container}>
           <View style={styles.childOne}>
@@ -229,7 +218,7 @@ const ParticularPatientScreen = ({ route, navigation }) => {
             paddingTop: 10,
             justifyContent: 'space-around',
           }}>
-          {isNurse ? (
+          {data === 'nurse' ? (
             <AproveAndCancelButtons
               onPressAprove={() => navigation.navigate('NurseList', { item })
               }
