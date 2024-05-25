@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -8,20 +8,23 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import {Fonts} from '../components/style';
+import { Fonts } from '../components/style';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import Button from '../components/common/Button';
 import DocumentPicker from 'react-native-document-picker';
-import {BASE_URL, uploadFile} from '../api/apihandler';
-import {updateAppoinment} from '../api/doctor';
-const ParticularPatientScreen = ({route, navigation}) => {
-  const {item} = route.params;
+import { BASE_URL, uploadFile } from '../api/apihandler';
+import { updateAppoinment } from '../api/doctor';
+import { useSelector } from 'react-redux';
+
+const ParticularPatientScreen = ({ route, navigation }) => {
+  const { item } = route.params;
 
   const appointmentId = item._id;
 
-  const [isNurse, setIsNurse] = useState(false);
-
+  // const [isNurse, setIsNurse] = useState(false);
+  let data = useSelector((state) => (state.user.Role))
+  console.log(data, "catch KAR NA DATA ")
   const [isLoading, setIsLoading] = useState(false);
 
   const [prescriptionFile, setPrescriptionFile] = useState(null);
@@ -100,24 +103,14 @@ const ParticularPatientScreen = ({route, navigation}) => {
       const response = await updateAppoinment(body);
       console.log('RESPONSE', response);
       setIsLoading(false);
-      navigation.navigate('NurseList', {item: body});
+      navigation.navigate('NurseList', { item: body });
     } catch (error) {
       setIsLoading(false);
       console.log('Error in Update Appointment =>', error.response);
     }
   };
 
-  const checkforNurse = async ()=> {
-    const role = await AsyncStorage.getItem('role');
-    console.log('patient screen role', role);
-
-    if(role === 'nurse'){
-        setIsNurse(true);
-    }
-  }
-
   useEffect(() => {
-    checkforNurse();
     if (item) {
       setNotesFile(item.doctorNotesMedia);
       setNotesText(item.doctorNotes);
@@ -128,113 +121,113 @@ const ParticularPatientScreen = ({route, navigation}) => {
     }
   }, [item]);
   return (
-    <View style={{backgroundColor: '#e3eeeb', flex: 1, paddingVertical:3}}>
-        <ScrollView>
-      <Text
-        style={{
-          fontFamily: Fonts.REGULAR,
-          fontSize: 26,
-          marginVertical: 5,
-          width: '100%',
-          textAlign: 'center',
-          color: 'black',
-        }}>
-        {isNurse ? 'Appoinment Details' : 'Patient Details'}
-      </Text>
-      <View style={styles.container}>
-        <View style={styles.childOne}>
-          {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
-          <Image
-            style={{
-              width: '100%',
-              height: 80,
-              objectFit: 'cover',
-              borderRadius: 5,
-            }}
-            source={{
-              uri: 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
-            }}
+    <View style={{ backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3 }}>
+      <ScrollView>
+        <Text
+          style={{
+            fontFamily: Fonts.REGULAR,
+            fontSize: 26,
+            marginVertical: 5,
+            width: '100%',
+            textAlign: 'center',
+            color: 'black',
+          }}>
+          {data === 'nurse' ? 'Appoinment Details' : 'Patient Details'}
+        </Text>
+        <View style={styles.container}>
+          <View style={styles.childOne}>
+            {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
+            <Image
+              style={{
+                width: '100%',
+                height: 80,
+                objectFit: 'cover',
+                borderRadius: 5,
+              }}
+              source={{
+                uri: 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
+              }}
+            />
+          </View>
+          <View style={styles.childTwo}>
+            <View style={styles.childTwoOne}>
+              <Text style={styles.headingText}>
+                {item['patientId']?.email.split('@')?.[0] ||
+                  item['patientId']?.username}
+              </Text>
+              <Text style={styles.badge}>pending</Text>
+            </View>
+            <View style={styles.childTwoTwo}>
+              <Text style={styles.light}>Patient #</Text>
+              <Text style={styles.light}>Disease Category</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View
+                style={{
+                  backgroundColor: '#116754',
+                  padding: 10,
+                  borderRadius: 25,
+                }}>
+                <Icon name="location-dot" size={16} color={'white'} />
+              </View>
+              <Text
+                style={{
+                  fontFamily: Fonts.REGULAR,
+                  fontSize: 13,
+                  color: 'black',
+                  paddingLeft: 5,
+                }}>
+                Abcd location address
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            backgroundColor: 'white',
+            paddingTop: 10,
+            justifyContent: 'space-around',
+          }}>
+          <InputCard
+            heading="Prescription"
+            type={'prescription'}
+            handleDocumentPicker={handleDocumentPicker}
+            textValue={prescriptionText}
+            onChange={text => setPrescriptionText(text)}
+          />
+          <InputCard
+            heading="Doctor Reports"
+            type={'report'}
+            handleDocumentPicker={handleDocumentPicker}
+            textValue={reportsText}
+            onChange={text => setReportText(text)}
+          />
+          <InputCard
+            heading="Doctor Notes"
+            type={'notes'}
+            handleDocumentPicker={handleDocumentPicker}
+            textValue={NotesText}
+            onChange={text => setNotesText(text)}
           />
         </View>
-        <View style={styles.childTwo}>
-          <View style={styles.childTwoOne}>
-            <Text style={styles.headingText}>
-              {item['patientId']?.email.split('@')?.[0] ||
-                item['patientId']?.username}
-            </Text>
-            <Text style={styles.badge}>pending</Text>
-          </View>
-          <View style={styles.childTwoTwo}>
-            <Text style={styles.light}>Patient #</Text>
-            <Text style={styles.light}>Disease Category</Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View
-              style={{
-                backgroundColor: '#116754',
-                padding: 10,
-                borderRadius: 25,
-              }}>
-              <Icon name="location-dot" size={16} color={'white'} />
-            </View>
-            <Text
-              style={{
-                fontFamily: Fonts.REGULAR,
-                fontSize: 13,
-                color: 'black',
-                paddingLeft: 5,
-              }}>
-              Abcd location address
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      <View
-        style={{
-          backgroundColor: 'white',
-          paddingTop: 10,
-          justifyContent: 'space-around',
-        }}>
-        <InputCard
-          heading="Prescription"
-          type={'prescription'}
-          handleDocumentPicker={handleDocumentPicker}
-          textValue={prescriptionText}
-          onChange={text => setPrescriptionText(text)}
-        />
-        <InputCard
-          heading="Doctor Reports"
-          type={'report'}
-          handleDocumentPicker={handleDocumentPicker}
-          textValue={reportsText}
-          onChange={text => setReportText(text)}
-        />
-        <InputCard
-          heading="Doctor Notes"
-          type={'notes'}
-          handleDocumentPicker={handleDocumentPicker}
-          textValue={NotesText}
-          onChange={text => setNotesText(text)}
-        />
-      </View>
-      <View
-        style={{
-          backgroundColor: 'white',
-          flex: 1,
-          paddingTop: 10,
-          justifyContent: 'space-around',
-        }}>
-        {isNurse ? (
+        <View
+          style={{
+            backgroundColor: 'white',
+            flex: 1,
+            paddingTop: 10,
+            justifyContent: 'space-around',
+          }}>
+          {data === 'nurse' ? (
             <AproveAndCancelButtons
-            onPressAprove={()=> navigation.navigate('NurseList', {item})    
-            }
-            onPressCancel={() => navigation.goBack()}
+              onPressAprove={() => navigation.navigate('NurseList', { item })
+              }
+              onPressCancel={() => navigation.goBack()}
             />
-        ) : (
-            <AssignNurseButton onPress={handleUpdateAppointment} />       
-        )}
-      </View>
+          ) : (
+            <AssignNurseButton onPress={handleUpdateAppointment} />
+          )}
+        </View>
       </ScrollView>
     </View>
   );
@@ -242,29 +235,29 @@ const ParticularPatientScreen = ({route, navigation}) => {
 
 export default ParticularPatientScreen;
 
-const AssignNurseButton = ({onPress}) => {
-    return (
-        <View style={{paddingHorizontal: 15}}>
-        <Button text="Assign Nurse" Link={onPress} />
-        </View>
-    );
-    }
+const AssignNurseButton = ({ onPress }) => {
+  return (
+    <View style={{ paddingHorizontal: 15 }}>
+      <Button text="Assign Nurse" Link={onPress} />
+    </View>
+  );
+}
 
 
-const AproveAndCancelButtons = ({onPressAprove, onPressCancel}) => {
-    return (
-        <View style={{paddingHorizontal: 15}}>
+const AproveAndCancelButtons = ({ onPressAprove, onPressCancel }) => {
+  return (
+    <View style={{ paddingHorizontal: 15 }}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={onPressAprove} style={[styles.button, { backgroundColor: '#116754' }]}>
           <Text style={{ color: 'white', fontSize: 14 }}>Aprove</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPressCancel}  style={[styles.button, { backgroundColor: '#C54B4B' }]}>
+        <TouchableOpacity onPress={onPressCancel} style={[styles.button, { backgroundColor: '#C54B4B' }]}>
           <Text style={{ color: 'white', fontSize: 14 }}>Cancel</Text>
         </TouchableOpacity>
       </View>
-        </View>
-    );
-    }
+    </View>
+  );
+}
 
 const InputCard = ({
   heading,
@@ -275,7 +268,7 @@ const InputCard = ({
 }) => {
   return (
     <View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Text
           style={{
             fontFamily: Fonts.REGULAR,
@@ -287,7 +280,7 @@ const InputCard = ({
           {heading || ''}
         </Text>
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <View style={styles.light}>
             <TouchableOpacity>
               <Icon name="microphone" size={13} />
@@ -300,7 +293,7 @@ const InputCard = ({
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{paddingHorizontal: 10}}>
+      <View style={{ paddingHorizontal: 10 }}>
         <TextInput
           multiline={true}
           placeholder="Type Something"
@@ -309,7 +302,7 @@ const InputCard = ({
           onChangeText={onChange}
           numberOfLines={Platform.OS === 'ios' ? null : 5}
           minHeight={Platform.OS === 'ios' && 5 ? 20 * 5 : null}
-          style={{backgroundColor: '#E7F0EE', borderRadius: 5}}
+          style={{ backgroundColor: '#E7F0EE', borderRadius: 5 }}
         />
       </View>
     </View>
@@ -388,7 +381,7 @@ const styles = StyleSheet.create({
   },
   childThree: {
     display: 'flex',
-    overflow:'hidden'
+    overflow: 'hidden'
   },
   childThreeThree: {
     flexDirection: 'row',

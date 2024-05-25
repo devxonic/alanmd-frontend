@@ -262,11 +262,14 @@ import Heading from '../components/common/Heading';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import {login} from '../api/auth';
+import { AddRole } from '../Redux/reducers';
+import { useDispatch } from 'react-redux';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({identifier: '', password: '', role: 'patient'});
   const [isLoading, setIsLoading] = useState(false);
 
+  let dispatch = useDispatch()
   const navigation = useNavigation();
 
   const handleRoleSelection = (role) => {
@@ -322,6 +325,7 @@ const SignIn = () => {
         await AsyncStorage.setItem('accessToken', token);
         await AsyncStorage.setItem('user', JSON.stringify(user));
         await AsyncStorage.setItem('role', formData.role);
+        dispatch(AddRole(formData.role))
 
         setIsLoading(false);
 

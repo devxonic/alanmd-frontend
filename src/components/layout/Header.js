@@ -6,13 +6,17 @@ import { Fonts } from '../style';
 import Notification from 'react-native-vector-icons/Ionicons'
 import LogOut from 'react-native-vector-icons/AntDesign'
 import Spinner from 'react-native-loading-spinner-overlay';
+import { useDispatch } from 'react-redux';
+import { RemoveRole } from '../../Redux/reducers';
 const Header = () => {
   const navigation = useNavigation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  let dispatch= useDispatch()
   
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const handleLogout = () => {
     setTimeout(() => {
+      dispatch(RemoveRole())
       setIsLoggingOut(false);
       navigation.navigate('onboard');
     }, 500);

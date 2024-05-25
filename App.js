@@ -23,12 +23,19 @@ import DoctorDashboard from './src/screens/doctorscreen/DoctorDashboard.js';
 import PatientList from './src/screens/PatientList.js';
 import ParticularPatientScreen from './src/screens/ParticularPatientScreen.js';
 import NurseList from './src/screens/NurseList.js';
+import { Provider } from 'react-redux'
+import Store from './src/Redux/store.js';
+
+
+
 const Stack = createNativeStackNavigator();
 const App = ({navigation}) => {
   // const navigation = useNavigation()
   
   return (
-    // <GestureHandlerRootView>
+ 
+ <Provider store={Store}>
+     {/* <GestureHandlerRootView> */}
       <NavigationContainer>
       
         <Stack.Navigator screenOptions={{
@@ -300,6 +307,7 @@ const App = ({navigation}) => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+       </Provider>
     // </GestureHandlerRootView>
   );
 };
