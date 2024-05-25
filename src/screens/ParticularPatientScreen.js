@@ -120,6 +120,7 @@ const ParticularPatientScreen = ({ route, navigation }) => {
       setPrescriptionText(item.prescription);
     }
   }, [item]);
+
   return (
     <View style={{ backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3 }}>
       <ScrollView>
@@ -266,6 +267,12 @@ const InputCard = ({
   onChange,
   textValue,
 }) => {
+
+  const [text, setText] = useState('');
+  const [isListiner, setIsListiner] = useState(false);
+
+  
+
   return (
     <View>
       <View style={{ flexDirection: 'row' }}>
