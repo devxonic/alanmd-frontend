@@ -15,10 +15,12 @@ import { useNavigation } from '@react-navigation/native';
 import SearchBar from '../../components/common/SearchBar';
 import { Fonts } from '../../components/style';
 import Button from '../../components/common/Button';
+import { useSelector } from 'react-redux';
 
 
 const Dashboard = () => {
   const navigation = useNavigation();
+  let data = useSelector((state) => (state.user.Role))
   const handleDoctorCategory = () => {
     navigation.navigate('doctorscategory');
   };
@@ -93,7 +95,7 @@ const Dashboard = () => {
             <View style={styles.thirdchild}>
               <View style={styles.thirdchildOne}>
                 <Image style={{ width: 40, height: 40, objectFit: 'contain', marginLeft: 12 }} source={require('../../images/doctor.png')} />
-                <Text style={styles.headingMian}>Patients List</Text>
+                <Text style={styles.headingMian}>{data === 'nurse'? 'Assigned Appointment' :'Appointment List'}</Text>
                 <Text style={styles.textPara}>
                   Lorem Ipsum Dolor Sit Amet , Lorem Ipsum Dolor Sit Amet
                 </Text>
@@ -108,7 +110,7 @@ const Dashboard = () => {
 
           <View style={styles.fourthChild}>
 
-            <View style={styles.fourthChildOne}>
+          <View style={[styles.fourthChildOne , {width :data == "nurse" ? "100%" : "47%"}]}>
               <TouchableOpacity >
                 <View style={{ width: '100%' }}>
                   <Text style={styles.headingMian}>Labs</Text>
@@ -129,7 +131,7 @@ const Dashboard = () => {
               </TouchableOpacity>
             </View>
 
-            <View style={styles.fourthChildTwo}>
+           {data !== 'nurse' ? <View style={styles.fourthChildTwo}>
               <View>
                 <Text style={styles.headingMian}>Nurses</Text>
                 <Text style={styles.textPara}>
@@ -139,7 +141,7 @@ const Dashboard = () => {
               <View style={[styles.fourthChildOneTwo, { justifyContent: 'flex-end', width: '100%', marginTop: 10 }]}>
                 <Image style={{ width: '100%', height: 120, objectFit: 'contain', bottom: -10, right: -10 }} source={require('../../images/doctorsTwo.png')} />
               </View>
-            </View>
+            </View>:null}
           </View>
           {/* <View style={styles.fifthChild}>
           <View style={{width:'10%',flex:1,alignItems:'center',justifyContent:'center'}}>

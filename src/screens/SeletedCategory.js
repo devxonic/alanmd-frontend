@@ -13,22 +13,37 @@ import {
   import SearchBar from '../components/common/SearchBar';
   import { Fonts } from '../components/style';
   import BookIcon from 'react-native-vector-icons/FontAwesome6'
+import DataNotFound from '../components/common/DataNotFound';
+import Loader from '../components/common/Loader';
   const DoctorsList = ({navigation,route}) => {
     const [doctors, setDoctors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const {category} = route.params
   console.log('category',category)
+  const fetchCategories = async () => {
+    try {
+      const response = await getDoctors(category._id);
+      if (response.data) {
+        setDoctors(response.data);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Error fetching categories:', error);
+    }
+  };
     useEffect(() => {
-      const fetchCategories = async () => {
-        try {
-          const response = await getDoctors(category._id);
-          setDoctors(response.data.docDetails);
-        } catch (error) {
-          console.error('Error fetching categories:', error);
-        }
-      };
+     setIsLoading(true)
       fetchCategories();
     }, []);
   
+    if (isLoading) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Loader />
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={{backgroundColor:'#e3eeeb',flex:1}}>
         <View style={styles.main}>
@@ -36,7 +51,7 @@ import {
         </View>
           <View style={{paddingHorizontal:5}}>
             <ScrollView style={styles.scroll}>
-              {doctors.map((item, index) => (
+              {doctors.length >1 ? doctors.map((item, index) => (
                 <View style={styles.container} key={index}>
                   <View style={styles.childOne}>
                     {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
@@ -68,7 +83,7 @@ import {
                     </View>
                   </View>
                 </View>
-              ))}
+              )) : <DataNotFound />}
             </ScrollView>
           </View>
         </View>

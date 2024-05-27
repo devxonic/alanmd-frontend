@@ -18,43 +18,62 @@ import BookIcon from 'react-native-vector-icons/FontAwesome6'
 import { getAppointment } from '../api/doctor';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getMyAppointment } from '../api/nurse';
+import DataNotFound from '../components/common/DataNotFound';
+import Loader from '../components/common/Loader';
+import { useSelector } from 'react-redux';
 const PatientList = ({ navigation }) => {
   const [Patient, setPatient] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  let data = useSelector((state) => (state.user.Role))
 
-  
   const fetchDoctorApointment = async () => {
     try {
       const response = await getAppointment();
-      setPatient(response.data);
+      if (response.data) {
+        setPatient(response.data);
+        setIsLoading(false);
+      }
     } catch (error) {
+      setIsLoading(false);
       console.error('Error fetching categories:', error);
     }
   };
-
+  // console.log(Patient , "check patient Array")
   const fetchNurseApointment = async () => {
     try {
       const response = await getMyAppointment();
-      setPatient(response.data);
+      if (response.data) {
+        setPatient(response.data);
+        setIsLoading(false);
+      }
     } catch (error) {
+      setIsLoading(false);
       console.error('Error fetching categories:', error);
     }
   };
 
   useEffect(async () => {
-   let role =  await AsyncStorage.getItem('role')
-    if(role === 'nurse'){
+
+    if (data === 'nurse') {
+      setIsLoading(true);
       fetchNurseApointment()
 
-    }else{
-
+    } else {
+      setIsLoading(true)
       fetchDoctorApointment()
 
     }
 
   }, []);
 
-useLayoutEffect
-
+  useLayoutEffect
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Loader />
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={{ backgroundColor: '#e3eeeb', flex: 1 }}>
       <View style={styles.main}>
@@ -62,11 +81,12 @@ useLayoutEffect
           <Header />
         </View>
         <View style={{ paddingHorizontal: 15, backgroundColor: 'white', paddingBottom: 15 }}>
+          <SearchBar />
         </View>
         <View style={{ paddingHorizontal: 5 }}>
           <ScrollView style={styles.scroll}>
-            {Patient.map((item, index) => {
-                console.log('patent => ', item['patientId']?.username)
+            {Patient.length > 1 ? Patient.map((item, index) => {
+              console.log('patent => ', item['patientId']?.username)
               return (
                 <View style={styles.container} key={index}>
                   <View style={styles.childOne}>
@@ -75,7 +95,7 @@ useLayoutEffect
                   </View>
                   <View style={styles.childTwo}>
                     <View style={styles.childTwoOne}>
-                      <Text style={styles.headingText}>{item['patientId']?.email.split('@')?.[0] || item['patientId']?.username }</Text>
+                      <Text style={styles.headingText}>{item['patientId']?.email.split('@')?.[0] || item['patientId']?.username}</Text>
                       <Text style={styles.badge}>Online</Text>
                     </View>
                     <View style={styles.childTwoTwo}>
@@ -94,7 +114,7 @@ useLayoutEffect
                   </View>
                 </View>
               )
-            })}
+            }) : <DataNotFound />}
           </ScrollView>
         </View>
       </View>

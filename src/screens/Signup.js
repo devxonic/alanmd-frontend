@@ -17,6 +17,11 @@ import { signUp } from '../api/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackIcon from 'react-native-vector-icons/Ionicons';
 import { Fonts } from '../components/style';
+import { useDispatch } from 'react-redux';
+import { AddRole } from '../Redux/reducers';
+
+
+
 const renderRoleButton = (role, text) => (
   <TouchableOpacity
     style={[
@@ -42,7 +47,7 @@ const renderRoleButton = (role, text) => (
 const SignUp = () => {
   const [formData, setFormData] = useState({ email: '', password: '', role:'patient', username:'' });
   const navigation = useNavigation();
-
+let dispatch = useDispatch()
 
   const handleSubmit = () => {
     if (!formData.email || !formData.password) {
@@ -58,6 +63,8 @@ const SignUp = () => {
         await AsyncStorage.setItem('accessToken', token);
         await AsyncStorage.setItem('user',JSON.stringify(user))
         await AsyncStorage.setItem('role',formData.role)
+
+        dispatch(AddRole(formData.role))
 
         console.warn(token);
 

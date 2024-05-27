@@ -11,7 +11,7 @@ const SearchBar = () => {
       <SearchIcon style={styles.searchIcon} name='search' size={20} color={'#116754'}/>
       <TextInput
         style={styles.input}
-        placeholder="search for doctors"
+        placeholder="search somthing ..."
         onChangeText={setSearch}
         value={search}
         placeholderTextColor="#116754"

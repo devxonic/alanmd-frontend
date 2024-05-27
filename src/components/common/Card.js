@@ -2,18 +2,27 @@ import React, {useEffect, useState} from 'react';
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {getCategories} from '../../api/patient';
+import DataNotFound from './DataNotFound';
+import Loader from './Loader';
+ 
 
 const Card = () => {
   const navigation = useNavigation();
   const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 console.log(categories)
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setIsLoading(true);
         const response = await getCategories();
-        setCategories(response.data);
-        console.log(response.data)
+        if (response.data) {
+          setCategories(response.data);
+          setIsLoading(false);
+        }        console.log(response.data)
+        console.log( "categoryssssss : "  , categories )
       } catch (error) {
+        setIsLoading(false);
         console.error('Error fetching categories:', error);
       }
     };
@@ -23,10 +32,19 @@ console.log(categories)
   const handleDoctorList = (category) => {
     navigation.navigate('SeletedCategory',{category});
   };
+
+  if (isLoading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Loader />
+      </View>
+    );
+  }
+
   return (
     <>
       <View style={styles.main}>
-        {categories.map((category, index) => (
+        {categories.length >1 ? categories.map((category, index) => (
           <TouchableOpacity onPress={()=> navigation.navigate('SeletedCategory',{category})} key={index}>
             <View style={styles.card}>
               <Image
@@ -36,7 +54,7 @@ console.log(categories)
               <Text style={styles.text}>{category.name}</Text>
             </View>
           </TouchableOpacity>
-        ))}
+        )) : <DataNotFound/>}
       </View>
     </>
   );

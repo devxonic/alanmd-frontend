@@ -11,23 +11,40 @@ import React, {useEffect, useState} from 'react';
 import Header from '../components/layout/Header';
 import {DoctorDetails} from '../../Data';
 import Footer from '../components/layout/Footer';
-import {getDoctors} from '../api/auth';
+import {getDoctors} from '../api/doctor';
 import SearchBar from '../components/common/SearchBar';
-import { Fonts } from '../components/style';
+import { Fonts } from '../components/style'
 import BookIcon from 'react-native-vector-icons/FontAwesome6'
+import DataNotFound from '../components/common/DataNotFound';
+import Loader from '../components/common/Loader';
 const DoctorsList = ({navigation}) => {
   const [doctors, setDoctors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setIsLoading(true)
         const response = await getDoctors();
-        setDoctors(response.data.data);
+        if (response.data) {
+          setDoctors(response.data);
+          setIsLoading(false);
+        }
+      console.log("doctorssss : " ,doctors)
       } catch (error) {
+        setIsLoading(false);
         console.error('Error fetching categories:', error);
       }
     };
     fetchCategories();
   }, []);
+
+  if (isLoading) { 
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Loader />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={{backgroundColor:'#e3eeeb',flex:1}}>
@@ -36,10 +53,11 @@ const DoctorsList = ({navigation}) => {
           <Header />
         </View>
         <View style={{paddingHorizontal:15,backgroundColor:'white',paddingBottom:15}}>
+      <SearchBar />
       </View>
         <View style={{paddingHorizontal:5}}>
           <ScrollView style={styles.scroll}>
-            {doctors.map((item, index) => (
+            {doctors.length> 1 ?  doctors.map((item, index) => (
               <View style={styles.container} key={index}>
                 <View style={styles.childOne}>
                   {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
@@ -71,7 +89,7 @@ const DoctorsList = ({navigation}) => {
                   </View>
                 </View>
               </View>
-            ))}
+            )) : <DataNotFound />}
           </ScrollView>
         </View>
       </View>
