@@ -227,7 +227,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
             setComponentText={(text) => setPrescriptionText(text)}
           />
 
-          <ReportsInputCard
+          {/* <ReportsInputCard
             heading="Doctor Reports"
             type={'report'}
             handleDocumentPicker={handleDocumentPicker}
@@ -238,7 +238,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
             type={'notes'}
             handleDocumentPicker={handleDocumentPicker}
             setComponentText={(text) => setNotesText(text)}
-          />
+          /> */}
         </View>
         <View
           style={{
