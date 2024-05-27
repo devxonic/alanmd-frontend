@@ -17,7 +17,7 @@ const PrescriptionInputCard = ({
     const [isListiner, setIsListiner] = useState(false);
 
   const onChange = (text) => {
-        setComponentText(text);
+    setText(text);
     };
   
     useEffect(() => {
