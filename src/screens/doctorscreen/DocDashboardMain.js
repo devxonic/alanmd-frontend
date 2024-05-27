@@ -110,7 +110,7 @@ const Dashboard = () => {
 
           <View style={styles.fourthChild}>
 
-            <View style={styles.fourthChildOne}>
+          <View style={[styles.fourthChildOne , {width :data == "nurse" ? "100%" : "47%"}]}>
               <TouchableOpacity >
                 <View style={{ width: '100%' }}>
                   <Text style={styles.headingMian}>Labs</Text>
