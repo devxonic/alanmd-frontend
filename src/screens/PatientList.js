@@ -77,9 +77,6 @@ const PatientList = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: '#e3eeeb', flex: 1 }}>
       <View style={styles.main}>
-        <View>
-          <Header />
-        </View>
         <View style={{ paddingHorizontal: 15, backgroundColor: 'white', paddingBottom: 15 }}>
           <SearchBar />
         </View>

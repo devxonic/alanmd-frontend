@@ -207,14 +207,14 @@ android {
     compileSdk rootProject.ext.compileSdkVersion
     namespace "com.medicalapp"
     // for Publishing to other stores
-     splits {
-        abi {
-            reset()
-            enable true
-            universalApk false
-            include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-        }
-    }
+    //  splits {
+    //     abi {
+    //         reset()
+    //         enable true
+    //         universalApk false
+    //         include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+    //     }
+    // }
     defaultConfig {
         applicationId "com.medicalapp"
         minSdkVersion rootProject.ext.minSdkVersion
