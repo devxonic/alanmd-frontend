@@ -186,7 +186,7 @@ react {
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
@@ -205,8 +205,16 @@ android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
-
     namespace "com.medicalapp"
+    // for Publishing to other stores
+    //  splits {
+    //     abi {
+    //         reset()
+    //         enable true
+    //         universalApk false
+    //         include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+    //     }
+    // }
     defaultConfig {
         applicationId "com.medicalapp"
         minSdkVersion rootProject.ext.minSdkVersion
