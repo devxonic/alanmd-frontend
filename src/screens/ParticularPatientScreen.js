@@ -223,10 +223,12 @@ const ParticularPatientScreen = ({route, navigation}) => {
           <PrescriptionInputCard
             heading="Prescription"
             type={'prescription'}
-            handleDocumentPicker={handleDocumentPicker}
+            handleDocumentPicker={handleDocumentPicker} 
+            prescriptionText={prescriptionText}
             setComponentText={(text) => setPrescriptionText(text)}
           />
 
+          <AttachedFile/>
           {/* <ReportsInputCard
             heading="Doctor Reports"
             type={'report'}
@@ -249,7 +251,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
           }}>
           {data === 'nurse' ? (
             <AproveAndCancelButtons
-              onPressAprove={() => navigation.navigate('NurseList', {item})}
+              onPressAprove={() => navigation.navigate('dashboard', {item})}
               onPressCancel={() => navigation.goBack()}
             />
           ) : (
