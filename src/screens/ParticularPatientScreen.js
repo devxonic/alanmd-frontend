@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -8,23 +8,24 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import {Fonts} from '../components/style';
+import { Fonts } from '../components/style';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import Button from '../components/common/Button';
 import DocumentPicker from 'react-native-document-picker';
-import {BASE_URL, uploadFile} from '../api/apihandler';
-import {updateAppoinment} from '../api/doctor';
-import {useSelector} from 'react-redux';
+import { BASE_URL, uploadFile } from '../api/apihandler';
+import { updateAppoinment } from '../api/doctor';
+import { useSelector } from 'react-redux';
 
 import Voice from '@react-native-voice/voice';
-import {set} from 'date-fns';
+import { set } from 'date-fns';
 import NotesInputCard from '../components/Card/VoiceAndMediaCard/NotesInputCard';
 import ReportsInputCard from '../components/Card/VoiceAndMediaCard/ReportsInputCard';
 import PrescriptionInputCard from '../components/Card/VoiceAndMediaCard/PrescriptionInputCard';
+import AttachedFile from '../components/common/AttachedFile';
 
-const ParticularPatientScreen = ({route, navigation}) => {
-  const {item} = route.params;
+const ParticularPatientScreen = ({ route, navigation }) => {
+  const { item } = route.params;
 
   const appointmentId = item._id;
 
@@ -112,22 +113,22 @@ const ParticularPatientScreen = ({route, navigation}) => {
       const response = await updateAppoinment(body);
       console.log('RESPONSE', response);
       setIsLoading(false);
-      navigation.navigate('NurseList', {item: body});
+      navigation.navigate('NurseList', { item: body });
     } catch (error) {
       setIsLoading(false);
       console.log('Error in Update Appointment =>', error.response);
     }
   };
 
-  handleTextChange = (type,text) => {
+  handleTextChange = (type, text) => {
     console.log('Type', type);
-    if(type === 'prescription'){
+    if (type === 'prescription') {
       setPrescriptionText(prev => prev + " " + text)
     }
-    if(type === 'report'){
-      setReportText(prev => prev + " " + text )
+    if (type === 'report') {
+      setReportText(prev => prev + " " + text)
     }
-    if(type === 'notes'){
+    if (type === 'notes') {
       setNotesText(prev => prev + " " + text)
     }
   };
@@ -152,7 +153,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
   }, [item]);
 
   return (
-    <View style={{backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3}}>
+    <View style={{ backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3 }}>
       <ScrollView>
         <Text
           style={{
@@ -192,7 +193,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
               <Text style={styles.light}>Patient #</Text>
               <Text style={styles.light}>Disease Category</Text>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View
                 style={{
                   backgroundColor: '#116754',
@@ -224,8 +225,12 @@ const ParticularPatientScreen = ({route, navigation}) => {
             heading="Prescription"
             type={'prescription'}
             handleDocumentPicker={handleDocumentPicker}
+            prescriptionText={prescriptionText}
             setComponentText={(text) => setPrescriptionText(text)}
           />
+
+            <AttachedFile AttachmentFile={prescriptionFile}/>
+        
 
           {/* <ReportsInputCard
             heading="Doctor Reports"
@@ -249,13 +254,15 @@ const ParticularPatientScreen = ({route, navigation}) => {
           }}>
           {data === 'nurse' ? (
             <AproveAndCancelButtons
-              onPressAprove={() => navigation.navigate('NurseList', {item})}
+              onPressAprove={() => navigation.navigate('dashboard', { item })}
               onPressCancel={() => navigation.goBack()}
             />
           ) : (
             <AssignNurseButton onPress={handleUpdateAppointment} />
           )}
         </View>
+
+        <AttachedFile AttachmentsList={prescriptionFile} />
       </ScrollView>
     </View>
   );
@@ -263,27 +270,27 @@ const ParticularPatientScreen = ({route, navigation}) => {
 
 export default ParticularPatientScreen;
 
-const AssignNurseButton = ({onPress}) => {
+const AssignNurseButton = ({ onPress }) => {
   return (
-    <View style={{paddingHorizontal: 15}}>
+    <View style={{ paddingHorizontal: 15 }}>
       <Button text="Assign Nurse" Link={onPress} />
     </View>
   );
 };
 
-const AproveAndCancelButtons = ({onPressAprove, onPressCancel}) => {
+const AproveAndCancelButtons = ({ onPressAprove, onPressCancel }) => {
   return (
-    <View style={{paddingHorizontal: 15}}>
+    <View style={{ paddingHorizontal: 15 }}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={onPressAprove}
-          style={[styles.button, {backgroundColor: '#116754'}]}>
-          <Text style={{color: 'white', fontSize: 14}}>Aprove</Text>
+          style={[styles.button, { backgroundColor: '#116754' }]}>
+          <Text style={{ color: 'white', fontSize: 14 }}>Aprove</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onPressCancel}
-          style={[styles.button, {backgroundColor: '#C54B4B'}]}>
-          <Text style={{color: 'white', fontSize: 14}}>Cancel</Text>
+          style={[styles.button, { backgroundColor: '#C54B4B' }]}>
+          <Text style={{ color: 'white', fontSize: 14 }}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>
