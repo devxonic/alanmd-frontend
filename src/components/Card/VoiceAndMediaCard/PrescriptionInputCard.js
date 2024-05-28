@@ -23,12 +23,6 @@ const PrescriptionInputCard = ({
   let data = useSelector(state => state.user.Role);
 
   useEffect(() => {
-    if (prescriptionText.length) {
-      setComponentText(prescriptionText)
-    }
-  }, [prescriptionText]);
-
-  useEffect(() => {
     Voice.onSpeechResults = e => {
       console.log('Voice Results', e);
       setComponentText(prev => prev + " " + e.value[0]);
@@ -189,9 +183,9 @@ const styles = StyleSheet.create({
   light: {
     backgroundColor: '#E7F0EE',
     color: '#116754',
-    padding: 5,
+    padding: 8,
     borderRadius: 2,
-    margin: 5,
+    margin: 8,
     fontSize: 10,
     fontFamily: Fonts.MEDIUM,
     borderWidth: 1,
@@ -213,7 +207,9 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 5,
     backgroundColor: '#116754',
-    margin: 5,
+    margin: 12,
+    marginBottom : 8,
+    marginLeft :8 
   },
   childThreeThreeText: {
     color: 'white',
