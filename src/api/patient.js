@@ -1,6 +1,6 @@
+
 import ApiHandler from "./apihandler";
 import endpoint from "./endpoints";
-
 export const getCategories = async () => {
     try {
       const response = await ApiHandler().get(endpoint.CATEGORIES);
@@ -11,7 +11,17 @@ export const getCategories = async () => {
       throw error;
     }
   };
-
+export const GETPATIENTPROFILE = async () => {
+    try {
+      const response = await ApiHandler().get(endpoint.GETPATIENTPROFILE);
+      console.log('Get patient Response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Get patient Error:', error.response ? error.response.data : error.message);
+      throw error;
+    }
+  };
+  
  export const bookAppointment = async (body)=> {
   console.log('Booking appoitnment body',body)
   try {

@@ -8,7 +8,13 @@ const endpoint = {
   NURSE:'doctor/getAllNurses',
   ASSIGN_NURSE:'doctor/assignNurse',
   BOOKING:'patient/bookAppointment',
-  MY_APPOINTMENT:'nurse/getMyAppointments'
+  MY_APPOINTMENT:'nurse/getMyAppointments',
+  GET_PATIENT_PROFILE:"patient/getProfile",
+  UPDATE_PATIENT_PROFILE:"patient/editProfile",
+  GET_DOCTOR_PROFILE:"doctor/getProfile",
+  UPDATE_DOCTOR_PROFILE:"doctor/editProfile",
+  GET_NURSE_PROFILE:"nurse/getProfile",
+  UPDATE_NURSE_PROFILE:"nurse/editProfile"
 };
 
 export default endpoint;

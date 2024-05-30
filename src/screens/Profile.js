@@ -3,8 +3,27 @@ import { View, Image, StyleSheet, Text, TouchableOpacity , Platform,} from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Fonts } from '../components/style';
 
-const ProfilePage = () => {
+
+
+const PatientProfilePage = ({navigation}) => {
   const [counter, setCounter] = useState(3);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setIsLoading(true)
+        const response = await getprofile();
+        if (response.data) {
+          setDoctors(response.data);
+          setIsLoading(false);
+        }
+      console.log("Profile : " ,doctors)
+      } catch (error) {
+        setIsLoading(false);
+        console.error('Error fetching categories:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,7 +58,7 @@ const ProfilePage = () => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, { backgroundColor: '#116754' }]}>
+        <TouchableOpacity style={[styles.button, { backgroundColor: '#116754' }]} onPress={() => navigation.navigate("patientProfileEdit")}>
           <Text style={{ color: 'white', fontFamily: Fonts.REGULAR, fontSize: 14 }}>Edit Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: '#C54B4B' }]}>
@@ -128,4 +147,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfilePage;
+export default PatientProfilePage;
