@@ -1,44 +1,54 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-function AttachedFile({ AttachmentFile }) {
-    console.log("AttachmentFile" , AttachmentFile)
-    return (
-        <View style={styles.container}>
-            {AttachmentFile && AttachmentFile.map((x, i) => (
-                <View key={i} style={styles.box}>
-                    <Icon
-                        name="file"
-                        size={40}
-                        color={'white'}
-                    />
-                </View>
-            ))}
-        </View>
-    );
+function AttachedFile({AttachmentFile}) {
+  console.log('AttachmentFile', AttachmentFile);
+  return (
+    <View style={styles.container}>
+      {AttachmentFile &&
+        AttachmentFile.map((x, i) => (
+          <View key={i} style={styles.box}>
+            <View>
+              <Icon name="file" size={17} color={'white'} />
+            </View>
+            <View>
+              <Text numberOfLines={1} ellipsizeMode='tail' style={styles.nametext}>x.name</Text>
+            </View>
+          </View>
+        ))}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        padding: 20,
-    },
-    box: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: width * 0.2, // 30% of the screen width
-        height: width * 0.2, // make it square
-        backgroundColor: '#116754',
-        borderRadius: 10,
-        margin: 10, // Add margin for spacing between boxes
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 20,
+  },
+  box: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width * 0.15, // 30% of the screen width
+    height: width * 0.15, // make it square
+    backgroundColor: '#116754',
+    borderRadius: 10,
+    gap : 1,
+    margin: 10, // Add margin for spacing between boxes
+  },
+  nametext: {
+    color: 'white',
+    fontSize: 8,
+    textAlign: 'center',
+    marginTop: 5,
+    marginLeft: 2,
+},
 });
 
 export default AttachedFile;

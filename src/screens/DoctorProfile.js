@@ -5,8 +5,11 @@ import { Fonts } from '../components/style';
 import { getDoctorProfile } from '../api/doctor';
 import { getNurseProfile } from '../api/nurse';
 import { useSelector } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 const DoctorProfile = ({navigation}) => {
+
+  const isFocused = useIsFocused()
 
   const [data, setData] = useState({})
 
@@ -39,7 +42,7 @@ const DoctorProfile = ({navigation}) => {
       } else {
         fectNurseProfile()
       }
-  },[])
+  },[role,isFocused])
 
 
   return (
@@ -47,10 +50,12 @@ const DoctorProfile = ({navigation}) => {
       <View style={styles.profileContainer}>
         <View style={styles.imageContainer}>
           <View style={styles.imageBorder}>
-            <Image source={{ uri:data.image ?data.image : 'https://static.vecteezy.com/system/resources/previews/008/957/225/non_2x/female-doctor-avatar-clipart-icon-in-flat-design-vector.jpg', cache: 'reload' }} style={styles.profileImage} />
+            <Image source={{ uri:data.image ?? 'https://static.vecteezy.com/system/resources/previews/008/957/225/non_2x/female-doctor-avatar-clipart-icon-in-flat-design-vector.jpg', cache: 'reload' }} style={styles.profileImage} />
           </View>
         </View>
         <Text style={styles.counterText}>{data.name || "Doctor Name"}</Text>
+        <Text style={[styles.counterText, { fontFamily: Fonts.REGULAR, fontSize: 13, marginTop: 4 }]}>{"@"+data.username||"username"}</Text>
+        {data.email && <Text style={[styles.counterText, { fontFamily: Fonts.REGULAR, fontSize: 13, marginTop: 4 }]}>{data.email}</Text>}
         <Text style={[styles.counterText, { fontFamily: Fonts.REGULAR, fontSize: 13, marginTop: 4 }]}>{data.location||"Living Healthy, Living Happy!"}</Text>
       </View>
       <View style={styles.counterContainer}>

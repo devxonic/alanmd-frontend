@@ -11,9 +11,9 @@ export const getCategories = async () => {
       throw error;
     }
   };
-export const GETPATIENTPROFILE = async () => {
+export const getPateintProfile = async () => {
     try {
-      const response = await ApiHandler().get(endpoint.GETPATIENTPROFILE);
+      const response = await ApiHandler().get(endpoint.GET_PATIENT_PROFILE);
       console.log('Get patient Response:', response.data);
       return response.data;
     } catch (error) {
@@ -34,3 +34,14 @@ export const GETPATIENTPROFILE = async () => {
   }
  } 
   
+ export const updatePateintProfile = async (body) => {
+  console.log("update Pateint Profile BODY => ",body)
+  try {
+    const response = await ApiHandler().patch(endpoint.UPDATE_PATIENT_PROFILE, body);
+    console.log('Update Nurse Profile Response:', response.data);
+    return response.data;
+    } catch (error) {
+      console.error('Update Nurse Profile Error:', error.response ? error.response.data : error.message);
+      throw error;
+      }
+}

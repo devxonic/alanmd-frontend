@@ -2,46 +2,46 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet, Text, TouchableOpacity , Platform,} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Fonts } from '../components/style';
+import { getPateintProfile } from '../api/patient';
+import { useIsFocused } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 
 
 const PatientProfilePage = ({navigation}) => {
-  const [counter, setCounter] = useState(3);
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setIsLoading(true)
-        const response = await getprofile();
-        if (response.data) {
-          setDoctors(response.data);
-          setIsLoading(false);
-        }
-      console.log("Profile : " ,doctors)
-      } catch (error) {
-        setIsLoading(false);
-        console.error('Error fetching categories:', error);
-      }
-    };
-    fetchCategories();
-  }, []);
+ 
+  const isFocused = useIsFocused()
+  const [data, setData] = useState({});
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCounter((prevCounter) => (prevCounter > 0 ? prevCounter - 1 : prevCounter));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const role = useSelector((state)=> state?.user?.Role)
+
+  const fectPatinetProfile = async ()=> {
+    try {
+      const response = await getPateintProfile()
+      console.log('Doctor Profile Response',response.data)
+    setData(response.data)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  useEffect(()=> {
+    console.log('useEffect Doctor PROAWAA')
+    fectPatinetProfile()
+  },[role,isFocused])
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.profileContainer}>
         <View style={styles.imageContainer}>
           <View style={styles.imageBorder}>
-            <Image source={{ uri: 'https://static.vecteezy.com/system/resources/previews/008/957/225/non_2x/female-doctor-avatar-clipart-icon-in-flat-design-vector.jpg' }} style={styles.profileImage} />
+            <Image source={{ uri:data.image ?? 'https://static.vecteezy.com/system/resources/previews/008/957/225/non_2x/female-doctor-avatar-clipart-icon-in-flat-design-vector.jpg', cache: 'reload' }} style={styles.profileImage} />
           </View>
         </View>
-        <Text style={styles.counterText}>Patient Name Here</Text>
-        <Text style={[styles.counterText, { fontFamily: Fonts.REGULAR, fontSize: 13, marginTop: 4 }]}>Living Healthy, Living Happy!</Text>
+        <Text style={styles.counterText}>{data.name || "Doctor Name"}</Text>
+        <Text style={[styles.counterText, { fontFamily: Fonts.REGULAR, fontSize: 13, marginTop: 4 }]}>{"@"+data.username||"username"}</Text>
+        {data.email && <Text style={[styles.counterText, { fontFamily: Fonts.REGULAR, fontSize: 13, marginTop: 4 }]}>{data.email}</Text>}
+        <Text style={[styles.counterText, { fontFamily: Fonts.REGULAR, fontSize: 13, marginTop: 4 }]}>{data.location||"Living Healthy, Living Happy!"}</Text>
       </View>
       <View style={styles.counterContainer}>
         <View style={{ padding: 5 }}>
@@ -58,7 +58,7 @@ const PatientProfilePage = ({navigation}) => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, { backgroundColor: '#116754' }]} onPress={() => navigation.navigate("patientProfileEdit")}>
+        <TouchableOpacity style={[styles.button, { backgroundColor: '#116754' }]} onPress={() => navigation.navigate("PatientProfileEdit",{image:data.image,name:data.name,location:data.location})}>
           <Text style={{ color: 'white', fontFamily: Fonts.REGULAR, fontSize: 14 }}>Edit Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: '#C54B4B' }]}>
