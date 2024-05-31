@@ -87,7 +87,7 @@ const DoctorProfileEdit = ({route, navigation}) => {
             />
           </View> */}
         <View style={styles.imageContainer}>
-          {formData?.image.length ? (
+          {formData.image?.length ? (
             <Image
               source={{uri: formData.image}}
               style={{width: 200, height: 200}}

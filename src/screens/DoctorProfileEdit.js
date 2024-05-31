@@ -69,10 +69,6 @@ const DoctorProfileEdit = ({route, navigation}) => {
       const doc = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
-      console.log(
-        'Selected File----------------------------------------------------------------------------',
-        doc?.[0],
-      );
       const MediaData = new FormData();
       const selectedFile = doc?.[0];
       const file = {
@@ -105,7 +101,7 @@ const DoctorProfileEdit = ({route, navigation}) => {
             />
           </View> */}
         <View style={styles.imageContainer}>
-          {formData.image.length ? (
+          {formData.image?.length ? (
             <Image
               source={{uri: formData.image}}
               style={{width: 200, height: 200}}
