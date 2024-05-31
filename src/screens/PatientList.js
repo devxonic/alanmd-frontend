@@ -82,7 +82,7 @@ const PatientList = ({ navigation }) => {
         </View>
         <View style={{ paddingHorizontal: 5 }}>
           <ScrollView style={styles.scroll}>
-            {Patient.length > 1 ? Patient.map((item, index) => {
+            {Patient.length >= 1 ? Patient.map((item, index) => {
               console.log('patent => ', item['patientId']?.username)
               return (
                 <View style={styles.container} key={index}>

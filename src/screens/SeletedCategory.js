@@ -51,7 +51,7 @@ import Loader from '../components/common/Loader';
         </View>
           <View style={{paddingHorizontal:5}}>
             <ScrollView style={styles.scroll}>
-              {doctors.length >1 ? doctors.map((item, index) => (
+              {doctors.length >= 1 ? doctors.map((item, index) => (
                 <View style={styles.container} key={index}>
                   <View style={styles.childOne}>
                     {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}

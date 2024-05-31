@@ -22,6 +22,7 @@ import {set} from 'date-fns';
 import NotesInputCard from '../components/Card/VoiceAndMediaCard/NotesInputCard';
 import ReportsInputCard from '../components/Card/VoiceAndMediaCard/ReportsInputCard';
 import PrescriptionInputCard from '../components/Card/VoiceAndMediaCard/PrescriptionInputCard';
+import AttachedFile from '../components/common/AttachedFile';
 
 const ParticularPatientScreen = ({route, navigation}) => {
   const {item} = route.params;
@@ -44,7 +45,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
   const [isNotesListening, setNotesListening] = useState(false);
   const [isReportListening, setReportListening] = useState(false);
   // console.log('PRESCRIPTION File', prescriptionFile, reportsFile, notesFile);
-  console.log('PRESCRIPTION Text', prescriptionText, reportsText, NotesText);
+  console.log('PRESCRIPTION Text', prescriptionText, prescriptionFile);
 
   const handleDocumentPicker = async type => {
     try {
@@ -57,7 +58,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
       const file = {
         // Edit Here
         uri: selectedFile.uri, // Edit Here,
-        name: 'file', // Edit Here, Image Name with Extension very important
+        name: selectedFile.name, // Edit Here, Image Name with Extension very important
         type: selectedFile.type, // Edit Here
       };
       formData.append('Media', file);
@@ -68,10 +69,18 @@ const ParticularPatientScreen = ({route, navigation}) => {
         if (!!prescriptionFile) {
           setPrescriptionFile([
             ...prescriptionFile,
-            BASE_URL + responce?.data?.url,
+            {
+              name: selectedFile.name,
+              filetype: responce?.data?.filetype,
+              url: BASE_URL + responce?.data?.url,
+            },
           ]);
         } else {
-          setPrescriptionFile([BASE_URL + responce?.data?.url]);
+          setPrescriptionFile([{
+            name: selectedFile.name,
+            filetype: responce?.data?.filetype,
+            url: BASE_URL + responce?.data?.url,
+          }]);
         }
       }
       if (type === 'report') {
@@ -99,6 +108,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
 
   const handleUpdateAppointment = async () => {
     setIsLoading(true);
+    console.log('assign Nurse ------------------------------------------------')
     let body = {
       appointmentId,
       prescription: prescriptionText,
@@ -111,6 +121,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
     try {
       const response = await updateAppoinment(body);
       console.log('RESPONSE', response);
+      console.log('Update Appointment Response => -----------------------------------------', response.data);
       setIsLoading(false);
       navigation.navigate('NurseList', {item: body});
     } catch (error) {
@@ -119,16 +130,16 @@ const ParticularPatientScreen = ({route, navigation}) => {
     }
   };
 
-  handleTextChange = (type,text) => {
+  handleTextChange = (type, text) => {
     console.log('Type', type);
-    if(type === 'prescription'){
-      setPrescriptionText(prev => prev + " " + text)
+    if (type === 'prescription') {
+      setPrescriptionText(prev => prev + ' ' + text);
     }
-    if(type === 'report'){
-      setReportText(prev => prev + " " + text )
+    if (type === 'report') {
+      setReportText(prev => prev + ' ' + text);
     }
-    if(type === 'notes'){
-      setNotesText(prev => prev + " " + text)
+    if (type === 'notes') {
+      setNotesText(prev => prev + ' ' + text);
     }
   };
 
@@ -224,8 +235,11 @@ const ParticularPatientScreen = ({route, navigation}) => {
             heading="Prescription"
             type={'prescription'}
             handleDocumentPicker={handleDocumentPicker}
-            setComponentText={(text) => setPrescriptionText(text)}
+            prescriptionText={prescriptionText}
+            setComponentText={text => setPrescriptionText(text)}
           />
+
+          <AttachedFile AttachementFile={prescriptionFile} />
 
           {/* <ReportsInputCard
             heading="Doctor Reports"
@@ -249,7 +263,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
           }}>
           {data === 'nurse' ? (
             <AproveAndCancelButtons
-              onPressAprove={() => navigation.navigate('NurseList', {item})}
+              onPressAprove={() => navigation.navigate('dashboard', {item})}
               onPressCancel={() => navigation.goBack()}
             />
           ) : (
@@ -289,9 +303,6 @@ const AproveAndCancelButtons = ({onPressAprove, onPressCancel}) => {
     </View>
   );
 };
-
-
-
 
 const styles = StyleSheet.create({
   container: {

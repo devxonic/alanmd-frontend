@@ -84,7 +84,7 @@ function MyTabs() {
           headerLeft: () => (
             <TouchableOpacity
               style={{flexDirection: 'row', marginLeft: 13}}
-              onPress={() => navigation.navigate('Dashboard')}>
+              onPress={() => navigation.navigate('DoctorDashboard')}>
               <BackIcon
                 name="arrowleft"
                 size={23}
@@ -92,7 +92,7 @@ function MyTabs() {
                 style={{marginRight: 18}}
               />
               <Text style={[styles.backicontext, {marginLeft: -10}]}>
-                Profile
+                back
               </Text>
             </TouchableOpacity>
           ),

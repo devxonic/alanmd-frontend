@@ -12,6 +12,7 @@ import Dashboard from './Dashboard';
 import DoctorHistory from './DoctorHistory';
 import DoctorsList from './DoctorsList';
 import Profile from './Profile';
+import DoctorsCategory from './DoctorCategory';
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -53,7 +54,7 @@ const navigation= useNavigation()
       />
 <Tab.Screen
         name="Doctors"
-        component={DoctorsList}
+        component={DoctorsCategory}
         options={{
             headerShown: false,
             tabBarLabel: 'Doctors',

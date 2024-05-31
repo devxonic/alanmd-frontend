@@ -44,7 +44,7 @@ console.log(categories)
   return (
     <>
       <View style={styles.main}>
-        {categories.length >1 ? categories.map((category, index) => (
+        {categories.length >= 1 ? categories.map((category, index) => (
           <TouchableOpacity onPress={()=> navigation.navigate('SeletedCategory',{category})} key={index}>
             <View style={styles.card}>
               <Image

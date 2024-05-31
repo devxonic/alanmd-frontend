@@ -58,4 +58,26 @@ export const updateAppoinment = async (body)=> {
   }
 } 
 
+export const getDoctorProfile = async () => {
+  try {
+    const response = await ApiHandler().get(endpoint.GET_DOCTOR_PROFILE);
+    console.log('Get Doctor Profile Response:', response.data);
+    return response.data;
+    } catch (error) {
+      console.error('Get Doctor Profile Error:', error.response ? error.response.data : error.message);
+      throw error;
+    }
+}
+
+export const updateDoctorProfile = async (body) => {
+  console.log("update Doctor Profile BODY => ",body)
+  try {
+    const response = await ApiHandler().patch(endpoint.UPDATE_DOCTOR_PROFILE, body);
+    console.log('Update Doctor Profile Response:', response.data);
+    return response.data;
+    } catch (error) {
+      console.error('Update Doctor Profile Error:', error.response ? error.response.data : error.message);
+      throw error;
+      }
+}
   
