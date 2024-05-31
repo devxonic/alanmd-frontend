@@ -1,8 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// export const BASE_URL = 'https://alanmd-6dc75340d386.herokuapp.com';
-export const BASE_URL = 'http://192.168.0.112:4000';
+export const BASE_URL = 'https://alanmd-6dc75340d386.herokuapp.com';
 
 const ApiHandler = () => {
   const instance = axios.create({
