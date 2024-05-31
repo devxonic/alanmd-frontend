@@ -44,6 +44,7 @@ const DoctorProfileEdit = ({route, navigation}) => {
     try {
       const response = await updatePateintProfile(formData);
       console.log('RESPONSE', response);
+      navigation.goBack();
     } catch (error) {
       console.log('ERROR', error);
     }

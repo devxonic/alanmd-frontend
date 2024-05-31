@@ -13,10 +13,10 @@ function AttachedFile({ AttachementFile}) {
           {return(
           <View key={i} style={styles.box}>
             <View>
-              <Icon name={x?.filetype?.includes('image') ? "image" : "file"} size={17} color={'white'} />
+              <Icon name={x?.filetype?.includes('image') ? "image" : x?.filetype?.includes('pdf') ? "file-pdf" : "file"} size={17} color={'white'} />
             </View>
             <View>
-              <Text numberOfLines={1} ellipsizeMode='tail' style={styles.nametext}>{x.name}</Text>
+              <Text numberOfLines={1} ellipsizeMode='middle' style={styles.nametext}>{x.name}</Text>
             </View>
           </View>
         )})}

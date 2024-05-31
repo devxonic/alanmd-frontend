@@ -42,6 +42,7 @@ const DoctorProfileEdit = ({route, navigation}) => {
     try {
       const response = await updateDoctorProfile(formData);
       console.log('RESPONSE', response);
+      navigation.goBack();
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -51,6 +52,7 @@ const DoctorProfileEdit = ({route, navigation}) => {
     try {
       const response = await updateNurseProfile(formData);
       console.log('RESPONSE', response);
+      navigation.goBack();
     } catch (error) {
       console.log('ERROR', error);
     }
