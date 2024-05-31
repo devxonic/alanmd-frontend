@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '../components/common/Link';
 import Heading from '../components/common/Heading';
 import Input from '../components/common/Input';
@@ -19,7 +19,8 @@ import BackIcon from 'react-native-vector-icons/Ionicons';
 import { Fonts } from '../components/style';
 import { useDispatch } from 'react-redux';
 import { AddRole } from '../Redux/reducers';
-
+import Dropdown from '../components/common/Dropdown';
+import { getCategories } from '../api/patient';
 
 
 const renderRoleButton = (role, text) => (
@@ -44,10 +45,29 @@ const renderRoleButton = (role, text) => (
     )}
   </TouchableOpacity>
 );
+
 const SignUp = () => {
   const [formData, setFormData] = useState({ email: '', password: '', role:'patient', username:'' });
+  const [AllCategories, setAllCategories] = useState([]);
   const navigation = useNavigation();
 let dispatch = useDispatch()
+
+const fetchAllCategories = async () => {
+  try {
+    const response = await getCategories();
+    if (response.data) {
+      setAllCategories(response.data);
+    }
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+  }
+};
+
+
+useEffect(() => {
+  fetchAllCategories();
+},[])
+
 
   const handleSubmit = () => {
     if (!formData.email || !formData.password) {
@@ -181,12 +201,14 @@ let dispatch = useDispatch()
               textContentType="password"
               value={formData?.password}
               onChangeText={(value) => handleFormChange('password', value)}
-            />
+              />
             <Input
               placeholder="Confirm Password"
               secureTextEntry={true}
               textContentType="password"
-            />
+              />
+
+           { formData.role == "doctor" &&  <Dropdown data={AllCategories} formData={formData}  setFormData={setFormData}/>}
           </View>
           <View style={styles.bottomCon}>
             <Button text="Create Account" onPress={handleSubmit} />
@@ -242,7 +264,7 @@ const styles = StyleSheet.create({
   },
 
   bottomCon: {
-    marginTop: 20,
+    marginTop: 65,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
