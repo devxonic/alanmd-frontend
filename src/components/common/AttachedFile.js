@@ -4,21 +4,22 @@ import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const {width} = Dimensions.get('window');
 
-function AttachedFile({AttachmentFile}) {
-  console.log('AttachmentFile', AttachmentFile);
+function AttachedFile({ AttachementFile}) {
+  console.log('AttachmentFile', AttachementFile);
   return (
     <View style={styles.container}>
-      {AttachmentFile &&
-        AttachmentFile.map((x, i) => (
+      {AttachementFile &&
+        AttachementFile.map((x, i) => 
+          {return(
           <View key={i} style={styles.box}>
             <View>
-              <Icon name="file" size={17} color={'white'} />
+              <Icon name={x?.filetype?.includes('image') ? "image" : "file"} size={17} color={'white'} />
             </View>
             <View>
-              <Text numberOfLines={1} ellipsizeMode='tail' style={styles.nametext}>x.name</Text>
+              <Text numberOfLines={1} ellipsizeMode='tail' style={styles.nametext}>{x.name}</Text>
             </View>
           </View>
-        ))}
+        )})}
     </View>
   );
 }

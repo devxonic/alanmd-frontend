@@ -45,7 +45,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
   const [isNotesListening, setNotesListening] = useState(false);
   const [isReportListening, setReportListening] = useState(false);
   // console.log('PRESCRIPTION File', prescriptionFile, reportsFile, notesFile);
-  console.log('PRESCRIPTION Text', prescriptionText, reportsText, NotesText);
+  console.log('PRESCRIPTION Text', prescriptionText, prescriptionFile);
 
   const handleDocumentPicker = async type => {
     try {
@@ -76,7 +76,11 @@ const ParticularPatientScreen = ({route, navigation}) => {
             },
           ]);
         } else {
-          setPrescriptionFile([BASE_URL + responce?.data?.url]);
+          setPrescriptionFile([{
+            name: selectedFile.name,
+            filetype: responce?.data?.filetype,
+            url: BASE_URL + responce?.data?.url,
+          }]);
         }
       }
       if (type === 'report') {
@@ -104,6 +108,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
 
   const handleUpdateAppointment = async () => {
     setIsLoading(true);
+    console.log('assign Nurse ------------------------------------------------')
     let body = {
       appointmentId,
       prescription: prescriptionText,
@@ -116,6 +121,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
     try {
       const response = await updateAppoinment(body);
       console.log('RESPONSE', response);
+      console.log('Update Appointment Response => -----------------------------------------', response.data);
       setIsLoading(false);
       navigation.navigate('NurseList', {item: body});
     } catch (error) {
@@ -233,7 +239,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
             setComponentText={text => setPrescriptionText(text)}
           />
 
-          <AttachedFile AttachmentFile={prescriptionFile} />
+          <AttachedFile AttachementFile={prescriptionFile} />
 
           {/* <ReportsInputCard
             heading="Doctor Reports"
@@ -264,8 +270,6 @@ const ParticularPatientScreen = ({route, navigation}) => {
             <AssignNurseButton onPress={handleUpdateAppointment} />
           )}
         </View>
-
-        <AttachedFile AttachmentsList={prescriptionFile} />
       </ScrollView>
     </View>
   );
