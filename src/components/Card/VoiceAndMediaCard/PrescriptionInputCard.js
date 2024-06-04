@@ -27,7 +27,7 @@ const PrescriptionInputCard = ({
       console.log('Voice Results', e);
       setComponentText(prev => prev + " " + e.value[0]);
     };
-    Voice.onSpeechPartialResults = e => { };
+    // Voice.onSpeechPartialResults = e => { };
 
     Voice.onSpeechRecognized = e => {
       console.log('Voice Recognized', e);
@@ -36,7 +36,7 @@ const PrescriptionInputCard = ({
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
       setIsListiner(false);
-      setComponentText('')
+      // setComponentText('')
     };
   }, []);
 
@@ -56,7 +56,7 @@ const PrescriptionInputCard = ({
       await Voice.stop();
       Voice.removeAllListeners();
       setIsListiner(false);
-      setComponentText('')
+      // setComponentText('')
     } catch (e) {
       console.error(e);
     }
