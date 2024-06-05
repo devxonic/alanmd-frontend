@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Voice from '@react-native-voice/voice';
 
@@ -16,6 +16,8 @@ const PrescriptionInputCard = ({
   setComponentText,
 }) => {
   const [isListiner, setIsListiner] = useState(false);
+  const [isVoiceModalVisible, setIsVoiceModalVisible] = useState(false);
+  const [text, setText] = useState('');
   const onChange = (text) => {
     setComponentText(text);
   };
@@ -25,7 +27,9 @@ const PrescriptionInputCard = ({
   useEffect(() => {
     Voice.onSpeechResults = e => {
       console.log('Voice Results', e);
-      setComponentText(prev => prev + " " + e.value[0]);
+      setText(e.value[0]);
+      setIsListiner(false)
+      console.log('32' , text)
     };
     Voice.onSpeechPartialResults = e => { };
 
@@ -36,7 +40,7 @@ const PrescriptionInputCard = ({
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
       setIsListiner(false);
-      setComponentText('')
+      setText('')
     };
   }, []);
 
@@ -50,17 +54,40 @@ const PrescriptionInputCard = ({
     }
   };
 
+  console.log('text---------------------- 59',text )
   const stopListening = async () => {
     try {
       console.log('Voice Stop');
       await Voice.stop();
       Voice.removeAllListeners();
       setIsListiner(false);
-      setComponentText('')
+      console.log('text---------------------- ',text )
+      text.length < 1 ? handleCancel() : handleConfirm()
     } catch (e) {
       console.error(e);
     }
   };
+
+
+  const handleConfirm = () => {
+    console.log('confirm')
+    setComponentText(prev => prev + " " + text)
+    setIsVoiceModalVisible(false)
+    setIsListiner(false)
+    setText("")
+  };
+  
+  const handleCancel = () => {
+    console.log('cancel')
+    setIsVoiceModalVisible(false);
+    setIsListiner(false)
+    setText("")
+  };
+
+  const openVoiceModal = () => {
+    setIsVoiceModalVisible(true);
+  };
+
 
   return (
     <View>
@@ -75,17 +102,13 @@ const PrescriptionInputCard = ({
           }}>
           {heading || ''}
         </Text>
-
         <View style={{ flexDirection: 'row' }}>
           {data != "nurse" ? <><TouchableOpacity
-            onPress={() => {
-              isListiner ? stopListening() : startListening();
-            }}>
+            onPress={openVoiceModal}>
             <View
               style={{
-                ...styles.light,
-                backgroundColor: isListiner ? '#C54B4B' : '#E7F0EE',
-                borderColor: isListiner ? '#C54B4B' : '#116754',
+                ...styles.MicroponeIcon,
+                backgroundColor: '#116754',
               }}>
               <Icon
                 name="microphone"
@@ -94,6 +117,36 @@ const PrescriptionInputCard = ({
               />
             </View>
           </TouchableOpacity>
+            <Modal
+              visible={isVoiceModalVisible}
+              animationType="slide"
+              transparent={true}
+              onRequestClose={handleCancel}
+              onBackdropPress={handleCancel}
+              onBackButtonPress={handleCancel}
+            >
+              <View style={styles.modalBackground}>
+                <View style={styles.modalContent}>
+                  {text.length < 1 && !isListiner ? <Text style={styles.modalTextLight}>{'Speak Here'}</Text> : text.length < 1 ? <Text style={styles.modalTextLight}>{'Listening...'}</Text> : <Text style={styles.modalText}>{text}</Text>}
+                  <TouchableOpacity
+                    onPress={() => {
+                      isListiner ? stopListening() : startListening();
+                    }}
+                    style={[styles.ModalMic, { backgroundColor: isListiner ? "red" : "#116754" }]}>
+                    <Icon name={isListiner ? "stop" : "microphone"} size={36} color='white' />
+                  </TouchableOpacity>
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={[styles.ButtonTwo, { backgroundColor: '#E7F0EE' }]} onPress={handleCancel}>
+                      <Text style={[styles.buttonTwoText, { color: 'black' }]}>Cencel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.ButtonTwo} onPress={handleConfirm}>
+                      <Text style={styles.buttonTwoText}>Confirm</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+
             <TouchableOpacity
               style={styles.childThreeThree}
               onPress={() => handleDocumentPicker(type)}>
@@ -180,7 +233,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginRight: 10,
   },
-  light: {
+  MicroponeIcon: {
     backgroundColor: '#E7F0EE',
     color: '#116754',
     padding: 8,
@@ -204,12 +257,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 8,
+    padding: 3,
+    paddingRight : 8,
     borderRadius: 5,
     backgroundColor: '#116754',
-    margin: 12,
-    marginBottom : 8,
-    marginLeft :8 
+    margin: 0,
+    marginTop : 7,
+    marginBottom:8,
+    marginLeft:6,
+    marginRight : 8,
   },
   childThreeThreeText: {
     color: 'white',
@@ -228,4 +284,69 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginHorizontal: 20,
   },
+  buttonTwoText: {
+    color: 'white',
+    fontSize: 14,
+    fontFamily:Fonts.LIGHT
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    elevation: 5,
+    width: '85%'
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontFamily: Fonts.MEDIUM,
+    color: 'black',
+    fontSize: 16
+  },
+  modalTextLight: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontFamily: Fonts.MEDIUM,
+    color: '#29292961',
+    fontSize: 16
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontFamily: Fonts.MEDIUM,
+    color: 'black',
+    fontSize: 16
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+    gap: 20
+  },
+  ButtonTwo: {
+    backgroundColor: '#116754',
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: '48%',
+    borderWidth: 1,
+    borderColor: '#116754'
+  },
+  ModalMic: {
+    margin: 10,
+    borderRadius: 150,
+    padding: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
+  }
 });
