@@ -6,6 +6,7 @@ import { Fonts } from '../../style';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import { Platform } from 'react-native';
 import { useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
 
 
 const PrescriptionInputCard = ({
@@ -18,6 +19,7 @@ const PrescriptionInputCard = ({
   const [isListiner, setIsListiner] = useState(false);
   const [isVoiceModalVisible, setIsVoiceModalVisible] = useState(false);
   const [text, setText] = useState('');
+  const isFocused = useIsFocused()
   const onChange = (text) => {
     setComponentText(text);
   };
@@ -26,23 +28,29 @@ const PrescriptionInputCard = ({
 
   useEffect(() => {
     Voice.onSpeechResults = e => {
-      console.log('Voice Results', e);
+      console.log('Voice Results reports', e);
       setText(e.value[0]);
       setIsListiner(false)
-      console.log('32' , text)
+      console.log('Voice Listenr ' , isListiner)
+      console.log('Voice Stoped --- ')
     };
-    Voice.onSpeechPartialResults = e => { };
+    Voice.onSpeechPartialResults = e => {
+      console.log('Voice Partial Results reports', e);
+      // setText(prev => prev?.length ? prev + ' '+ e.value[0] : e.value[0]);
+      // setText(e.value[0]);
+     };
 
     Voice.onSpeechRecognized = e => {
       console.log('Voice Recognized', e);
     };
-
+    console.log('isFocused -- Prescription', isFocused)
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
       setIsListiner(false);
+      setIsVoiceModalVisible(false)
       setText('')
     };
-  }, []);
+  }, [isFocused]);
 
   const startListening = async () => {
     setIsListiner(true);
@@ -56,13 +64,11 @@ const PrescriptionInputCard = ({
 
   console.log('text---------------------- 59',text )
   const stopListening = async () => {
+    setIsListiner(false);
     try {
       console.log('Voice Stop');
       await Voice.stop();
       Voice.removeAllListeners();
-      setIsListiner(false);
-      console.log('text---------------------- ',text )
-      text.length < 1 ? handleCancel() : handleConfirm()
     } catch (e) {
       console.error(e);
     }
@@ -71,7 +77,8 @@ const PrescriptionInputCard = ({
 
   const handleConfirm = () => {
     console.log('confirm')
-    setComponentText(prev => prev + " " + text)
+    Voice.removeAllListeners();
+    setComponentText(prescriptionText?.length ? prescriptionText + " " + text : text)
     setIsVoiceModalVisible(false)
     setIsListiner(false)
     setText("")
@@ -79,6 +86,7 @@ const PrescriptionInputCard = ({
   
   const handleCancel = () => {
     console.log('cancel')
+    Voice.removeAllListeners();
     setIsVoiceModalVisible(false);
     setIsListiner(false)
     setText("")

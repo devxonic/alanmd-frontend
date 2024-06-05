@@ -24,7 +24,7 @@ import ReportsInputCard from '../components/Card/VoiceAndMediaCard/ReportsInputC
 import PrescriptionInputCard from '../components/Card/VoiceAndMediaCard/PrescriptionInputCard';
 import AttachedFile from '../components/common/AttachedFile';
 
-const ParticularPatientScreen = ({route, navigation}) => {
+const PatientReportsScreen = ({route, navigation}) => {
   const {item} = route.params;
 
   const appointmentId = item._id;
@@ -162,7 +162,6 @@ const ParticularPatientScreen = ({route, navigation}) => {
     };
   }, [item]);
 
-  const handleNext = () => {  navigation.navigate('patientReports' , {item: item})}
   return (
     <View style={{backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3}}>
       <ScrollView>
@@ -232,15 +231,16 @@ const ParticularPatientScreen = ({route, navigation}) => {
             paddingTop: 10,
             justifyContent: 'space-around',
           }}>
-          <PrescriptionInputCard
-            heading="Prescription"
-            type={'prescription'}
+
+          <ReportsInputCard
+            heading="Doctor's Report"
+            type={'report'}
             handleDocumentPicker={handleDocumentPicker}
-            prescriptionText={prescriptionText}
-            setComponentText={text => setPrescriptionText(text)}
+            prescriptionText={reportsText}
+            setComponentText={text => setReportText(text)}
           />
 
-          <AttachedFile AttachementFile={prescriptionFile} />
+          <AttachedFile AttachementFile={reportsFile} />
           
         </View>
         <View
@@ -252,12 +252,11 @@ const ParticularPatientScreen = ({route, navigation}) => {
           }}>
           {data === 'nurse' ? (
             <AproveAndCancelButtons
-              onPressAprove={() => navigation.navigate('dashboard')}
+              onPressAprove={() => navigation.navigate('dashboard', {item})}
               onPressCancel={() => navigation.goBack()}
             />
           ) : (
-            // <AssignNurseButton onPress={handleUpdateAppointment} />
-            <AssignNurseButton onPress={handleNext} />
+            <AssignNurseButton onPress={handleUpdateAppointment} />
           )}
         </View>
       </ScrollView>
@@ -265,12 +264,12 @@ const ParticularPatientScreen = ({route, navigation}) => {
   );
 };
 
-export default ParticularPatientScreen;
+export default PatientReportsScreen;
 
 const AssignNurseButton = ({onPress}) => {
   return (
     <View style={{paddingHorizontal: 15}}>
-      <Button text="Next" Link={onPress} />
+      <Button text="Assign Nurse" Link={onPress} />
     </View>
   );
 };
