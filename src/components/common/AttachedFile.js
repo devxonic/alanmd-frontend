@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Dimensions, Text, Platform, PermissionsAndroid, Alert } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, Platform, TouchableOpacity, PermissionsAndroid, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import RNFS from 'react-native-fs';
-import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
+import RNFetchBlob from 'rn-fetch-blob'
 
 const { width } = Dimensions.get('window');
 
@@ -10,79 +9,75 @@ const { width } = Dimensions.get('window');
 
 function AttachedFile({ AttachementFile }) {
   console.log('AttachmentFile', AttachementFile);
- 
 
-  const requestStoragePermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        {
-          title: 'Storage Permission Required',
-          message: 'App needs access to your storage to download files',
+
+  const getStoragePermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'Storage Permission Required',
+            message: 'This app needs access to your storage to download and save files',
+          }
+        );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          Alert.alert('Permission Denied', 'Storage permission is required to save files');
         }
-      );
-      return granted === PermissionsAndroid.RESULTS.GRANTED;
-    } catch (err) {
-      console.warn(err);
-      return false;
+      } catch (err) {
+        console.warn(err);
+      }
     }
   };
-  
-  
-  
-  
-  const DownloadFile = async (url, fileName) => {
-    if (Platform.OS === 'android') {
-      const hasPermission = await requestStoragePermission();
-      if (!hasPermission) {
-        Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
-        return;
-      }
-    }
-  
-    const directoryPath = Platform.OS === 'android' ? `${RNFS.ExternalStorageDirectoryPath}/` : RNFS.DocumentDirectoryPath;
-    const toFile = `${directoryPath}/${fileName}`;
-  
+
+
+
+
+
+  const downloadFile = async (url, fileName) => {
+
+    await getStoragePermission()
+    if (!url || !fileName) return Alert.alert("Make sure did you pass a URL")
+    const DesPath = RNFetchBlob.fs.dirs.DownloadDir + '/medicalApp/download/' + fileName // Set your file path
     try {
-      const dirExists = await RNFS.exists(directoryPath);
-      if (!dirExists) {
-        await RNFS.mkdir(directoryPath);
-      }
-  
-      const res = await RNFS.downloadFile({
-        fromUrl: url,
-        toFile,
-      }).promise;
-      if (res.statusCode === 200) {
-        console.log("Download successful", res);
-        Alert.alert('Download Complete', `File downloaded to ${toFile}`);
-      } else {
-       Alert.alert(`Download failed with status code ${res.statusCode}`);
-      }
-    } catch (err) {
-      console.log("Download failed", err);
-      Alert.alert('Download Failed', 'There was an error downloading the file. Please try again.');
+      RNFetchBlob.config({
+        fileCache: true,
+        addAndroidDownloads: {
+          notification: true,
+          title: fileName,
+          useDownloadManager: true,
+          path: DesPath,
+          fileCache : true,
+          description: 'Downloading file...',
+        },
+      })
+        .fetch('GET', url, {})
+        .then((res) => {
+          console.log('The file saved to ', res.path())
+        }).catch(err => {
+          console.log(err)
+        })
+    } catch (error) {
+      Alert.alert('Download Error', `Error downloading file: ${error.message}`);
     }
   };
 
   return (
-    <GestureHandlerRootView style={styles.container}>
       <View style={styles.container}>
         {AttachementFile &&
           AttachementFile.map((x, i) => {
             return (
-              <TouchableOpacity onPress={() => DownloadFile(x.url , x.name)} key={i} style={styles.box}>
+              <TouchableOpacity onPress={() => downloadFile(x.url, x.name)} key={i} style={styles.box}>
                 <View>
                   <Icon name={x?.filetype?.includes('image') ? "image" : x?.filetype?.includes('pdf') ? "file-pdf" : "file"} size={17} color={'white'} />
                 </View>
                 <View>
-                  <Text numberOfLines={1} ellipsizeMode='middle' style={styles.nametext}>{x.name}</Text>
+                  <Text numberOfLines={1} ellipsizeMode='tail' style={styles.nametext}>{x.name}</Text>
                 </View>
               </TouchableOpacity>
             );
           })}
       </View>
-    </GestureHandlerRootView>
   );
 }
 
