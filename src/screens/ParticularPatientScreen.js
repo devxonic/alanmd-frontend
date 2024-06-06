@@ -252,7 +252,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
           }}>
           {data === 'nurse' ? (
             <AproveAndCancelButtons
-              onPressAprove={() => navigation.navigate('dashboard')}
+              onPressAprove={() => navigation.navigate('Doctordashboard', { item: item })}
               onPressCancel={() => navigation.goBack()}
             />
           ) : (

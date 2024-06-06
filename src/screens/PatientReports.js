@@ -252,7 +252,7 @@ const PatientReportsScreen = ({route, navigation}) => {
           }}>
           {data === 'nurse' ? (
             <AproveAndCancelButtons
-              onPressAprove={() => navigation.navigate('dashboard', {item})}
+              onPressAprove={() => navigation.navigate('Doctordashboard', {item})}
               onPressCancel={() => navigation.goBack()}
             />
           ) : (

@@ -11,7 +11,7 @@ import { useIsFocused } from "@react-navigation/native";
 
 const PrescriptionInputCard = ({
   heading,
-  prescriptionText,
+  prescriptionText: parentText,
   type,
   handleDocumentPicker,
   setComponentText,
@@ -50,7 +50,7 @@ const PrescriptionInputCard = ({
       setIsVoiceModalVisible(false)
       setText('')
     };
-  }, [isFocused]);
+  }, [isFocused , parentText]);
 
   const startListening = async () => {
     setIsListiner(true);
@@ -78,9 +78,10 @@ const PrescriptionInputCard = ({
   const handleConfirm = () => {
     console.log('confirm')
     Voice.removeAllListeners();
-    setComponentText(prescriptionText?.length ? prescriptionText + " " + text : text)
+    setComponentText(parentText?.length ? parentText + " " + text : text)
     setIsVoiceModalVisible(false)
     setIsListiner(false)
+    stopListening()
     setText("")
   };
   
@@ -89,6 +90,7 @@ const PrescriptionInputCard = ({
     Voice.removeAllListeners();
     setIsVoiceModalVisible(false);
     setIsListiner(false)
+    stopListening()
     setText("")
   };
 
@@ -172,7 +174,7 @@ const PrescriptionInputCard = ({
           multiline={true}
           placeholder="Type Something"
           textAlignVertical="top"
-          value={prescriptionText}
+          value={parentText}
           editable={data == "nurse" ? false : true}
           onChangeText={onChange}
           numberOfLines={Platform.OS === 'ios' ? null : 5}
