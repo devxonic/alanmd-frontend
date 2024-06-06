@@ -27,19 +27,19 @@ import AttachedFile from '../components/common/AttachedFile';
 
 const ParticularPatientScreen = ({route, navigation}) => {
   const {item} = route.params;
-console.log('ITEM', item)
+  console.log('ITEM', item);
 
   // const [isNurse, setIsNurse] = useState(false);
   let data = useSelector(state => state.user.Role);
   const [isLoading, setIsLoading] = useState(false);
 
   // const [prescriptionFile, setPrescriptionFile] = useState(null);
-  const [reportsFile, setReportsFile] = useState(null);
-  // const [notesFile, setNotesFile] = useState(null);
+  //   const [reportsFile, setReportsFile] = useState(null);
+  const [notesFile, setNotesFile] = useState(null);
 
   // const [prescriptionText, setPrescriptionText] = useState('');
-  const [reportsText, setReportText] = useState('');
-  // const [NotesText, setNotesText] = useState('');
+  //   const [reportsText, setReportText] = useState('');
+  const [NotesText, setNotesText] = useState('');
 
   // const [isPrescriptionListening, setPrescriptionListening] = useState(false);
   // const [isNotesListening, setNotesListening] = useState(false);
@@ -65,7 +65,7 @@ console.log('ITEM', item)
 
       if (type === 'prescription') {
         if (!!reportsFile) {
-          setReportsFile([
+          setNotesFile([
             ...reportsFile,
             {
               name: selectedFile.name,
@@ -74,7 +74,7 @@ console.log('ITEM', item)
             },
           ]);
         } else {
-          setReportsFile([
+          setNotesFile([
             {
               name: selectedFile.name,
               filetype: responce?.data?.filetype,
@@ -92,21 +92,49 @@ console.log('ITEM', item)
     }
   };
 
+  const handleUpdateAppointment = async () => {
+    setIsLoading(true);
+    console.log('assign Nurse ------------------------------------------------')
+    let body = {
+      appointmentId : item._id,
+      prescription: item.prescriptionText,
+      doctorNotes: NotesText,
+      doctorReport: item.reportsText,
+      prescriptionMedia: item.prescriptionFile,
+      doctorNotesMedia: notesFile,
+      doctorReportsMedia: item.reportsFile,
+    };
+    console.log('Body ---------------- ', body);
+    // try {
+    //   const response = await updateAppoinment(body);
+    //   console.log('RESPONSE', response);
+    //   console.log('Update Appointment Response => -----------------------------------------', response.data);
+    //   setIsLoading(false);
+    //   navigation.navigate('NurseList', {item: body});
+    // } catch (error) {
+    //   setIsLoading(false);
+    //   console.log('Error in Update Appointment =>', error.response);
+    // }
+  };
 
   useEffect(() => {
     if (item) {
-      setReportText(item.doctorReport);
-      setReportsFile(item.doctorReportsMedia);
+      setNotesText(item.doctorNotes);
+      setNotesFile(item.doctorNotesMedia);
     }
     return () => {
-      setReportsFile(null);
-      setReportText('');
+      setNotesFile(null);
+      setNotesText('');
     };
   }, [item]);
 
   const handleNext = () => {
     console.log('Item', item);
-    let updateditems = {...item , doctorReport: reportsText, doctorReportsMedia: reportsFile}
+    let updateditems = {
+      ...item,
+      doctorNotes: NotesText,
+      doctorNotesMedia: notesFile,
+    };
     navigation.navigate('patientReports', {item: updateditems});
   };
   return (
@@ -182,10 +210,10 @@ console.log('ITEM', item)
             heading="Doctor's Report"
             type={'report'}
             handleDocumentPicker={handleDocumentPicker}
-            prescriptionText={reportsText}
-            setComponentText={text => setReportText(text)}
+            prescriptionText={NotesText}
+            setComponentText={text => setNotesText(text)}
           />
-          <AttachedFile AttachementFile={reportsFile} />
+          <AttachedFile AttachementFile={notesFile} />
         </View>
         <View
           style={{
@@ -203,7 +231,7 @@ console.log('ITEM', item)
               onPressCancel={() => navigation.goBack()}
             />
           ) : (
-            <AssignNurseButton onPress={handleNext} />
+            <AssignNurseButton onPress={handleUpdateAppointment} />
           )}
         </View>
       </ScrollView>

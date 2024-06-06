@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {Fonts} from '../components/style';
 import Icon from 'react-native-vector-icons/FontAwesome6';
@@ -26,24 +27,23 @@ import AttachedFile from '../components/common/AttachedFile';
 
 const ParticularPatientScreen = ({route, navigation}) => {
   const {item} = route.params;
-
-  const appointmentId = item._id;
+console.log('ITEM ---------------------------------------- ', item)
 
   // const [isNurse, setIsNurse] = useState(false);
   let data = useSelector(state => state.user.Role);
   const [isLoading, setIsLoading] = useState(false);
 
   const [prescriptionFile, setPrescriptionFile] = useState(null);
-  const [reportsFile, setReportsFile] = useState(null);
-  const [notesFile, setNotesFile] = useState(null);
+  // const [reportsFile, setReportsFile] = useState(null);
+  // const [notesFile, setNotesFile] = useState(null);
 
   const [prescriptionText, setPrescriptionText] = useState('');
-  const [reportsText, setReportText] = useState('');
-  const [NotesText, setNotesText] = useState('');
+  // const [reportsText, setReportText] = useState('');
+  // const [NotesText, setNotesText] = useState('');
 
-  const [isPrescriptionListening, setPrescriptionListening] = useState(false);
-  const [isNotesListening, setNotesListening] = useState(false);
-  const [isReportListening, setReportListening] = useState(false);
+  // const [isPrescriptionListening, setPrescriptionListening] = useState(false);
+  // const [isNotesListening, setNotesListening] = useState(false);
+  // const [isReportListening, setReportListening] = useState(false);
   // console.log('PRESCRIPTION File', prescriptionFile, reportsFile, notesFile);
   console.log('PRESCRIPTION Text', prescriptionText, prescriptionFile);
 
@@ -76,25 +76,13 @@ const ParticularPatientScreen = ({route, navigation}) => {
             },
           ]);
         } else {
-          setPrescriptionFile([{
-            name: selectedFile.name,
-            filetype: responce?.data?.filetype,
-            url: BASE_URL + responce?.data?.url,
-          }]);
-        }
-      }
-      if (type === 'report') {
-        if (!!reportsFile) {
-          setReportsFile([...reportsFile, BASE_URL + responce?.data?.url]);
-        } else {
-          setReportsFile([BASE_URL + responce?.data?.url]);
-        }
-      }
-      if (type === 'notes') {
-        if (!!notesFile) {
-          setNotesFile([...notesFile, BASE_URL + responce?.data?.url]);
-        } else {
-          setNotesFile([BASE_URL + responce?.data?.url]);
+          setPrescriptionFile([
+            {
+              name: selectedFile.name,
+              filetype: responce?.data?.filetype,
+              url: BASE_URL + responce?.data?.url,
+            },
+          ]);
         }
       }
     } catch (err) {
@@ -106,63 +94,22 @@ const ParticularPatientScreen = ({route, navigation}) => {
     }
   };
 
-  const handleUpdateAppointment = async () => {
-    setIsLoading(true);
-    console.log('assign Nurse ------------------------------------------------')
-    let body = {
-      appointmentId,
-      prescription: prescriptionText,
-      doctorNotes: NotesText,
-      doctorReport: reportsText,
-      prescriptionMedia: prescriptionFile,
-      doctorNotesMedia: notesFile,
-      doctorReportsMedia: reportsFile,
-    };
-    try {
-      const response = await updateAppoinment(body);
-      console.log('RESPONSE', response);
-      console.log('Update Appointment Response => -----------------------------------------', response.data);
-      setIsLoading(false);
-      navigation.navigate('NurseList', {item: body});
-    } catch (error) {
-      setIsLoading(false);
-      console.log('Error in Update Appointment =>', error.response);
-    }
-  };
-
-  handleTextChange = (type, text) => {
-    console.log('Type', type);
-    if (type === 'prescription') {
-      setPrescriptionText(prev => prev + ' ' + text);
-    }
-    if (type === 'report') {
-      setReportText(prev => prev + ' ' + text);
-    }
-    if (type === 'notes') {
-      setNotesText(prev => prev + ' ' + text);
-    }
-  };
 
   useEffect(() => {
     if (item) {
-      setNotesFile(item.doctorNotesMedia);
-      setNotesText(item.doctorNotes);
-      setReportsFile(item.doctorReportsMedia);
-      setReportText(item.doctorReport);
       setPrescriptionFile(item.prescriptionMedia);
       setPrescriptionText(item.prescription);
     }
     return () => {
-      setNotesFile(null);
-      setNotesText('');
-      setReportsFile(null);
-      setReportText('');
       setPrescriptionFile(null);
       setPrescriptionText('');
     };
   }, [item]);
 
-  const handleNext = () => {  navigation.navigate('patientReports' , {item: item})}
+  const handleNext = () => {
+    let updateditems = {...item , prescriptionMedia: prescriptionFile , prescription: prescriptionText}
+    navigation.navigate('patientReports', {item: updateditems});
+  };
   return (
     <View style={{backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3}}>
       <ScrollView>
@@ -179,7 +126,6 @@ const ParticularPatientScreen = ({route, navigation}) => {
         </Text>
         <View style={styles.container}>
           <View style={styles.childOne}>
-            {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
             <Image
               style={{
                 width: '100%',
@@ -230,6 +176,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
           style={{
             backgroundColor: 'white',
             paddingTop: 10,
+            height: Dimensions.get('window').height * 0.7,
             justifyContent: 'space-around',
           }}>
           <PrescriptionInputCard
@@ -239,20 +186,21 @@ const ParticularPatientScreen = ({route, navigation}) => {
             prescriptionText={prescriptionText}
             setComponentText={text => setPrescriptionText(text)}
           />
-
           <AttachedFile AttachementFile={prescriptionFile} />
-          
         </View>
         <View
           style={{
             backgroundColor: 'white',
             flex: 1,
             paddingTop: 10,
+            paddingBottom: 20,
             justifyContent: 'space-around',
           }}>
           {data === 'nurse' ? (
             <AproveAndCancelButtons
-              onPressAprove={() => navigation.navigate('Doctordashboard', { item: item })}
+              onPressAprove={() =>
+                navigation.navigate('Doctordashboard', {item: item})
+              }
               onPressCancel={() => navigation.goBack()}
             />
           ) : (
