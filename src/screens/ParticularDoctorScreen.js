@@ -38,18 +38,19 @@ const ParticularDoctorScreen = ({ route, navigation }) => {
                   </View> */}
           <Text style={[styles.badge,]}>Fees:
             <Text style={{ fontFamily: Fonts.REGULAR, fontSize: 13, color: 'black' }}>
-              $30.00
+               {item.fee} $
             </Text>
 
           </Text>
           <Text style={[styles.badge,]}>Location:
             <Text style={{ fontFamily: Fonts.REGULAR, fontSize: 13, color: 'black' }}>
-              Abcd location address
+              {item.location}
             </Text>
           </Text>
           <Text style={[styles.badge,]}>Specialist:
             <Text style={{ fontFamily: Fonts.REGULAR, fontSize: 13, color: 'black' }}>Lorem Ipsum Hospital, Dolor Sit Road,
-              Amet City</Text>
+             {item.specialist}
+             </Text>
           </Text>
 
         </View>

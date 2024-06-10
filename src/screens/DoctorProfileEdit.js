@@ -130,13 +130,28 @@ const DoctorProfileEdit = ({route, navigation}) => {
         <View style={{width: '100%'}}>
           <Input
             placeholder="Name"
-            value={formData.name}
+            value={formData?.name}
             onChangeText={text => setFormData({...formData, name: text})}
+          />
+          <Input
+            placeholder="degree"
+            value={formData?.degree}
+            onChangeText={text => setFormData({...formData, degree: text})}
+          />
+          <Input
+            placeholder="experience"
+            value={formData?.experience}
+            onChangeText={text => setFormData({...formData, experience: text})}
           />
           <Input
             placeholder="location"
             value={formData.location}
             onChangeText={text => setFormData({...formData, location: text})}
+          />
+          <Input
+            placeholder="fee"
+            value={formData?.fee}
+            onChangeText={text => setFormData({...formData, fee: text})}
           />
         </View>
       </View>
