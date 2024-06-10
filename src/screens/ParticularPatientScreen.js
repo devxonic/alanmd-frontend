@@ -176,7 +176,7 @@ console.log('ITEM ---------------------------------------- ', item)
           style={{
             backgroundColor: 'white',
             paddingTop: 10,
-            height: Dimensions.get('window').height * 0.7,
+            height: Dimensions.get('window').height * 0.65,
             justifyContent: 'space-around',
           }}>
           <PrescriptionInputCard
@@ -196,17 +196,7 @@ console.log('ITEM ---------------------------------------- ', item)
             paddingBottom: 20,
             justifyContent: 'space-around',
           }}>
-          {data === 'nurse' ? (
-            <AproveAndCancelButtons
-              onPressAprove={() =>
-                navigation.navigate('Doctordashboard', {item: item})
-              }
-              onPressCancel={() => navigation.goBack()}
-            />
-          ) : (
-            // <AssignNurseButton onPress={handleUpdateAppointment} />
             <AssignNurseButton onPress={handleNext} />
-          )}
         </View>
       </ScrollView>
     </View>

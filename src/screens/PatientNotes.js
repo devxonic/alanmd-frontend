@@ -95,26 +95,28 @@ const ParticularPatientScreen = ({route, navigation}) => {
   const handleUpdateAppointment = async () => {
     setIsLoading(true);
     console.log('assign Nurse ------------------------------------------------')
+    console.log('items  ------------------------------------------------' , item)
+
     let body = {
       appointmentId : item._id,
-      prescription: item.prescriptionText,
+      prescription: item.prescription,
       doctorNotes: NotesText,
-      doctorReport: item.reportsText,
-      prescriptionMedia: item.prescriptionFile,
+      doctorReport: item.doctorReport,
+      prescriptionMedia: item.prescriptionMedia,
       doctorNotesMedia: notesFile,
-      doctorReportsMedia: item.reportsFile,
+      doctorReportsMedia: item.doctorReportsMedia,
     };
     console.log('Body ---------------- ', body);
-    // try {
-    //   const response = await updateAppoinment(body);
-    //   console.log('RESPONSE', response);
-    //   console.log('Update Appointment Response => -----------------------------------------', response.data);
-    //   setIsLoading(false);
-    //   navigation.navigate('NurseList', {item: body});
-    // } catch (error) {
-    //   setIsLoading(false);
-    //   console.log('Error in Update Appointment =>', error.response);
-    // }
+    try {
+      const response = await updateAppoinment(body);
+      console.log('RESPONSE', response);
+      console.log('Update Appointment Response => -----------------------------------------', response.data);
+      setIsLoading(false);
+      navigation.navigate('NurseList', {item: body});
+    } catch (error) {
+      setIsLoading(false);
+      console.log('Error in Update Appointment =>', error.response);
+    }
   };
 
   useEffect(() => {
@@ -203,12 +205,12 @@ const ParticularPatientScreen = ({route, navigation}) => {
           style={{
             backgroundColor: 'white',
             paddingTop: 10,
-            height: Dimensions.get('window').height * 0.7,
+            height: Dimensions.get('window').height * 0.65,
             justifyContent: 'space-around',
           }}>
           <PrescriptionInputCard
-            heading="Doctor's Report"
-            type={'report'}
+            heading="Doctor's Notes"
+            type={'notes'}
             handleDocumentPicker={handleDocumentPicker}
             prescriptionText={NotesText}
             setComponentText={text => setNotesText(text)}
@@ -244,7 +246,7 @@ export default ParticularPatientScreen;
 const AssignNurseButton = ({onPress}) => {
   return (
     <View style={{paddingHorizontal: 15}}>
-      <Button text="Next" Link={onPress} />
+      <Button text="Assign Nurse" Link={onPress} />
     </View>
   );
 };
