@@ -25,6 +25,10 @@ import ParticularPatientScreen from './src/screens/ParticularPatientScreen.js';
 import NurseList from './src/screens/NurseList.js';
 import { Provider } from 'react-redux'
 import Store from './src/Redux/store.js';
+import DoctorProfileEdit from './src/screens/DoctorProfileEdit.js';
+import PatientProfileEdit from './src/screens/PatientProfileEdit.js'
+import PatientReports from './src/screens/PatientReports.js'
+import PatientNotes from './src/screens/PatientNotes.js'
 
 
 
@@ -83,9 +87,30 @@ const App = ({navigation}) => {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="DoctorProfileEdit"
+            component={DoctorProfileEdit}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="PatientProfileEdit"
+            component={PatientProfileEdit}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
             name="signin"
             component={SignIn}
             options={{headerShown: false}}
+          />
+           <Stack.Screen
+            name="patientReports"
+
+            component={PatientReports}
+            options={{ title : 'Patient Reports'}}
+          />
+           <Stack.Screen
+            name="patientNotes"
+            component={PatientNotes}
+            options={{ title:'Patient Notes'}}
           />
            <Stack.Screen
             name="ParticularDoctorScreen"

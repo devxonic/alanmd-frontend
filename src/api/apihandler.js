@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const BASE_URL = 'https://alanmd-6dc75340d386.herokuapp.com/';
+export const BASE_URL = 'https://alanmd-6dc75340d386.herokuapp.com';
 
 const ApiHandler = () => {
   const instance = axios.create({
@@ -42,7 +42,7 @@ export const uploadFile =async (formData) =>{
   try {
     const response =  await  axios({
       method: "post",
-      url: BASE_URL+ "doctor/upload",
+      url: BASE_URL+ "/doctor/upload",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })
