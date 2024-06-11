@@ -15,13 +15,7 @@ import {Platform} from 'react-native';
 import Button from '../components/common/Button';
 import DocumentPicker from 'react-native-document-picker';
 import {BASE_URL, uploadFile} from '../api/apihandler';
-import {updateAppoinment} from '../api/doctor';
 import {useSelector} from 'react-redux';
-
-import Voice from '@react-native-voice/voice';
-import {set} from 'date-fns';
-import NotesInputCard from '../components/Card/VoiceAndMediaCard/NotesInputCard';
-import ReportsInputCard from '../components/Card/VoiceAndMediaCard/ReportsInputCard';
 import PrescriptionInputCard from '../components/Card/VoiceAndMediaCard/PrescriptionInputCard';
 import AttachedFile from '../components/common/AttachedFile';
 
@@ -63,7 +57,7 @@ console.log('ITEM', item)
       const responce = await uploadFile(formData);
       console.log('RESPONSE', responce.data?.url);
 
-      if (type === 'prescription') {
+      if (type === 'report') {
         if (!!reportsFile) {
           setReportsFile([
             ...reportsFile,
