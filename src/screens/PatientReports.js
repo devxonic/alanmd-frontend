@@ -27,26 +27,24 @@ import AttachedFile from '../components/common/AttachedFile';
 
 const ParticularPatientScreen = ({route, navigation}) => {
   const {item} = route.params;
-console.log('ITEM ---------------------------------------- ', item)
+console.log('ITEM', item)
 
   // const [isNurse, setIsNurse] = useState(false);
   let data = useSelector(state => state.user.Role);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [prescriptionFile, setPrescriptionFile] = useState(null);
-  // const [reportsFile, setReportsFile] = useState(null);
+  // const [prescriptionFile, setPrescriptionFile] = useState(null);
+  const [reportsFile, setReportsFile] = useState(null);
   // const [notesFile, setNotesFile] = useState(null);
 
-  const [prescriptionText, setPrescriptionText] = useState('');
-  // const [reportsText, setReportText] = useState('');
+  // const [prescriptionText, setPrescriptionText] = useState('');
+  const [reportsText, setReportText] = useState('');
   // const [NotesText, setNotesText] = useState('');
 
   // const [isPrescriptionListening, setPrescriptionListening] = useState(false);
   // const [isNotesListening, setNotesListening] = useState(false);
   // const [isReportListening, setReportListening] = useState(false);
   // console.log('PRESCRIPTION File', prescriptionFile, reportsFile, notesFile);
-  console.log('PRESCRIPTION Text', prescriptionText, prescriptionFile);
-
   const handleDocumentPicker = async type => {
     try {
       const doc = await DocumentPicker.pick({
@@ -66,9 +64,9 @@ console.log('ITEM ---------------------------------------- ', item)
       console.log('RESPONSE', responce.data?.url);
 
       if (type === 'prescription') {
-        if (!!prescriptionFile) {
-          setPrescriptionFile([
-            ...prescriptionFile,
+        if (!!reportsFile) {
+          setReportsFile([
+            ...reportsFile,
             {
               name: selectedFile.name,
               filetype: responce?.data?.filetype,
@@ -76,7 +74,7 @@ console.log('ITEM ---------------------------------------- ', item)
             },
           ]);
         } else {
-          setPrescriptionFile([
+          setReportsFile([
             {
               name: selectedFile.name,
               filetype: responce?.data?.filetype,
@@ -97,18 +95,19 @@ console.log('ITEM ---------------------------------------- ', item)
 
   useEffect(() => {
     if (item) {
-      setPrescriptionFile(item.prescriptionMedia);
-      setPrescriptionText(item.prescription);
+      setReportText(item.doctorReport);
+      setReportsFile(item.doctorReportsMedia);
     }
     return () => {
-      setPrescriptionFile(null);
-      setPrescriptionText('');
+      setReportsFile(null);
+      setReportText('');
     };
   }, [item]);
 
   const handleNext = () => {
-    let updateditems = {...item , prescriptionMedia: prescriptionFile , prescription: prescriptionText}
-    navigation.navigate('patientReports', {item: updateditems});
+    console.log('Item', item);
+    let updateditems = {...item , doctorReport: reportsText, doctorReportsMedia: reportsFile}
+    navigation.navigate('patientNotes', {item: updateditems});
   };
   return (
     <View style={{backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3}}>
@@ -180,13 +179,13 @@ console.log('ITEM ---------------------------------------- ', item)
             justifyContent: 'space-around',
           }}>
           <PrescriptionInputCard
-            heading="Prescription"
-            type={'prescription'}
+            heading="Doctor's Report"
+            type={'report'}
             handleDocumentPicker={handleDocumentPicker}
-            prescriptionText={prescriptionText}
-            setComponentText={text => setPrescriptionText(text)}
+            prescriptionText={reportsText}
+            setComponentText={text => setReportText(text)}
           />
-          <AttachedFile AttachementFile={prescriptionFile} />
+          <AttachedFile AttachementFile={reportsFile} />
         </View>
         <View
           style={{

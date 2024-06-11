@@ -27,26 +27,24 @@ import AttachedFile from '../components/common/AttachedFile';
 
 const ParticularPatientScreen = ({route, navigation}) => {
   const {item} = route.params;
-console.log('ITEM ---------------------------------------- ', item)
+  console.log('ITEM', item);
 
   // const [isNurse, setIsNurse] = useState(false);
   let data = useSelector(state => state.user.Role);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [prescriptionFile, setPrescriptionFile] = useState(null);
-  // const [reportsFile, setReportsFile] = useState(null);
-  // const [notesFile, setNotesFile] = useState(null);
+  // const [prescriptionFile, setPrescriptionFile] = useState(null);
+  //   const [reportsFile, setReportsFile] = useState(null);
+  const [notesFile, setNotesFile] = useState(null);
 
-  const [prescriptionText, setPrescriptionText] = useState('');
-  // const [reportsText, setReportText] = useState('');
-  // const [NotesText, setNotesText] = useState('');
+  // const [prescriptionText, setPrescriptionText] = useState('');
+  //   const [reportsText, setReportText] = useState('');
+  const [NotesText, setNotesText] = useState('');
 
   // const [isPrescriptionListening, setPrescriptionListening] = useState(false);
   // const [isNotesListening, setNotesListening] = useState(false);
   // const [isReportListening, setReportListening] = useState(false);
   // console.log('PRESCRIPTION File', prescriptionFile, reportsFile, notesFile);
-  console.log('PRESCRIPTION Text', prescriptionText, prescriptionFile);
-
   const handleDocumentPicker = async type => {
     try {
       const doc = await DocumentPicker.pick({
@@ -66,9 +64,9 @@ console.log('ITEM ---------------------------------------- ', item)
       console.log('RESPONSE', responce.data?.url);
 
       if (type === 'prescription') {
-        if (!!prescriptionFile) {
-          setPrescriptionFile([
-            ...prescriptionFile,
+        if (!!reportsFile) {
+          setNotesFile([
+            ...reportsFile,
             {
               name: selectedFile.name,
               filetype: responce?.data?.filetype,
@@ -76,7 +74,7 @@ console.log('ITEM ---------------------------------------- ', item)
             },
           ]);
         } else {
-          setPrescriptionFile([
+          setNotesFile([
             {
               name: selectedFile.name,
               filetype: responce?.data?.filetype,
@@ -94,20 +92,51 @@ console.log('ITEM ---------------------------------------- ', item)
     }
   };
 
+  const handleUpdateAppointment = async () => {
+    setIsLoading(true);
+    console.log('assign Nurse ------------------------------------------------')
+    console.log('items  ------------------------------------------------' , item)
+
+    let body = {
+      appointmentId : item._id,
+      prescription: item.prescription,
+      doctorNotes: NotesText,
+      doctorReport: item.doctorReport,
+      prescriptionMedia: item.prescriptionMedia,
+      doctorNotesMedia: notesFile,
+      doctorReportsMedia: item.doctorReportsMedia,
+    };
+    console.log('Body ---------------- ', body);
+    try {
+      const response = await updateAppoinment(body);
+      console.log('RESPONSE', response);
+      console.log('Update Appointment Response => -----------------------------------------', response.data);
+      setIsLoading(false);
+      navigation.navigate('NurseList', {item: body});
+    } catch (error) {
+      setIsLoading(false);
+      console.log('Error in Update Appointment =>', error.response);
+    }
+  };
 
   useEffect(() => {
     if (item) {
-      setPrescriptionFile(item.prescriptionMedia);
-      setPrescriptionText(item.prescription);
+      setNotesText(item.doctorNotes);
+      setNotesFile(item.doctorNotesMedia);
     }
     return () => {
-      setPrescriptionFile(null);
-      setPrescriptionText('');
+      setNotesFile(null);
+      setNotesText('');
     };
   }, [item]);
 
   const handleNext = () => {
-    let updateditems = {...item , prescriptionMedia: prescriptionFile , prescription: prescriptionText}
+    console.log('Item', item);
+    let updateditems = {
+      ...item,
+      doctorNotes: NotesText,
+      doctorNotesMedia: notesFile,
+    };
     navigation.navigate('patientReports', {item: updateditems});
   };
   return (
@@ -180,13 +209,13 @@ console.log('ITEM ---------------------------------------- ', item)
             justifyContent: 'space-around',
           }}>
           <PrescriptionInputCard
-            heading="Prescription"
-            type={'prescription'}
+            heading="Doctor's Notes"
+            type={'notes'}
             handleDocumentPicker={handleDocumentPicker}
-            prescriptionText={prescriptionText}
-            setComponentText={text => setPrescriptionText(text)}
+            prescriptionText={NotesText}
+            setComponentText={text => setNotesText(text)}
           />
-          <AttachedFile AttachementFile={prescriptionFile} />
+          <AttachedFile AttachementFile={notesFile} />
         </View>
         <View
           style={{
@@ -196,7 +225,16 @@ console.log('ITEM ---------------------------------------- ', item)
             paddingBottom: 20,
             justifyContent: 'space-around',
           }}>
-            <AssignNurseButton onPress={handleNext} />
+          {data === 'nurse' ? (
+            <AproveAndCancelButtons
+              onPressAprove={() =>
+                navigation.navigate('Doctordashboard', {item: item})
+              }
+              onPressCancel={() => navigation.goBack()}
+            />
+          ) : (
+            <AssignNurseButton onPress={handleUpdateAppointment} />
+          )}
         </View>
       </ScrollView>
     </View>
@@ -208,7 +246,7 @@ export default ParticularPatientScreen;
 const AssignNurseButton = ({onPress}) => {
   return (
     <View style={{paddingHorizontal: 15}}>
-      <Button text="Next" Link={onPress} />
+      <Button text="Assign Nurse" Link={onPress} />
     </View>
   );
 };
