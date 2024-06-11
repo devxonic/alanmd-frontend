@@ -27,6 +27,8 @@ import { Provider } from 'react-redux'
 import Store from './src/Redux/store.js';
 import DoctorProfileEdit from './src/screens/DoctorProfileEdit.js';
 import PatientProfileEdit from './src/screens/PatientProfileEdit.js'
+import PatientReports from './src/screens/PatientReports.js'
+import PatientNotes from './src/screens/PatientNotes.js'
 
 
 
@@ -98,6 +100,17 @@ const App = ({navigation}) => {
             name="signin"
             component={SignIn}
             options={{headerShown: false}}
+          />
+           <Stack.Screen
+            name="patientReports"
+
+            component={PatientReports}
+            options={{ title : 'Patient Reports'}}
+          />
+           <Stack.Screen
+            name="patientNotes"
+            component={PatientNotes}
+            options={{ title:'Patient Notes'}}
           />
            <Stack.Screen
             name="ParticularDoctorScreen"
