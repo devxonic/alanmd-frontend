@@ -69,11 +69,6 @@ const PrescriptionInputCard = ({
       console.log('Voice Stop');
       await Voice.stop();
       Voice.removeAllListeners();
-<<<<<<< HEAD
-      setIsListiner(false);
-      // setComponentText('')
-=======
->>>>>>> 2feed52aed6292d8688571e3a402d40359dd717e
     } catch (e) {
       console.error(e);
     }
