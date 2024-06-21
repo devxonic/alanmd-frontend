@@ -9,9 +9,7 @@ import {
 } from 'react-native';
 import {Fonts} from '../style';
 
-
-const App = ({data  , formData , setFormData}) => {
-
+const App = ({data, formData, setFormData, width,prefix}) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -22,7 +20,7 @@ const App = ({data  , formData , setFormData}) => {
   const handleSelect = item => {
     setSelected(item);
     setVisible(false);
-    setFormData({...formData ,categoryId : item._id});
+    setFormData({...formData, categoryId: item._id});
   };
 
   const renderItem = ({item}) => (
@@ -33,9 +31,9 @@ const App = ({data  , formData , setFormData}) => {
 
   return (
     <View style={styles.appContainer}>
-      <View style={styles.container}>
+      <View style={[styles.container, {width: width}]}>
         <TouchableOpacity style={styles.dropdown} onPress={toggleDropdown}>
-          <Text>{selected ? selected.name : 'Select an item'}</Text>
+          <Text>{selected ? selected.name : prefix}</Text>
         </TouchableOpacity>
         {visible && (
           <FlatList
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e3eeeb',
     borderRadius: 5,
     paddingHorizontal: 8,
-    paddingVertical: 10,
+    paddingVertical: 11,
     fontSize: 8,
     color: 'black',
     fontFamily: Fonts.LIGHT,

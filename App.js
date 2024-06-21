@@ -1,8 +1,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer,} from '@react-navigation/native';
-import BackIcon from 'react-native-vector-icons/AntDesign'
-import NotificationIcon from 'react-native-vector-icons/Ionicons'
+import {NavigationContainer} from '@react-navigation/native';
+import BackIcon from 'react-native-vector-icons/AntDesign';
+import NotificationIcon from 'react-native-vector-icons/Ionicons';
 import SignUp from './src/screens/Signup.js';
 import SignIn from './src/screens/Signin.js';
 import RecoverAccount from './src/screens/RecoverAccount.js';
@@ -13,64 +13,67 @@ import DoctorsList from './src/screens/DoctorsList.js';
 import SplashScreen from './src/screens/splash/Splash.js';
 import BottomNavRender from './src/screens/BottomNavRender.js';
 import ParticularDoctorScreen from './src/screens/ParticularDoctorScreen.js';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Fonts } from './src/components/style/CustomFonts.js';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Fonts} from './src/components/style/CustomFonts.js';
 import ConfromBoking from './src/screens/ConformBooking.js';
-import SeletedCategory from './src/screens/SeletedCategory.js'
-import LabsNearBY from './src/screens/LabsNearby.js'
+import SeletedCategory from './src/screens/SeletedCategory.js';
+import LabsNearBY from './src/screens/LabsNearby.js';
 import Notification from './src/screens/Notification.js';
 import DoctorDashboard from './src/screens/doctorscreen/DoctorDashboard.js';
 import PatientList from './src/screens/PatientList.js';
 import ParticularPatientScreen from './src/screens/ParticularPatientScreen.js';
 import NurseList from './src/screens/NurseList.js';
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux';
 import Store from './src/Redux/store.js';
-import DoctorProfileEdit from './src/screens/DoctorProfileEdit.js';
-import PatientProfileEdit from './src/screens/PatientProfileEdit.js'
-import PatientReports from './src/screens/PatientReports.js'
-import PatientNotes from './src/screens/PatientNotes.js'
-
-
+import DoctorPersonalInformationEdit from './src/screens/DoctorProfilePersonalInformation.js';
+import PatientProfileEdit from './src/screens/PatientProfileEdit.js';
+import PatientReports from './src/screens/PatientReports.js';
+import PatientNotes from './src/screens/PatientNotes.js';
+import DoctorContactInformationEdit from './src/screens/DoctorProfileContactInformation.js';
+import DoctorInsuranceInformationEdit from './src/screens/DoctorProfileInsuranceInformation.js';
+import DoctorEmergencyInformationEdit from './src/screens/DoctorProfileEmergencyInformation.js';
+import DoctorMedicalHistoryEdit from './src/screens/DoctorProfileMedicalHistory.js';
 
 const Stack = createNativeStackNavigator();
 const App = ({navigation}) => {
   // const navigation = useNavigation()
-  
+
   return (
- 
- <Provider store={Store}>
-     {/* <GestureHandlerRootView> */}
+    <Provider store={Store}>
+      {/* <GestureHandlerRootView> */}
       <NavigationContainer>
-      
-        <Stack.Navigator screenOptions={{
-        cardStyle: { backgroundColor: 'white' },
-        cardStyleInterpolator: ({ current, layouts }) => {
-          return {
-            cardStyle: {
-              transform: [
-                {
-                  translateX: current.progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [layouts.screen.width * 2, 0], // Adjusted from layouts.screen.width
-                  }),
+        <Stack.Navigator
+          screenOptions={{
+            cardStyle: {backgroundColor: 'white'},
+            cardStyleInterpolator: ({current, layouts}) => {
+              return {
+                cardStyle: {
+                  transform: [
+                    {
+                      translateX: current.progress.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [layouts.screen.width * 2, 0], // Adjusted from layouts.screen.width
+                      }),
+                    },
+                  ],
                 },
-              ],
+              };
             },
-          };
-        },
-        headerStyle: {
-          borderBottomWidth: 0, // Remove bottom border
-          elevation: 0,
-          borderColor:'white',
-          backgroundColor:'white', 
-          shadowColor: 'transparent',
-          borderColor:'white'
-          // Remove box shadow for Android
-          
-        },
-      }}
-          >
-            <Stack.Screen options={{ headerShown: false }} name="SplashScreen" component={SplashScreen} />
+            headerStyle: {
+              borderBottomWidth: 0, // Remove bottom border
+              elevation: 0,
+              borderColor: 'white',
+              backgroundColor: 'white',
+              shadowColor: 'transparent',
+              borderColor: 'white',
+              // Remove box shadow for Android
+            },
+          }}>
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SplashScreen"
+            component={SplashScreen}
+          />
           <Stack.Screen
             name="onboard"
             component={Onboard}
@@ -88,8 +91,28 @@ const App = ({navigation}) => {
           />
           <Stack.Screen
             name="DoctorProfileEdit"
-            component={DoctorProfileEdit}
-            options={{headerShown: false}}
+            component={DoctorPersonalInformationEdit}
+            options={{headerShown: true, title: 'Personal Information'}}
+          />
+          <Stack.Screen
+            name="DoctorContactInformationEdit"
+            component={DoctorContactInformationEdit}
+            options={{headerShown: true, title: 'Contact Information'}}
+          />
+          <Stack.Screen
+            name="DoctorInsuranceInformationEdit"
+            component={DoctorInsuranceInformationEdit}
+            options={{headerShown: true, title: 'Insurance Information'}}
+          />
+          <Stack.Screen
+            name="DoctorEmergencyInformationEdit"
+            component={DoctorEmergencyInformationEdit}
+            options={{headerShown: true, title: 'Emergeny Information'}}
+          />
+          <Stack.Screen
+            name="DoctorMedicalHistoryEdit"
+            component={DoctorMedicalHistoryEdit}
+            options={{headerShown: true, title: 'Medical History'}}
           />
           <Stack.Screen
             name="PatientProfileEdit"
@@ -101,93 +124,162 @@ const App = ({navigation}) => {
             component={SignIn}
             options={{headerShown: false}}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="patientReports"
-
             component={PatientReports}
-            options={{ title : 'Patient Reports'}}
+            options={{title: 'Patient Reports'}}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="patientNotes"
             component={PatientNotes}
-            options={{ title:'Patient Notes'}}
+            options={{title: 'Patient Notes'}}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="ParticularDoctorScreen"
             component={ParticularDoctorScreen}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Doctor</Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
+                  <Text style={[styles.backicontext, {marginLeft: -10}]}>
+                    Doctor
+                  </Text>
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               headerRight: () => (
-                <View style={{ flexDirection: 'row', gap: -5 ,}}>
-                  <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
-               <NotificationIcon name='notifications' size={15} color={'white'} />
-              </TouchableOpacity>
+                <View style={{flexDirection: 'row', gap: -5}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#116754',
+                      padding: 10,
+                      borderRadius: 50,
+                    }}
+                    onPress={() => navigation.navigate('Notification')}>
+                    <NotificationIcon
+                      name="notifications"
+                      size={15}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 </View>
               ),
               tabBarLabel: 'Profile',
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="ParticularPatientScreen"
             component={ParticularPatientScreen}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               headerRight: () => (
-                <View style={{ flexDirection: 'row', gap: -5 ,}}>
-                  <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
-               <NotificationIcon name='notifications' size={15} color={'white'} />
-              </TouchableOpacity>
+                <View style={{flexDirection: 'row', gap: -5}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#116754',
+                      padding: 10,
+                      borderRadius: 50,
+                    }}
+                    onPress={() => navigation.navigate('Notification')}>
+                    <NotificationIcon
+                      name="notifications"
+                      size={15}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 </View>
               ),
               tabBarLabel: 'Profile',
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
           <Stack.Screen
             name="ConfromBooking"
             component={ConfromBoking}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Back</Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
+                  <Text style={[styles.backicontext, {marginLeft: -10}]}>
+                    Back
+                  </Text>
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               headerRight: () => (
-                <View style={{ flexDirection: 'row', gap: -5 ,}}>
-                  <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
-               <NotificationIcon name='notifications' size={15} color={'white'} />
-              </TouchableOpacity>
+                <View style={{flexDirection: 'row', gap: -5}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#116754',
+                      padding: 10,
+                      borderRadius: 50,
+                    }}
+                    onPress={() => navigation.navigate('Notification')}>
+                    <NotificationIcon
+                      name="notifications"
+                      size={15}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 </View>
               ),
-             
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="Notification"
             component={Notification}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Notification</Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
+                  <Text style={[styles.backicontext, {marginLeft: -10}]}>
+                    Notification
+                  </Text>
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               // headerRight: () => (
               //   <View style={{ flexDirection: 'row', gap: -5 ,}}>
               //     <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}}  >
@@ -195,74 +287,139 @@ const App = ({navigation}) => {
               // </TouchableOpacity>
               //   </View>
               // ),
-             
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
           <Stack.Screen
             name="LabsNearBY"
             component={LabsNearBY}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Back</Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
+                  <Text style={[styles.backicontext, {marginLeft: -10}]}>
+                    Back
+                  </Text>
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               headerRight: () => (
-                <View style={{ flexDirection: 'row', gap: -5 ,}}>
-                  <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
-               <NotificationIcon name='notifications' size={15} color={'white'} />
-              </TouchableOpacity>
+                <View style={{flexDirection: 'row', gap: -5}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#116754',
+                      padding: 10,
+                      borderRadius: 50,
+                    }}
+                    onPress={() => navigation.navigate('Notification')}>
+                    <NotificationIcon
+                      name="notifications"
+                      size={15}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 </View>
               ),
-             
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
           <Stack.Screen
             name="PatientList"
             component={PatientList}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Back</Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
+                  <Text style={[styles.backicontext, {marginLeft: -10}]}>
+                    Back
+                  </Text>
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               headerRight: () => (
-                <View style={{ flexDirection: 'row', gap: -5 ,}}>
-                  <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
-               <NotificationIcon name='notifications' size={15} color={'white'} />
-              </TouchableOpacity>
+                <View style={{flexDirection: 'row', gap: -5}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#116754',
+                      padding: 10,
+                      borderRadius: 50,
+                    }}
+                    onPress={() => navigation.navigate('Notification')}>
+                    <NotificationIcon
+                      name="notifications"
+                      size={15}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 </View>
               ),
-             
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
           <Stack.Screen
             name="NurseList"
             component={NurseList}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Back</Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
+                  <Text style={[styles.backicontext, {marginLeft: -10}]}>
+                    Back
+                  </Text>
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               headerRight: () => (
-                <View style={{ flexDirection: 'row', gap: -5 ,}}>
-                  <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
-               <NotificationIcon name='notifications' size={15} color={'white'} />
-              </TouchableOpacity>
+                <View style={{flexDirection: 'row', gap: -5}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#116754',
+                      padding: 10,
+                      borderRadius: 50,
+                    }}
+                    onPress={() => navigation.navigate('Notification')}>
+                    <NotificationIcon
+                      name="notifications"
+                      size={15}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 </View>
               ),
-             
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
           <Stack.Screen
@@ -276,7 +433,7 @@ const App = ({navigation}) => {
             options={{headerShown: false}}
           />
 
-           <Stack.Screen
+          <Stack.Screen
             name="Doctordashboard"
             component={DoctorDashboard}
             options={{headerShown: false}}
@@ -284,23 +441,44 @@ const App = ({navigation}) => {
           <Stack.Screen
             name="doctorscategory"
             component={DoctorsCategory}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Back</Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
+                  <Text style={[styles.backicontext, {marginLeft: -10}]}>
+                    Back
+                  </Text>
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               headerRight: () => (
-                <View style={{ flexDirection: 'row', gap: -5 ,}}>
-                  <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
-               <NotificationIcon name='notifications' size={15} color={'white'} />
-              </TouchableOpacity>
+                <View style={{flexDirection: 'row', gap: -5}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#116754',
+                      padding: 10,
+                      borderRadius: 50,
+                    }}
+                    onPress={() => navigation.navigate('Notification')}>
+                    <NotificationIcon
+                      name="notifications"
+                      size={15}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 </View>
               ),
-             
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
           <Stack.Screen
@@ -311,36 +489,57 @@ const App = ({navigation}) => {
           <Stack.Screen
             name="SeletedCategory"
             component={SeletedCategory}
-            options={({ navigation }) => ({
+            options={({navigation}) => ({
               headerLeft: () => (
-                <TouchableOpacity style={{flexDirection:"row",marginLeft: 0,}} onPress={() => navigation.goBack()}>
-                   <BackIcon name="arrowleft" size={23} color='#116754' style={{ marginRight: 18 }} />
-                  <Text style={[styles.backicontext,{marginLeft: -10}]}>Back</Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', marginLeft: 0}}
+                  onPress={() => navigation.goBack()}>
+                  <BackIcon
+                    name="arrowleft"
+                    size={23}
+                    color="#116754"
+                    style={{marginRight: 18}}
+                  />
+                  <Text style={[styles.backicontext, {marginLeft: -10}]}>
+                    Back
+                  </Text>
                 </TouchableOpacity>
               ),
-              title: null, 
+              title: null,
               headerRight: () => (
-                <View style={{ flexDirection: 'row', gap: -5 ,}}>
-                  <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}} onPress={()=>navigation.navigate('Notification')} >
-               <NotificationIcon name='notifications' size={15} color={'white'} />
-              </TouchableOpacity>
+                <View style={{flexDirection: 'row', gap: -5}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#116754',
+                      padding: 10,
+                      borderRadius: 50,
+                    }}
+                    onPress={() => navigation.navigate('Notification')}>
+                    <NotificationIcon
+                      name="notifications"
+                      size={15}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 </View>
               ),
-             
-              tabBarIcon: ({ color }) => <Entypo name="user-circle-o" color={color} size={25} />,
+
+              tabBarIcon: ({color}) => (
+                <Entypo name="user-circle-o" color={color} size={25} />
+              ),
             })}
           />
         </Stack.Navigator>
       </NavigationContainer>
-       </Provider>
+    </Provider>
     // </GestureHandlerRootView>
   );
 };
 const styles = StyleSheet.create({
-  backicontext:{
-      color: 'black',
-      fontSize: 16,
-      fontFamily: Fonts.REGULAR,
-  }
+  backicontext: {
+    color: 'black',
+    fontSize: 16,
+    fontFamily: Fonts.REGULAR,
+  },
 });
 export default App;

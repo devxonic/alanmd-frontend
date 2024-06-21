@@ -208,7 +208,8 @@ useEffect(() => {
               textContentType="password"
               />
 
-           { formData.role == "doctor" &&  <Dropdown data={AllCategories} formData={formData}  setFormData={setFormData}/>}
+           { formData.role == "doctor" && 
+            <Dropdown data={AllCategories} formData={formData}  setFormData={setFormData}/>}
           </View>
           <View style={styles.bottomCon}>
             <Button text="Create Account" onPress={handleSubmit} />
