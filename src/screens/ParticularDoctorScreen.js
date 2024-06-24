@@ -6,11 +6,11 @@ import { Calendar } from 'react-native-calendars'
 import { format } from 'date-fns';
 import Button from '../components/common/Button'
 const ParticularDoctorScreen = ({ route, navigation }) => {
-  const { item } = route.params
+  // const { item } = route.params
 
-  console.log("CONFIRM booking", item)
+  // console.log("CONFIRM booking", item)
   
-  console.log('itemsparam', item)
+  // console.log('itemsparam', item)
   const [selectedDate, setSelectedDate] = useState('Select a Time Slot');
   
   console.log('seleteddate', selectedDate)

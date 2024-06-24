@@ -67,7 +67,7 @@ import Loader from '../components/common/Loader';
                       <Text style={styles.light}>{item.experience || "10 year Experience"}</Text>
                     </View>
                     <View style={styles.childThree}>
-                      <TouchableOpacity style={styles.childThreeThree} onPress={()=>navigation.navigate('ParticularDoctorScreen',{item})}>
+                      <TouchableOpacity style={styles.childThreeThree} onPress={()=>navigation.navigate('DoctorProfileEdit',{item})}>
                         {/* <Image source={require('../images/homeOne.png')} /> */}
                         <BookIcon name='book-medical' size={13} color={'white'}/>
                         <Text style={styles.childThreeThreeText}>

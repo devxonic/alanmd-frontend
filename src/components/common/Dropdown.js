@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Fonts} from '../style';
 
-const App = ({data, formData, setFormData, width,prefix}) => {
+const App = ({data, formData, setFormData, width, prefix}) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -21,6 +21,7 @@ const App = ({data, formData, setFormData, width,prefix}) => {
     setSelected(item);
     setVisible(false);
     setFormData({...formData, categoryId: item._id});
+    console.log(item);
   };
 
   const renderItem = ({item}) => (

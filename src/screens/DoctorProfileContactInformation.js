@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Image,
@@ -9,64 +9,56 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Fonts } from '../components/style';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import { useSelector } from 'react-redux';
-import { updateDoctorProfile } from '../api/doctor';
-import { updateNurseProfile } from '../api/nurse';
+import {useSelector} from 'react-redux';
+import {updateDoctorProfile} from '../api/doctor';
+import {updateNurseProfile} from '../api/nurse';
 import Dropdown from '../components/common/Dropdown';
 import DropDown2 from '../components/common/DropDown2';
 import DatePickers from '../components/common/DatePicker';
 import RadioButton from '../components/common/RadioButton';
 
-const DoctorContactInformationEdit = ({ route, navigation }) => {
-  // const { item } = route.params;
-  let GenderCategories = [
-    { name: 'Male', value: "male" },
-    { name: 'Female', value: "female" },
-  ];
-  let Mr = [
-    { name: 'Mr', value: "Mr" },
-    { name: 'Mrs', value: "Mrs" },
-  ];
+const DoctorContactInformationEdit = ({route, navigation}) => {
   const [formData, setFormData] = useState({
-    name: '',
-    image: '',
-    location: '',
-    permissionToCotactAddress: false,
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    houseNumber: '',
+    mobileNumber: '',
+    workNumber: '',
+    emailAddress: '',
+    permissionToSendNewsLetter: false,
     permissionToCallOnNumberHouse: false,
-    permissionToCallOnNumberWork: false,
     permissionToCallOnNumberMobile: false,
+    permissionToCallOnNumberWork: false,
+    permissionToCotactEmail: false,
   });
-
-  const role = useSelector(state => state?.user?.Role);
-
-  console.log('FORM DATA', formData, '\n ROLE', role);
-
-  useEffect(() => {
-    setFormData({ ...route.params });
-    console.log('Edit Profile', route.params);
-    return () => {
-      setFormData({});
-    };
-  }, []);
+  console.log('FORM DATA', formData);
+  let state = [
+    {name: 'Sindh', value: 'sindh', id: 1},
+    {name: 'Punjab', value: 'punjab', id: 2},
+  ];
 
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.profileContainer}>
-          <View style={{ width: '100%' }}>
+          <View style={{width: '100%'}}>
             <View>
               <View>
                 <Text style={styles.InputHeading}>Address</Text>
                 <Input
                   placeholder="Type Something Here..."
-                  value={formData.name}
-                  onChangeText={text => setFormData({ ...formData, name: text })}
+                  value={formData.address}
+                  onChangeText={text =>
+                    setFormData({...formData, address: text})
+                  }
                 />
               </View>
-              <View style={[styles.Dflex, { flexWrap: "wrap" }]}>
+              <View style={[styles.Dflex, {flexWrap: 'wrap'}]}>
                 <View>
                   <Text style={styles.InputParagraph}>
                     Do we have permission to contact you at this address for
@@ -76,15 +68,27 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                 <View style={styles.Dflex}>
                   <View style={styles.Dflex}>
                     <RadioButton
-                      selected={formData.permissionToCotactAddress}
-                      onPress={() => setFormData({ ...formData, permissionToCotactAddress: true })}
-                      label="Yes" />
+                      selected={formData.permissionToSendNewsLetter}
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToSendNewsLetter: true,
+                        })
+                      }
+                      label="Yes"
+                    />
                   </View>
                   <View style={styles.Dflex}>
                     <RadioButton
-                      selected={!formData.permissionToCotactAddress}
-                      onPress={() => setFormData({ ...formData, permissionToCotactAddress: false })}
-                      label="No" />
+                      selected={!formData.permissionToSendNewsLetter}
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToSendNewsLetter: false,
+                        })
+                      }
+                      label="No"
+                    />
                   </View>
                 </View>
               </View>
@@ -95,27 +99,30 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                 placeholder="Type Something Here..."
                 value={formData.location}
                 onChangeText={text =>
-                  setFormData({ ...formData, location: text })
+                  setFormData({...formData, location: text})
                 }
               />
             </View>
             <View style={styles.Dflex}>
-              <View style={{ flex: 1 }}>
+              <View style={{flex: 1}}>
                 <Text style={styles.InputHeading}>State</Text>
                 <DropDown2
-                  data={GenderCategories}
+                  value={state}
+                  data={state}
                   formData={formData}
-                  Objkey={"gender"}
+                  Objkey={'state'}
                   setFormData={setFormData}
                   prefix={'Choose Your State'}
                 />
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={{flex: 1}}>
                 <Text style={styles.InputHeading}>Zip Code</Text>
                 <Input
                   placeholder="Type Something Here..."
-                  value={formData.name}
-                  onChangeText={text => setFormData({ ...formData, zipCode: text })}
+                  value={formData.zipCode}
+                  onChangeText={text =>
+                    setFormData({...formData, zipCode: text})
+                  }
                 />
               </View>
             </View>
@@ -124,8 +131,10 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                 <Text style={styles.InputHeading}>House Number</Text>
                 <Input
                   placeholder="Type Something Here..."
-                  value={formData.name}
-                  onChangeText={text => setFormData({ ...formData, houseNumber: text })}
+                  value={formData.houseNumber}
+                  onChangeText={text =>
+                    setFormData({...formData, houseNumber: text})
+                  }
                 />
               </View>
               <View style={styles.Dflex}>
@@ -137,15 +146,27 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                 <View style={styles.Dflex}>
                   <View style={styles.Dflex}>
                     <RadioButton
-                      selected={formData.permissionToCallOnNumber}
-                      onPress={() => setFormData({ ...formData, permissionToCallOnNumberHouse: true })}
-                      label="Yes" />
+                      selected={formData.permissionToCallOnNumberHouse}
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToCallOnNumberHouse: true,
+                        })
+                      }
+                      label="Yes"
+                    />
                   </View>
                   <View style={styles.Dflex}>
                     <RadioButton
                       selected={!formData.permissionToCallOnNumber}
-                      onPress={() => setFormData({ ...formData, permissionToCallOnNumberHouse: false })}
-                      label="No" />
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToCallOnNumberHouse: false,
+                        })
+                      }
+                      label="No"
+                    />
                   </View>
                 </View>
               </View>
@@ -155,8 +176,10 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                 <Text style={styles.InputHeading}>Mobile Number</Text>
                 <Input
                   placeholder="Type Something Here..."
-                  value={formData.name}
-                  onChangeText={text => setFormData({ ...formData, name: text })}
+                  value={formData.mobileNumber}
+                  onChangeText={text =>
+                    setFormData({...formData, mobileNumber: text})
+                  }
                 />
               </View>
               <View style={styles.Dflex}>
@@ -169,14 +192,26 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                   <View style={styles.Dflex}>
                     <RadioButton
                       selected={formData.permissionToCallOnNumberMobile}
-                      onPress={() => setFormData({ ...formData, permissionToCallOnNumberMobile: true })}
-                      label="Yes" />
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToCallOnNumberMobile: true,
+                        })
+                      }
+                      label="Yes"
+                    />
                   </View>
                   <View style={styles.Dflex}>
                     <RadioButton
                       selected={!formData.permissionToCallOnNumberMobile}
-                      onPress={() => setFormData({ ...formData, permissionToCallOnNumberMobile: false })}
-                      label="No" />
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToCallOnNumberMobile: false,
+                        })
+                      }
+                      label="No"
+                    />
                   </View>
                 </View>
               </View>
@@ -186,12 +221,14 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                 <Text style={styles.InputHeading}>Work Number</Text>
                 <Input
                   placeholder="Type Something Here..."
-                  value={formData.name}
-                  onChangeText={text => setFormData({ ...formData, name: text })}
+                  value={formData.workNumber}
+                  onChangeText={text =>
+                    setFormData({...formData, workNumber: text})
+                  }
                 />
               </View>
               <View style={styles.Dflex}>
-                <View style={{ marginRight: 2 }}>
+                <View style={{marginRight: 2}}>
                   <Text style={styles.InputParagraph}>
                     May we call this number?
                   </Text>
@@ -200,14 +237,26 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                   <View style={styles.Dflex}>
                     <RadioButton
                       selected={formData.permissionToCallOnNumberWork}
-                      onPress={() => setFormData({ ...formData, permissionToCallOnNumberWork: true })}
-                      label="Yes" />
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToCallOnNumberWork: true,
+                        })
+                      }
+                      label="Yes"
+                    />
                   </View>
                   <View style={styles.Dflex}>
                     <RadioButton
                       selected={!formData.permissionToCallOnNumberWork}
-                      onPress={() => setFormData({ ...formData, permissionToCallOnNumberWork: false })}
-                      label="No" />
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToCallOnNumberWork: false,
+                        })
+                      }
+                      label="No"
+                    />
                   </View>
                 </View>
               </View>
@@ -217,12 +266,14 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                 <Text style={styles.InputHeading}>Email Address</Text>
                 <Input
                   placeholder="Type Something Here..."
-                  value={formData.name}
-                  onChangeText={text => setFormData({ ...formData, name: text })}
+                  value={formData.emailAddress}
+                  onChangeText={text =>
+                    setFormData({...formData, emailAddress: text})
+                  }
                 />
               </View>
               <View style={styles.Dflex}>
-                <View style={{ marginRight: 2 }}>
+                <View style={{marginRight: 2}}>
                   <Text style={styles.InputParagraph}>
                     May we call this number?
                   </Text>
@@ -230,15 +281,27 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
                 <View style={styles.Dflex}>
                   <View style={styles.Dflex}>
                     <RadioButton
-                      selected={formData.permissionToSendNewsLettes}
-                      onPress={() => setFormData({ ...formData, permissionToSendNewsLettes: true })}
-                      label="Yes" />
+                      selected={formData.permissionToCotactEmail}
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToCotactEmail: true,
+                        })
+                      }
+                      label="Yes"
+                    />
                   </View>
                   <View style={styles.Dflex}>
                     <RadioButton
-                      selected={!formData.permissionToSendNewsLettes}
-                      onPress={() => setFormData({ ...formData, permissionToSendNewsLettes: false })}
-                      label="No" />
+                      selected={!formData.permissionToCotactEmail}
+                      onPress={() =>
+                        setFormData({
+                          ...formData,
+                          permissionToCotactEmail: false,
+                        })
+                      }
+                      label="No"
+                    />
                   </View>
                 </View>
               </View>
@@ -249,17 +312,17 @@ const DoctorContactInformationEdit = ({ route, navigation }) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={[styles.button, { borderColor: '#5B8F6B', borderWidth: 1 }]}
+            style={[styles.button, {borderColor: '#5B8F6B', borderWidth: 1}]}
             accessibilityLabel="Previous">
-            <Text style={[styles.buttonText, { color: '#5B8F6B' }]}>
+            <Text style={[styles.buttonText, {color: '#5B8F6B'}]}>
               Previous
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('DoctorInsuranceInformationEdit')
+              navigation.navigate('DoctorInsuranceInformationEdit', formData)
             }
-            style={[styles.button, { backgroundColor: '#5B8F6B' }]}
+            style={[styles.button, {backgroundColor: '#5B8F6B'}]}
             accessibilityLabel="Logout Button">
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
@@ -285,43 +348,6 @@ const styles = StyleSheet.create({
     width: '100%', // Adjusted to take full width
     maxWidth: 400, // Added maxWidth to limit width on larger screens
   },
-
-  doctorName: {
-    marginTop: 10,
-    fontSize: 20,
-    color: '#116754',
-    fontFamily: Fonts.MEDIUM,
-  },
-  imageContainer: {
-    position: 'relative',
-    width: 200,
-    height: 200,
-    borderRadius: 90,
-    overflow: 'hidden',
-  },
-  imageBorder: {
-    flex: 1,
-    borderRadius: 90,
-    borderColor: '#5B8F6B',
-    borderWidth: 1.5,
-    overflow: 'hidden',
-    ...Platform.select({
-      ios: {
-        shadowColor: 'green',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-  },
-  profileImage: {
-    flex: 1,
-    width: undefined,
-    height: undefined,
-  },
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -331,7 +357,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    width: 180,
+    width: Dimensions.get('window').width / 2 - 20,
     borderRadius: 5,
     marginHorizontal: 10,
   },
