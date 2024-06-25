@@ -1,26 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {
   View,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
-  Platform,
   Dimensions,
   ScrollView,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import {useSelector} from 'react-redux';
-import {updateDoctorProfile} from '../api/doctor';
-import {updateNurseProfile} from '../api/nurse';
-import Dropdown from '../components/common/Dropdown';
-import DropDown2 from '../components/common/DropDown2';
-import DatePickers from '../components/common/DatePicker';
+import DropDown2 from '../components/common/DropDown';
 import RadioButton from '../components/common/RadioButton';
+import {patientProfileinfo} from '../api/patient';
 
-const DoctorContactInformationEdit = ({route, navigation}) => {
+const PatientContactInfo = ({route, navigation}) => {
   const [formData, setFormData] = useState({
     address: '',
     city: '',
@@ -34,14 +28,28 @@ const DoctorContactInformationEdit = ({route, navigation}) => {
     permissionToCallOnNumberHouse: false,
     permissionToCallOnNumberMobile: false,
     permissionToCallOnNumberWork: false,
-    permissionToCotactEmail: false,
+    permissionToContactEmail: false,
   });
-  console.log('FORM DATA', formData);
+  const personalInfo = route.params.personalInformation;
+  const routeData = route.params.routeData;
   let state = [
-    {name: 'Sindh', value: 'sindh', id: 1},
-    {name: 'Punjab', value: 'punjab', id: 2},
+    {name: 'New Jersey', value: 'NewJersey', id: 1},
+    {name: 'New Mexico', value: 'NewMexico', id: 2},
+    {name: 'New York', value: 'NewYork', id: 2},
   ];
-
+  const handleSubmit = () => {
+    let data = {
+      personalInformation: personalInfo,
+      contactInformation: formData,
+    };
+    patientProfileinfo(data)
+      .then(res => {
+        const response = res.data;
+        console.warn('res', response);
+        navigation.navigate('PatientInsuranceInfo', routeData);
+      })
+      .catch(error => console.log('ERROR', error));
+  };
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -97,10 +105,8 @@ const DoctorContactInformationEdit = ({route, navigation}) => {
               <Text style={styles.InputHeading}>City</Text>
               <Input
                 placeholder="Type Something Here..."
-                value={formData.location}
-                onChangeText={text =>
-                  setFormData({...formData, location: text})
-                }
+                value={formData.city}
+                onChangeText={text => setFormData({...formData, city: text})}
               />
             </View>
             <View style={styles.Dflex}>
@@ -158,7 +164,7 @@ const DoctorContactInformationEdit = ({route, navigation}) => {
                   </View>
                   <View style={styles.Dflex}>
                     <RadioButton
-                      selected={!formData.permissionToCallOnNumber}
+                      selected={!formData.permissionToCallOnNumberHouse}
                       onPress={() =>
                         setFormData({
                           ...formData,
@@ -281,11 +287,11 @@ const DoctorContactInformationEdit = ({route, navigation}) => {
                 <View style={styles.Dflex}>
                   <View style={styles.Dflex}>
                     <RadioButton
-                      selected={formData.permissionToCotactEmail}
+                      selected={formData.permissionToContactEmail}
                       onPress={() =>
                         setFormData({
                           ...formData,
-                          permissionToCotactEmail: true,
+                          permissionToContactEmail: true,
                         })
                       }
                       label="Yes"
@@ -293,11 +299,11 @@ const DoctorContactInformationEdit = ({route, navigation}) => {
                   </View>
                   <View style={styles.Dflex}>
                     <RadioButton
-                      selected={!formData.permissionToCotactEmail}
+                      selected={!formData.permissionToContactEmail}
                       onPress={() =>
                         setFormData({
                           ...formData,
-                          permissionToCotactEmail: false,
+                          permissionToContactEmail: false,
                         })
                       }
                       label="No"
@@ -308,7 +314,6 @@ const DoctorContactInformationEdit = ({route, navigation}) => {
             </View>
           </View>
         </View>
-
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -319,9 +324,7 @@ const DoctorContactInformationEdit = ({route, navigation}) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('DoctorInsuranceInformationEdit', formData)
-            }
+            onPress={() => handleSubmit()}
             style={[styles.button, {backgroundColor: '#5B8F6B'}]}
             accessibilityLabel="Logout Button">
             <Text style={styles.buttonText}>Next</Text>
@@ -336,12 +339,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e3eeeb',
-    // alignItems: '',
     justifyContent: 'flex-start',
     paddingHorizontal: 20,
   },
   profileContainer: {
-    // alignItems: 'flex-start',
     flex: 11,
     marginTop: 20,
     marginBottom: 20,
@@ -373,30 +374,6 @@ const styles = StyleSheet.create({
     width: '200%',
     height: 100,
   },
-  //   imageContainer:{
-  //     elevation:2,
-  //     height:200,
-  //     width:200,
-  //     backgroundColor:'#efefef',
-  //     position:'relative',
-  //     borderRadius:999,
-  //     overflow:'hidden',
-  // },
-  uploadBtnContainer: {
-    opacity: 0.7,
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'lightgrey',
-    width: '100%',
-    height: '25%',
-  },
-  uploadBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-  },
   InputHeading: {
     color: '#116754',
     fontWeight: '800',
@@ -418,4 +395,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoctorContactInformationEdit;
+export default PatientContactInfo;

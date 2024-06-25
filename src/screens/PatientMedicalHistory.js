@@ -4,18 +4,15 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Platform,
   ScrollView,
   Dimensions,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-
-import DropDown2 from '../components/common/DropDown2';
-import {useSelector} from 'react-redux';
-
-const DoctorMedicalHistoryEdit = ({route, navigation}) => {
+import DropDown2 from '../components/common/DropDown';
+import {patientMedicalInfo} from '../api/patient';
+const PatientMedicalHistory = ({route, navigation}) => {
   const [formData, setFormData] = useState({
     primaryCarePhysician: '',
     currentMedications: '',
@@ -24,15 +21,9 @@ const DoctorMedicalHistoryEdit = ({route, navigation}) => {
     familyMedicalHistory: '',
     relationshipToPatient: '',
   });
-  const role = useSelector(state => state?.user?.Role);
-  console.log('FORM DATA', formData, '\n ROLE', role);
-  useEffect(() => {
-    setFormData({...route.params});
-    console.log('Edit Profile', route.params);
-    return () => {
-      setFormData({});
-    };
-  }, []);
+  const routeData = route.params.routeData;
+  const insuranceInfo = route.params.insuranceInformation;
+  const emergencyContact = route.params.emergencyContact;
   let currentMedications = [
     {name: '00000000021', value: '00000000021', id: 1},
     {name: '00000000022', value: '00000000022', id: 2},
@@ -41,6 +32,20 @@ const DoctorMedicalHistoryEdit = ({route, navigation}) => {
     {name: 'Something', value: 'something', id: 1},
     {name: 'Something else', value: 'something else', id: 2},
   ];
+  const handleSubmit = () => {
+    let data = {
+      insuranceInformation: insuranceInfo,
+      emergencyContact: emergencyContact,
+      medicalHistory: formData,
+    };
+    patientMedicalInfo(data)
+      .then(res => {
+        const response = res.data;
+        console.log('res', response);
+        navigation.navigate('ParticularDoctorScreen', routeData);
+      })
+      .catch(error => console.log('ERROR', error));
+  };
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -66,7 +71,7 @@ const DoctorMedicalHistoryEdit = ({route, navigation}) => {
                   data={currentMedications}
                   formData={formData}
                   setFormData={setFormData}
-                  Objkey={'Current Mediciations'}
+                  Objkey={'currentMedications'}
                   prefix={'Choose Your Current Mediciations'}
                 />
               </View>
@@ -81,7 +86,7 @@ const DoctorMedicalHistoryEdit = ({route, navigation}) => {
                   data={allergies}
                   formData={formData}
                   setFormData={setFormData}
-                  Objkey={'Allergies'}
+                  Objkey={'allergies'}
                   prefix={'Choose Your Allergies'}
                 />
               </View>
@@ -128,7 +133,7 @@ const DoctorMedicalHistoryEdit = ({route, navigation}) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ParticularDoctorScreen')}
+            onPress={() => handleSubmit()}
             style={[styles.button, {backgroundColor: '#5B8F6B'}]}
             accessibilityLabel="Submit Button">
             <Text style={styles.buttonText}>Submit</Text>
@@ -143,7 +148,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e3eeeb',
-    // alignItems: '',
     justifyContent: 'flex-start',
     paddingHorizontal: 20,
     height: Dimensions.get('window').height,
@@ -155,7 +159,6 @@ const styles = StyleSheet.create({
     width: '100%', // Adjusted to take full width
     maxWidth: 400, // Added maxWidth to limit width on larger screens
   },
-
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -181,12 +184,6 @@ const styles = StyleSheet.create({
     width: '200%',
     height: 100,
   },
-  uploadBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-  },
   InputHeading: {
     color: '#116754',
     fontWeight: '800',
@@ -208,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoctorMedicalHistoryEdit;
+export default PatientMedicalHistory;

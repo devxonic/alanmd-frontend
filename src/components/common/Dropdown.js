@@ -7,9 +7,16 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import {Fonts} from '../style';
 
-const App = ({data, formData, setFormData, width, prefix}) => {
+const Dropdown = ({
+  data,
+  formData,
+  setFormData,
+  width,
+  prefix,
+  Objkey,
+  value,
+}) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -20,28 +27,31 @@ const App = ({data, formData, setFormData, width, prefix}) => {
   const handleSelect = item => {
     setSelected(item);
     setVisible(false);
-    setFormData({...formData, categoryId: item._id});
-    console.log(item);
+    setFormData({...formData, [`${Objkey}`]: item.value});
   };
 
   const renderItem = ({item}) => (
-    <TouchableOpacity style={styles.item} onPress={() => handleSelect(item)}>
-      <Text>{item.name}</Text>
+    <TouchableOpacity
+      key={item.id}
+      style={styles.item}
+      onPress={() => handleSelect(item)}>
+      <Text style={styles.itemText}>{item.name}</Text>
     </TouchableOpacity>
   );
-
   return (
     <View style={styles.appContainer}>
-      <View style={[styles.container, {width: width}]}>
+      <View style={[styles.container, {width: width || '100%'}]}>
         <TouchableOpacity style={styles.dropdown} onPress={toggleDropdown}>
-          <Text>{selected ? selected.name : prefix}</Text>
+          <Text style={styles.dropdownText}>
+            {selected ? selected.name : prefix}
+          </Text>
         </TouchableOpacity>
         {visible && (
           <FlatList
             style={styles.list}
             data={data}
             renderItem={renderItem}
-            keyExtractor={item => item._id}
+            keyExtractor={item => item.id}
           />
         )}
       </View>
@@ -52,33 +62,53 @@ const App = ({data, formData, setFormData, width, prefix}) => {
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
-    zIndex: 5,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    // backgroundColor:"red"
   },
   container: {
-    marginTop: 10,
-    width: Dimensions.get('window').width - 30,
-    height: 420,
+    marginVertical: 5,
   },
   dropdown: {
-    backgroundColor: '#e3eeeb',
+    width: '100%',
+    // backgroundColor: '#ffffff',
     borderRadius: 5,
-    paddingHorizontal: 8,
-    paddingVertical: 11,
-    fontSize: 8,
-    color: 'black',
-    fontFamily: Fonts.LIGHT,
-    borderWidth: 0.5,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    fontSize: 14,
+    color: '#5b5b5b',
+    borderWidth: 2,
     borderColor: '#116754',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  dropdownText: {
+    fontSize: 16,
+    color: '#5b5b5b',
   },
   list: {
-    marginTop: 10,
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    zIndex: 5,
+    marginTop: 5,
+    backgroundColor: '#ffffff',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#116754',
+    width: '100%',
+    // maxHeight: 200, // Set a maximum height for the dropdown list
   },
   item: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    backgroundColor: '#116754',
+  },
+  itemText: {
+    fontSize: 14,
+    color: '#116754',
   },
 });
 
-export default App;
+export default Dropdown;

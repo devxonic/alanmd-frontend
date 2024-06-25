@@ -1,34 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   TouchableOpacity,
-  Platform,
   ScrollView,
   Dimensions,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import {useSelector} from 'react-redux';
-import {updateDoctorProfile} from '../api/doctor';
-import {updateNurseProfile} from '../api/nurse';
-import DropDown from '../components/common/DropDown2';
+import DropDown from '../components/common/DropDown';
 import DatePickers from '../components/common/DatePicker';
 
-const DoctorPersonalInformationEdit = ({route, navigation}) => {
+const PatientPersonalInfo = ({route, navigation}) => {
   const [formData, setFormData] = useState({
     firstName: '',
     middleName: '',
     lastName: '',
     maritalStatus: '',
-    mr: '',
+    genderTitle: '',
     gender: '',
     dateOfBirth: '2024-06-21T18:26:52.379Z',
   });
-  console.log('FORM DATA', formData);
-
+  const routeData = route.params;
   let GenderCategories = [
     {name: 'Male', id: 1, value: 'male'},
     {name: 'female', id: 2, value: 'female'},
@@ -54,7 +49,7 @@ const DoctorPersonalInformationEdit = ({route, navigation}) => {
                   value={Mr}
                   data={Mr}
                   formData={formData}
-                  Objkey={'mr'}
+                  Objkey={'genderTitle'}
                   setFormData={setFormData}
                   prefix={'Mr'}
                 />
@@ -63,24 +58,29 @@ const DoctorPersonalInformationEdit = ({route, navigation}) => {
                 <Text style={styles.InputHeading}> </Text>
                 <Input
                   placeholder="Type Something Here..."
-                  value={formData.name}
-                  onChangeText={text => setFormData({...formData, name: text})}
+                  value={formData.firstName}
+                  onChangeText={text =>
+                    setFormData({
+                      ...formData,
+                      firstName: text,
+                    })
+                  }
                 />
               </View>
             </View>
             <Text style={styles.InputHeading}>Middle Name</Text>
             <Input
               placeholder="Type Something Here..."
-              value={formData.middlename}
+              value={formData.middleName}
               onChangeText={text =>
-                setFormData({...formData, middlename: text})
+                setFormData({...formData, middleName: text})
               }
             />
             <Text style={styles.InputHeading}>Last Name</Text>
             <Input
               placeholder="Type Something Here..."
-              value={formData.lastname}
-              onChangeText={text => setFormData({...formData, lastname: text})}
+              value={formData.lastName}
+              onChangeText={text => setFormData({...formData, lastName: text})}
             />
             <View
               style={{
@@ -106,8 +106,10 @@ const DoctorPersonalInformationEdit = ({route, navigation}) => {
             <Text style={styles.InputHeading}>Marital Status</Text>
             <Input
               placeholder="Type Something Here..."
-              value={formData.marital}
-              onChangeText={text => setFormData({...formData, marital: text})}
+              value={formData.maritalStatus}
+              onChangeText={text =>
+                setFormData({...formData, maritalStatus: text})
+              }
             />
           </View>
         </View>
@@ -122,10 +124,13 @@ const DoctorPersonalInformationEdit = ({route, navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('DoctorContactInformationEdit', formData)
+              navigation.navigate('PatientContactInfo', {
+                personalInformation: formData,
+                routeData,
+              })
             }
             style={[styles.button, {backgroundColor: '#5B8F6B'}]}
-            accessibilityLabel="Logout Button">
+            accessibilityLabel="Next">
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </View>
@@ -138,13 +143,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e3eeeb',
-    // alignItems: '',
     justifyContent: 'flex-start',
     paddingHorizontal: 20,
     height: Dimensions.get('window').height,
   },
   profileContainer: {
-    // alignItems: 'flex-start',
     flex: 6,
     marginTop: 20,
     marginBottom: 20,
@@ -176,34 +179,10 @@ const styles = StyleSheet.create({
     width: '200%',
     height: 100,
   },
-  //   imageContainer:{
-  //     elevation:2,
-  //     height:200,
-  //     width:200,
-  //     backgroundColor:'#efefef',
-  //     position:'relative',
-  //     borderRadius:999,
-  //     overflow:'hidden',
-  // },
-  uploadBtnContainer: {
-    opacity: 0.7,
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'lightgrey',
-    width: '100%',
-    height: '25%',
-  },
-  uploadBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-  },
   InputHeading: {
     color: '#116754',
     fontWeight: '800',
   },
 });
 
-export default DoctorPersonalInformationEdit;
+export default PatientPersonalInfo;

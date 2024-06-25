@@ -25,14 +25,14 @@ import ParticularPatientScreen from './src/screens/ParticularPatientScreen.js';
 import NurseList from './src/screens/NurseList.js';
 import {Provider} from 'react-redux';
 import Store from './src/Redux/store.js';
-import DoctorPersonalInformationEdit from './src/screens/DoctorProfilePersonalInformation.js';
+import PatientPersonalInfo from './src/screens/PatientPersonalInfo.js';
 import PatientProfileEdit from './src/screens/PatientProfileEdit.js';
 import PatientReports from './src/screens/PatientReports.js';
 import PatientNotes from './src/screens/PatientNotes.js';
-import DoctorContactInformationEdit from './src/screens/DoctorProfileContactInformation.js';
-import DoctorInsuranceInformationEdit from './src/screens/DoctorProfileInsuranceInformation.js';
-import DoctorEmergencyInformationEdit from './src/screens/DoctorProfileEmergencyInformation.js';
-import DoctorMedicalHistoryEdit from './src/screens/DoctorProfileMedicalHistory.js';
+import PatientContactInfo from './src/screens/PatientContactInfo.js';
+import PatientInsuranceInfo from './src/screens/PatientInsuranceInfo.js';
+import PatientEmergencyInfo from './src/screens/PatientEmergencyInfo.js';
+import PatientMedicalHistory from './src/screens/PatientMedicalHistory.js';
 
 const Stack = createNativeStackNavigator();
 const App = ({navigation}) => {
@@ -40,7 +40,6 @@ const App = ({navigation}) => {
 
   return (
     <Provider store={Store}>
-      {/* <GestureHandlerRootView> */}
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -90,28 +89,28 @@ const App = ({navigation}) => {
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="DoctorProfileEdit"
-            component={DoctorPersonalInformationEdit}
+            name="PatientPersonalInfo"
+            component={PatientPersonalInfo}
             options={{headerShown: true, title: 'Personal Information'}}
           />
           <Stack.Screen
-            name="DoctorContactInformationEdit"
-            component={DoctorContactInformationEdit}
+            name="PatientContactInfo"
+            component={PatientContactInfo}
             options={{headerShown: true, title: 'Contact Information'}}
           />
           <Stack.Screen
-            name="DoctorInsuranceInformationEdit"
-            component={DoctorInsuranceInformationEdit}
+            name="PatientInsuranceInfo"
+            component={PatientInsuranceInfo}
             options={{headerShown: true, title: 'Insurance Information'}}
           />
           <Stack.Screen
-            name="DoctorEmergencyInformationEdit"
-            component={DoctorEmergencyInformationEdit}
+            name="PatientEmergencyInfo"
+            component={PatientEmergencyInfo}
             options={{headerShown: true, title: 'Emergeny Information'}}
           />
           <Stack.Screen
-            name="DoctorMedicalHistoryEdit"
-            component={DoctorMedicalHistoryEdit}
+            name="PatientMedicalHistory"
+            component={PatientMedicalHistory}
             options={{headerShown: true, title: 'Medical History'}}
           />
           <Stack.Screen

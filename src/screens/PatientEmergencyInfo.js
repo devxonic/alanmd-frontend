@@ -4,98 +4,88 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Platform,
   ScrollView,
   Dimensions,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import {useSelector} from 'react-redux';
-import DropDown2 from '../components/common/DropDown2';
+import DropDown2 from '../components/common/DropDown';
 
-const DoctorInsuranceInformationEdit = ({route, navigation}) => {
+const PatientEmergencyInfo = ({route, navigation}) => {
   const [formData, setFormData] = useState({
-    insuranceProvider: '',
-    policyNumber: '',
-    groupNumber: '',
-    zipCode: '',
+    contactName: '',
+    relationship: '',
+    phoneNumber: '',
+    alternatePhoneNumber: '',
     primaryInsuredName: '',
     relationshipToPatient: '',
   });
-  const role = useSelector(state => state?.user?.Role);
-  console.log('FORM DATA', formData, '\n ROLE', role);
-  useEffect(() => {
-    setFormData({...route.params});
-    console.log('Edit Profile', route.params);
-    return () => {
-      setFormData({});
-    };
-  }, []);
-  let insuranceProvidr = [
-    {name: '00000000021', value: '00000000021', id: 1},
-    {name: '00000000022', value: '00000000022', id: 2},
+  const routeData = route.params.routeData;
+  const insuranceInfo = route.params.insuranceInformation;
+  let Relationship = [
+    {name: 'Brother', value: 'brother', id: 1},
+    {name: 'Sister', value: 'sister', id: 2},
+    {name: 'Mother', value: 'mother', id: 3},
+    {name: 'Father', value: 'father', id: 4},
+    {name: 'Wife', value: 'wife', id: 5},
+    {name: 'Husband', value: 'husband', id: 6},
   ];
-  let policyNumbr = [
-    {name: '00000000021', value: '00000000021', id: 1},
-    {name: '00000000022', value: '00000000022', id: 2},
-  ];
+  handleNext = () => {
+    navigation.navigate('PatientMedicalHistory', {
+      routeData: routeData,
+      insuranceInformation: insuranceInfo,
+      emergencyContact: formData,
+    });
+  };
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.profileContainer}>
           <View style={{width: '100%'}}>
-            <View style={(styles.Dflex, {flexDirection: 'column'})}>
-              <View>
-                <Text style={styles.InputHeading}>Insurance Provider</Text>
-              </View>
-              <View style={{height: 60}}>
-                <DropDown2
-                  value={insuranceProvidr}
-                  data={insuranceProvidr}
-                  formData={formData}
-                  setFormData={setFormData}
-                  Objkey={'Insurance Number'}
-                  prefix={'Choose Your Insurance Provider'}
-                />
-              </View>
+            <View>
+              <Text style={styles.InputHeading}>Contact Name</Text>
+              <Input
+                placeholder="Type Something Here..."
+                value={formData.contactName}
+                onChangeText={text =>
+                  setFormData({...formData, contactName: text})
+                }
+              />
             </View>
             <View style={(styles.Dflex, {flexDirection: 'column'})}>
               <View>
-                <Text style={styles.InputHeading}>Policy Number</Text>
+                <Text style={styles.InputHeading}>Relationship</Text>
               </View>
               <View style={{height: 60}}>
                 <DropDown2
-                  value={policyNumbr}
-                  data={policyNumbr}
+                  value={Relationship}
+                  data={Relationship}
                   formData={formData}
                   setFormData={setFormData}
-                  Objkey={'Policy Number'}
-                  prefix={'Choose Your Policy Number'}
-                />
-              </View>
-            </View>
-            <View style={(styles.Dflex, {flexDirection: 'column'})}>
-              <View>
-                <Text style={styles.InputHeading}>Group Number</Text>
-              </View>
-              <View style={{height: 60}}>
-                <DropDown2
-                  value={policyNumbr}
-                  data={policyNumbr}
-                  formData={formData}
-                  setFormData={setFormData}
-                  Objkey={'Group Number'}
-                  prefix={'Choose Your Group Number'}
+                  Objkey={'relationship'}
+                  prefix={'Choose Your Relationship'}
                 />
               </View>
             </View>
             <View>
-              <Text style={styles.InputHeading}>Zip Code</Text>
+              <Text style={styles.InputHeading}>Phone Number</Text>
               <Input
                 placeholder="Type Something Here..."
-                value={formData.zipCode}
-                onChangeText={text => setFormData({...formData, zipCode: text})}
+                value={formData.phoneNumber}
+                onChangeText={text =>
+                  setFormData({...formData, phoneNumber: text})
+                }
+              />
+            </View>
+            <View>
+              <Text style={styles.InputHeading}>Alternate Phone Number</Text>
+              <Input
+                placeholder="Type Something Here..."
+                value={formData.alternatePhoneNumber}
+                onChangeText={text =>
+                  setFormData({...formData, alternatePhoneNumber: text})
+                }
               />
             </View>
             <View>
@@ -130,11 +120,9 @@ const DoctorInsuranceInformationEdit = ({route, navigation}) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('DoctorEmergencyInformationEdit', formData)
-            }
+            onPress={() => handleNext()}
             style={[styles.button, {backgroundColor: '#5B8F6B'}]}
-            accessibilityLabel="Logout Button">
+            accessibilityLabel="Next">
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </View>
@@ -147,7 +135,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e3eeeb',
-    // alignItems: '',
     justifyContent: 'flex-start',
     paddingHorizontal: 20,
     height: Dimensions.get('window').height,
@@ -163,7 +150,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',
-    // marginBottom: 10,
+    marginBottom: 10,
     width: '100%', // Adjusted to take full width
     justifyContent: 'center', // Center buttons horizontally
   },
@@ -184,12 +171,6 @@ const styles = StyleSheet.create({
   Input: {
     width: '200%',
     height: 100,
-  },
-  uploadBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
   },
   InputHeading: {
     color: '#116754',
@@ -212,4 +193,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoctorInsuranceInformationEdit;
+export default PatientEmergencyInfo;

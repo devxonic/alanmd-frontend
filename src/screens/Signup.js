@@ -19,7 +19,7 @@ import BackIcon from 'react-native-vector-icons/Ionicons';
 import { Fonts } from '../components/style';
 import { useDispatch } from 'react-redux';
 import { AddRole } from '../Redux/reducers';
-import Dropdown from '../components/common/Dropdown';
+import Dropdown from '../components/common/SignupDropdown';
 import { getCategories } from '../api/patient';
 
 
