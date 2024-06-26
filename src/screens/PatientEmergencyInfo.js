@@ -23,6 +23,7 @@ const PatientEmergencyInfo = ({route, navigation}) => {
   });
   const routeData = route.params.routeData;
   const insuranceInfo = route.params.insuranceInformation;
+  const FetchedData = route.params.FetchedData;
   let Relationship = [
     {name: 'Brother', value: 'brother', id: 1},
     {name: 'Sister', value: 'sister', id: 2},
@@ -35,9 +36,14 @@ const PatientEmergencyInfo = ({route, navigation}) => {
     navigation.navigate('PatientMedicalHistory', {
       routeData: routeData,
       insuranceInformation: insuranceInfo,
+      FetchedData: FetchedData,
       emergencyContact: formData,
     });
   };
+
+  useEffect(() => {
+    if (FetchedData) setFormData({ ...FetchedData.emergencyContact })
+  }, [])
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>

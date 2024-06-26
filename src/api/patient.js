@@ -93,3 +93,32 @@ export const patientMedicalInfo = async body => {
     throw error;
   }
 };
+
+export const getPersonalInfo = async id => {
+  try {
+    console.log("id ------------------------------------------ ", id )
+    const response = await ApiHandler().get(`${endpoint.PATIENT_PROFILE_INFO}/${id}`);
+    console.log('Patient Medical Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Patient Medical Error:',
+      error.response ? error.response.data : error.message,
+    );
+    throw error;
+  }
+};
+
+export const getInsureanceInfo = async id => {
+  try {
+    const response = await ApiHandler().get(`${endpoint.PATIENT_MEDICAL_INFO}/${id}`);
+    console.log('Patient Medical Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Patient Medical Error:',
+      error.response ? error.response.data : error.message,
+    );
+    throw error;
+  }
+};
