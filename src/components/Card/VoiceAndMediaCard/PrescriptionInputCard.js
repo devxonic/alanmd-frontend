@@ -147,7 +147,7 @@ const PrescriptionInputCard = ({
                   </TouchableOpacity>
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity style={[styles.ButtonTwo, { backgroundColor: '#E7F0EE' }]} onPress={handleCancel}>
-                      <Text style={[styles.buttonTwoText, { color: 'black' }]}>Cencel</Text>
+                      <Text style={[styles.buttonTwoText, { color: 'black' }]}>Cancel</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.ButtonTwo} onPress={handleConfirm}>
                       <Text style={styles.buttonTwoText}>Confirm</Text>

@@ -64,7 +64,7 @@ const Header = () => {
             
                 
                 <TouchableOpacity  style={[styles.ButtonTwo,{backgroundColor:'#E7F0EE'}]} onPress={handleCancel}>
-                  <Text style={[styles.buttonTwoText,{color:'black'}]}>Cencel</Text>
+                  <Text style={[styles.buttonTwoText,{color:'black'}]}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.ButtonTwo} onPress={handleLogout}>
                   <Text style={styles.buttonTwoText}>Logout</Text>
