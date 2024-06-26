@@ -99,7 +99,7 @@ const PatientPersonalInfo = ({route, navigation}) => {
                   formData={formData}
                   Objkey={'gender'}
                   setFormData={setFormData}
-                  prefix={'Choose Your Gender'}
+                  prefix={'Select Gender'}
                 />
               </View>
             </View>
