@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -9,20 +9,20 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import {Fonts} from '../components/style';
+import { Fonts } from '../components/style';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import Button from '../components/common/Button';
 import DocumentPicker from 'react-native-document-picker';
-import {BASE_URL, uploadFile} from '../api/apihandler';
-import {updateAppoinment} from '../api/doctor';
-import {useSelector} from 'react-redux';
+import { BASE_URL, uploadFile } from '../api/apihandler';
+import { updateAppoinment } from '../api/doctor';
+import { useSelector } from 'react-redux';
 import PrescriptionInputCard from '../components/Card/VoiceAndMediaCard/PrescriptionInputCard';
 import AttachedFile from '../components/common/AttachedFile';
 
-const ParticularPatientScreen = ({route, navigation}) => {
-  const {item} = route.params;
-console.log('ITEM ---------------------------------------- ', item)
+const ParticularPatientScreen = ({ route, navigation }) => {
+  const { item } = route.params;
+  console.log('ITEM ---------------------------------------- ', item)
 
   // const [isNurse, setIsNurse] = useState(false);
   let data = useSelector(state => state.user.Role);
@@ -102,11 +102,11 @@ console.log('ITEM ---------------------------------------- ', item)
   }, [item]);
 
   const handleNext = () => {
-    let updateditems = {...item , prescriptionMedia: prescriptionFile , prescription: prescriptionText}
-    navigation.navigate('patientReports', {item: updateditems});
+    let updateditems = { ...item, prescriptionMedia: prescriptionFile, prescription: prescriptionText }
+    navigation.navigate('patientReports', { item: updateditems });
   };
   return (
-    <View style={{backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3}}>
+    <View style={{ backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3 }}>
       <ScrollView>
         <Text
           style={{
@@ -129,7 +129,7 @@ console.log('ITEM ---------------------------------------- ', item)
                 borderRadius: 5,
               }}
               source={{
-                uri: 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
+                uri: item['patientId']?.image ?? 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
               }}
             />
           </View>
@@ -145,7 +145,7 @@ console.log('ITEM ---------------------------------------- ', item)
               <Text style={styles.light}>Patient #</Text>
               <Text style={styles.light}>Disease Category</Text>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View
                 style={{
                   backgroundColor: '#116754',
@@ -191,7 +191,7 @@ console.log('ITEM ---------------------------------------- ', item)
             paddingBottom: 20,
             justifyContent: 'space-around',
           }}>
-            <AssignNurseButton onPress={handleNext} />
+          <AssignNurseButton onPress={handleNext} />
         </View>
       </ScrollView>
     </View>
@@ -200,27 +200,27 @@ console.log('ITEM ---------------------------------------- ', item)
 
 export default ParticularPatientScreen;
 
-const AssignNurseButton = ({onPress}) => {
+const AssignNurseButton = ({ onPress }) => {
   return (
-    <View style={{paddingHorizontal: 15}}>
+    <View style={{ paddingHorizontal: 15 }}>
       <Button text="Next" Link={onPress} />
     </View>
   );
 };
 
-const AproveAndCancelButtons = ({onPressAprove, onPressCancel}) => {
+const AproveAndCancelButtons = ({ onPressAprove, onPressCancel }) => {
   return (
-    <View style={{paddingHorizontal: 15}}>
+    <View style={{ paddingHorizontal: 15 }}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={onPressAprove}
-          style={[styles.button, {backgroundColor: '#116754'}]}>
-          <Text style={{color: 'white', fontSize: 14}}>Aprove</Text>
+          style={[styles.button, { backgroundColor: '#116754' }]}>
+          <Text style={{ color: 'white', fontSize: 14 }}>Aprove</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onPressCancel}
-          style={[styles.button, {backgroundColor: '#C54B4B'}]}>
-          <Text style={{color: 'white', fontSize: 14}}>Cancel</Text>
+          style={[styles.button, { backgroundColor: '#C54B4B' }]}>
+          <Text style={{ color: 'white', fontSize: 14 }}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>

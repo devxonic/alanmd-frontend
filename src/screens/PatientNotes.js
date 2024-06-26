@@ -157,7 +157,7 @@ const ParticularPatientScreen = ({route, navigation}) => {
                 borderRadius: 5,
               }}
               source={{
-                uri: 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
+                uri: item['patientId']?.image ?? 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
               }}
             />
           </View>

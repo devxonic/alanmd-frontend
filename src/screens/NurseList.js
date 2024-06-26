@@ -77,7 +77,7 @@ const NurseList = ({route,navigation}) => {
               <View style={styles.container} key={index}>
                 <View style={styles.childOne}>
                   {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
-                  <Image style={{width:'100%',height:80,objectFit:'cover',borderRadius:5}} source={{ uri: 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg' }} />
+                  <Image style={{width:'100%',height:80,objectFit:'cover',borderRadius:5}} source={{ uri: item?.image ?? 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg' }} />
                 </View>
                 <View style={styles.childTwo}>
                   <View style={styles.childTwoOne}>

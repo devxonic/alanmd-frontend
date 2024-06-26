@@ -7,17 +7,17 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/layout/Header';
-import {DoctorDetails} from '../../Data';
+import { DoctorDetails } from '../../Data';
 import Footer from '../components/layout/Footer';
-import {getDoctors} from '../api/doctor';
+import { getDoctors } from '../api/doctor';
 import SearchBar from '../components/common/SearchBar';
 import { Fonts } from '../components/style'
 import BookIcon from 'react-native-vector-icons/FontAwesome6'
 import DataNotFound from '../components/common/DataNotFound';
 import Loader from '../components/common/Loader';
-const DoctorsList = ({navigation}) => {
+const DoctorsList = ({ navigation }) => {
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -29,7 +29,7 @@ const DoctorsList = ({navigation}) => {
           setDoctors(response.data);
           setIsLoading(false);
         }
-      console.log("doctorssss : " ,doctors)
+        console.log("doctorssss : ", doctors)
       } catch (error) {
         setIsLoading(false);
         console.error('Error fetching categories:', error);
@@ -38,41 +38,41 @@ const DoctorsList = ({navigation}) => {
     fetchCategories();
   }, []);
 
-  if (isLoading) { 
+  if (isLoading) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Loader />
       </View>
     );
   }
 
   return (
-    <SafeAreaView style={{backgroundColor:'#e3eeeb',flex:1}}>
+    <SafeAreaView style={{ backgroundColor: '#e3eeeb', flex: 1 }}>
       <View style={styles.main}>
-        <View style={{paddingHorizontal:15,backgroundColor:'white',paddingBottom:15}}>
-      <SearchBar />
-      </View>
-        <View style={{paddingHorizontal:5}}>
+        <View style={{ paddingHorizontal: 15, backgroundColor: 'white', paddingBottom: 15 }}>
+          <SearchBar />
+        </View>
+        <View style={{ paddingHorizontal: 5 }}>
           <ScrollView style={styles.scroll}>
-            {doctors.length> 1 ?  doctors.map((item, index) => (
+            {doctors.length > 1 ? doctors.map((item, index) => (
               <View style={styles.container} key={index}>
                 <View style={styles.childOne}>
                   {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
-                  <Image style={{width:'100%',height:80,objectFit:'cover',borderRadius:5}} source={{ uri: 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg' }} />
+                  <Image style={{ width: '100%', height: 80, objectFit: 'cover', borderRadius: 5 }} source={{ uri: item.image ?? 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg' }} />
                 </View>
                 <View style={styles.childTwo}>
                   <View style={styles.childTwoOne}>
                     <Text style={styles.headingText}>{item.name}</Text>
                     <Text style={styles.badge}>Online</Text>
-                   </View>
+                  </View>
                   <View style={styles.childTwoTwo}>
                     <Text style={styles.light}>{item.education}</Text>
                     <Text style={styles.light}>{item.experience}</Text>
                   </View>
                   <View style={styles.childThree}>
-                    <TouchableOpacity style={styles.childThreeThree} onPress={()=>navigation.navigate('ParticularDoctorScreen',{item})}>
+                    <TouchableOpacity style={styles.childThreeThree} onPress={() => navigation.navigate('ParticularDoctorScreen', { item })}>
                       {/* <Image source={require('../images/homeOne.png')} /> */}
-                      <BookIcon name='book-medical' size={13} color={'white'}/>
+                      <BookIcon name='book-medical' size={13} color={'white'} />
                       <Text style={styles.childThreeThreeText}>
                         Book Appointment
                       </Text>
@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     padding: 5,
     margin: 5,
     borderRadius: 5,
-    paddingHorizontal:10,
-    marginHorizontal:10
+    paddingHorizontal: 10,
+    marginHorizontal: 10
   },
   scroll: {
     height: '90%',
@@ -113,9 +113,9 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 16,
     color: '#116754',
-    fontFamily:Fonts.MEDIUM,
+    fontFamily: Fonts.MEDIUM,
     // paddingLeft:13
-    paddingLeft:5
+    paddingLeft: 5
   },
   main: {
     backgroundColor: '#E5EEEC',
@@ -123,15 +123,15 @@ const styles = StyleSheet.create({
   },
   childOne: {
     width: '25%',
-    backgroundColor:'#e3eeeb',
-    borderWidth:2,
-    borderRadius:5,
-    borderColor:'#116754'
-    
+    backgroundColor: '#e3eeeb',
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: '#116754'
+
   },
   childTwo: {
     width: '75%',
-    paddingLeft:10
+    paddingLeft: 10
   },
   childTwoOne: {
     display: 'flex',
@@ -145,9 +145,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 10,
     backgroundColor: '#116754',
-    fontFamily:Fonts.REGULAR,
-    paddingHorizontal:10,
-    marginRight:10
+    fontFamily: Fonts.REGULAR,
+    paddingHorizontal: 10,
+    marginRight: 10
   },
   light: {
     backgroundColor: '#E7F0EE',
@@ -156,9 +156,9 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     margin: 5,
     fontSize: 10,
-    fontFamily:Fonts.MEDIUM,
-    borderWidth:1,
-    borderColor:'#116754'
+    fontFamily: Fonts.MEDIUM,
+    borderWidth: 1,
+    borderColor: '#116754'
 
   },
   childTwoTwo: {
@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 11,
     marginLeft: 3,
-    fontFamily:Fonts.REGULAR,
-    paddingLeft:5
+    fontFamily: Fonts.REGULAR,
+    paddingLeft: 5
   },
 });
 
