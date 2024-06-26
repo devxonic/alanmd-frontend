@@ -10,7 +10,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import DropDown2 from '../components/common/DropDown';
+import DropDown from '../components/common/Dropdown';
 import RadioButton from '../components/common/RadioButton';
 import {patientProfileinfo} from '../api/patient';
 
@@ -112,7 +112,7 @@ const PatientContactInfo = ({route, navigation}) => {
             <View style={styles.Dflex}>
               <View style={{flex: 1}}>
                 <Text style={styles.InputHeading}>State</Text>
-                <DropDown2
+                <DropDown
                   value={state}
                   data={state}
                   formData={formData}

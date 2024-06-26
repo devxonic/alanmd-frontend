@@ -10,7 +10,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import DropDown2 from '../components/common/DropDown';
+import DropDown from '../components/common/Dropdown';
 import {patientMedicalInfo} from '../api/patient';
 const PatientMedicalHistory = ({route, navigation}) => {
   const [formData, setFormData] = useState({
@@ -66,7 +66,7 @@ const PatientMedicalHistory = ({route, navigation}) => {
                 <Text style={styles.InputHeading}>Current Mediciations</Text>
               </View>
               <View style={{height: 60}}>
-                <DropDown2
+                <DropDown
                   value={currentMedications}
                   data={currentMedications}
                   formData={formData}
@@ -81,7 +81,7 @@ const PatientMedicalHistory = ({route, navigation}) => {
                 <Text style={styles.InputHeading}>Allergies</Text>
               </View>
               <View style={{height: 60}}>
-                <DropDown2
+                <DropDown
                   value={allergies}
                   data={allergies}
                   formData={formData}

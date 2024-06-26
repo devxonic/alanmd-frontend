@@ -10,7 +10,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import DropDown2 from '../components/common/DropDown';
+import DropDown2 from '../components/common/Dropdown';
 
 const PatientEmergencyInfo = ({route, navigation}) => {
   const [formData, setFormData] = useState({

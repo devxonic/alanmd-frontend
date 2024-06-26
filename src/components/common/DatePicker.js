@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Calendar from 'react-native-vector-icons/FontAwesome5';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 export default DatePickers = ({ setFormData, formData }) => {
   const [open, setOpen] = useState(false);
   let newDate = new Date();

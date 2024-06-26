@@ -10,7 +10,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import DropDown from '../components/common/DropDown';
+import DropDown from '../components/common/Dropdown';
 import DatePickers from '../components/common/DatePicker';
 
 const PatientPersonalInfo = ({route, navigation}) => {
