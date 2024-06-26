@@ -40,7 +40,6 @@ const PatientPersonalInfo = ({ route, navigation }) => {
   const fetchPresonalInfo = async () => {
     try {
       let user = await AsyncStorage.getItem('user')
-      console.log("user -----------------",JSON.parse(user).id)
       const response = await getPersonalInfo(JSON.parse(user).id)
       console.log('Patient Profile Response', response.data)
       setFetchedData(response.data)

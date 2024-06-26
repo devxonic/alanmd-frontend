@@ -96,7 +96,6 @@ export const patientMedicalInfo = async body => {
 
 export const getPersonalInfo = async id => {
   try {
-    console.log("id ------------------------------------------ ", id )
     const response = await ApiHandler().get(`${endpoint.PATIENT_PROFILE_INFO}/${id}`);
     console.log('Patient Medical Response:', response.data);
     return response.data;
