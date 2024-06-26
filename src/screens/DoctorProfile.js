@@ -70,7 +70,7 @@ const DoctorProfile = ({ navigation }) => {
       <View style={styles.profileContainer}>
         <View style={styles.imageContainer}>
           <View style={styles.imageBorder}>
-            <Image source={{ uri: data.image ?? 'https://static.vecteezy.com/system/resources/previews/008/957/225/non_2x/female-doctor-avatar-clipart-icon-in-flat-design-vector.jpg', cache: 'reload' }} style={styles.profileImage} />
+          <Image source={{ uri: data.image ?? 'https://static.vecteezy.com/system/resources/previews/008/957/225/non_2x/female-doctor-avatar-clipart-icon-in-flat-design-vector.jpg', cache: 'reload' }} style={styles.profileImage} />
           </View>
         </View>
         <Text style={styles.counterText}>{data.name || "Doctor Name"}</Text>
@@ -215,52 +215,10 @@ const styles = StyleSheet.create({
   loaderText: {
     color: 'green'
   },
-  top: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: 'white'
-  },
-
-  topOne: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 13,
-    paddingVertical: 15,
-  },
   buttonTwoText: {
     color: 'white',
     fontSize: 14,
     fontFamily: Fonts.LIGHT
-  },
-  topOneOne: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  topOneOneText: {
-    fontSize: 25,
-    color: '#116754',
-    fontWeight: '600',
-    marginLeft: 4,
-    fontFamily: Fonts.MEDIUM
-  },
-
-  topOneOneHead: {
-    fontSize: 12,
-    color: 'black',
-    marginLeft: 4,
-    fontFamily: Fonts.REGULAR
-  },
-
-  button: {
-    backgroundColor: '#116754',
-    paddingVertical: 5,
-    paddingHorizontal: 8,
-    borderRadius: 5,
-    alignItems: 'center',
   },
   buttonText: {
     color: 'white',
