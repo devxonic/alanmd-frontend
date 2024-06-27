@@ -49,7 +49,7 @@ const Validate = () => {
   }, [seconds, isTimerRunning]);
 
   return (
-    <SafeAreaView style={{backgroundColor:'#e3eeeb',flex:1}}>
+    <SafeAreaView style={{backgroundColor: '#e3eeeb', flex: 1}}>
       <View style={styles.parent}>
         <View style={styles.firstChild}>
           <TouchableOpacity onPress={handleBackPress}>

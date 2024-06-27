@@ -7,67 +7,62 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from '../components/common/Link';
 import Heading from '../components/common/Heading';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
-import { useNavigation } from '@react-navigation/native';
-import { signUp } from '../api/auth';
+import {useNavigation} from '@react-navigation/native';
+import {signUp} from '../api/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackIcon from 'react-native-vector-icons/Ionicons';
-import { Fonts } from '../components/style';
-import { useDispatch } from 'react-redux';
-import { AddRole } from '../Redux/reducers';
+import {Fonts} from '../components/style';
+import {useDispatch} from 'react-redux';
+import {AddRole} from '../Redux/reducers';
 import Dropdown from '../components/common/SignupDropdown';
-import { getCategories } from '../api/patient';
-
+import {getCategories} from '../api/patient';
 
 const renderRoleButton = (role, text) => (
   <TouchableOpacity
     style={[
       styles.button,
-      formData.role === role && { borderWidth: 1, borderColor: '#000' },
+      formData.role === role && {borderWidth: 1, borderColor: '#000'},
     ]}
     onPress={() => handleRoleSelection(role)}>
     <Text
-      style={[
-        styles.buttonText,
-        formData.role === role && { color: '#160846' },
-      ]}>
+      style={[styles.buttonText, formData.role === role && {color: '#160846'}]}>
       {text}
     </Text>
     {formData.role === role && (
-      <Image
-        source={require('../images/tick.png')}
-        style={styles.tickMark}
-      />
+      <Image source={require('../images/tick.png')} style={styles.tickMark} />
     )}
   </TouchableOpacity>
 );
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({ email: '', password: '', role:'patient', username:'' });
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    role: 'patient',
+    username: '',
+  });
   const [AllCategories, setAllCategories] = useState([]);
   const navigation = useNavigation();
-let dispatch = useDispatch()
-
-const fetchAllCategories = async () => {
-  try {
-    const response = await getCategories();
-    if (response.data) {
-      setAllCategories(response.data);
+  let dispatch = useDispatch();
+  const fetchAllCategories = async () => {
+    try {
+      const response = await getCategories();
+      if (response.data) {
+        setAllCategories(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
-  } catch (error) {
-    console.error('Error fetching categories:', error);
-  }
-};
+  };
 
-
-useEffect(() => {
-  fetchAllCategories();
-},[])
-
+  useEffect(() => {
+    fetchAllCategories();
+  }, []);
 
   const handleSubmit = () => {
     if (!formData.email || !formData.password) {
@@ -76,30 +71,24 @@ useEffect(() => {
     }
 
     signUp(formData)
-      .then(async (res) => {
+      .then(async res => {
         const response = res.data;
-        const user = response[formData.role]
+        const user = response[formData.role];
         const token = response.accessToken;
         await AsyncStorage.setItem('accessToken', token);
-        await AsyncStorage.setItem('user',JSON.stringify(user))
-        await AsyncStorage.setItem('role',formData.role)
-
-        dispatch(AddRole(formData.role))
-
-        console.warn(token);
-
-        // Redirect to respective dashboard based on selected role
+        await AsyncStorage.setItem('user', JSON.stringify(user));
+        await AsyncStorage.setItem('role', formData.role);
+        dispatch(AddRole(formData.role));
         if (formData.role === 'patient') {
           navigation.navigate('dashboard');
-        } else  {
+        } else {
           navigation.navigate('Doctordashboard');
         }
       })
-      .catch((error) => console.log('ERROR', error));
+      .catch(error => console.log('ERROR', error));
   };
 
-
-  const handleRoleSelection = (role) => {
+  const handleRoleSelection = role => {
     setFormData({...formData, role});
   };
 
@@ -112,34 +101,31 @@ useEffect(() => {
   };
 
   const handleFormChange = (name, value) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({...prev, [name]: value}));
   };
 
   const renderRoleButton = (role, text) => (
     <TouchableOpacity
       style={[
         styles.button,
-        formData.role === role && { borderWidth: 1, borderColor: '#000' },
+        formData.role === role && {borderWidth: 1, borderColor: '#000'},
       ]}
       onPress={() => handleRoleSelection(role)}>
       <Text
         style={[
           styles.buttonText,
-          formData.role === role && { color: '#160846' },
+          formData.role === role && {color: '#160846'},
         ]}>
         {text}
       </Text>
       {formData.role === role && (
-        <Image
-          source={require('../images/tick.png')}
-          style={styles.tickMark}
-        />
+        <Image source={require('../images/tick.png')} style={styles.tickMark} />
       )}
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#e3eeeb', flex: 1 }}>
+    <SafeAreaView style={{backgroundColor: '#e3eeeb', flex: 1}}>
       <View style={styles.parent}>
         <View style={styles.firstChild}>
           <TouchableOpacity onPress={handleBackPress}>
@@ -162,9 +148,7 @@ useEffect(() => {
               <>
                 <Input
                   placeholder="Enter Patient Name"
-                  onChangeText={(value) =>
-                    handleFormChange('username', value)
-                  }
+                  onChangeText={value => handleFormChange('username', value)}
                 />
               </>
             )}
@@ -172,9 +156,7 @@ useEffect(() => {
               <>
                 <Input
                   placeholder="Enter Doctor Name"
-                  onChangeText={(value) =>
-                    handleFormChange('username', value)
-                  }
+                  onChangeText={value => handleFormChange('username', value)}
                 />
               </>
             )}
@@ -182,9 +164,7 @@ useEffect(() => {
               <>
                 <Input
                   placeholder="Enter Nurse Name"
-                  onChangeText={(value) =>
-                    handleFormChange('username', value)
-                  }
+                  onChangeText={value => handleFormChange('username', value)}
                 />
               </>
             )}
@@ -193,34 +173,39 @@ useEffect(() => {
               keyboardType="email-address"
               textContentType="emailAddress"
               value={formData?.email}
-              onChangeText={(value) => handleFormChange('email', value)}
+              onChangeText={value => handleFormChange('email', value)}
             />
             <Input
               placeholder="Password"
               secureTextEntry={true}
               textContentType="password"
               value={formData?.password}
-              onChangeText={(value) => handleFormChange('password', value)}
-              />
+              onChangeText={value => handleFormChange('password', value)}
+            />
             <Input
               placeholder="Confirm Password"
               secureTextEntry={true}
               textContentType="password"
-              />
+            />
 
-           { formData.role == "doctor" && 
-            <Dropdown data={AllCategories} formData={formData}  setFormData={setFormData}/>}
+            {formData.role == 'doctor' && (
+              <Dropdown
+                data={AllCategories}
+                formData={formData}
+                setFormData={setFormData}
+              />
+            )}
           </View>
           <View style={styles.bottomCon}>
             <Button text="Create Account" onPress={handleSubmit} />
-            <Text style={{ fontFamily: Fonts.REGULAR, color: 'black' }}>
+            <Text style={{fontFamily: Fonts.REGULAR, color: 'black'}}>
               Or Create With
             </Text>
             <TouchableOpacity
-              style={{ backgroundColor: 'white', padding: 10, borderRadius: 5 }}>
+              style={{backgroundColor: 'white', padding: 10, borderRadius: 5}}>
               <Image
                 source={require('../images/google.png')}
-                style={{ width: 30, height: 30, objectFit: 'contain' }}
+                style={{width: 30, height: 30, objectFit: 'contain'}}
               />
             </TouchableOpacity>
           </View>
@@ -261,7 +246,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     fontFamily: Fonts.LIGHT,
-  
   },
 
   bottomCon: {

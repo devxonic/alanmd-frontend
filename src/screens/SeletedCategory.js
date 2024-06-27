@@ -8,9 +8,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import Header from '../components/layout/Header';
 import {getDoctors} from '../api/doctor';
-import SearchBar from '../components/common/SearchBar';
 import {Fonts} from '../components/style';
 import BookIcon from 'react-native-vector-icons/FontAwesome6';
 import DataNotFound from '../components/common/DataNotFound';
@@ -19,7 +17,6 @@ const DoctorsList = ({navigation, route}) => {
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {category} = route.params;
-  console.log('category', category);
   const fetchCategories = async () => {
     try {
       const response = await getDoctors(category._id);
@@ -29,7 +26,6 @@ const DoctorsList = ({navigation, route}) => {
       }
     } catch (error) {
       setIsLoading(false);
-      console.error('Error fetching categories:', error);
     }
   };
   useEffect(() => {
@@ -60,7 +56,6 @@ const DoctorsList = ({navigation, route}) => {
               doctors.map((item, index) => (
                 <View style={styles.container} key={index}>
                   <View style={styles.childOne}>
-                    {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
                     <Image
                       style={{
                         width: '100%',
@@ -69,14 +64,16 @@ const DoctorsList = ({navigation, route}) => {
                         borderRadius: 5,
                       }}
                       source={{
-                        uri: item?.image ?? 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
+                        uri:
+                          item?.image ??
+                          'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
                       }}
                     />
                   </View>
                   <View style={styles.childTwo}>
                     <View style={styles.childTwoOne}>
                       <Text style={styles.headingText}>
-                        {item?.email.split('@')?.[0] || item?.username}
+                        {item?.username || item?.email.split('@')?.[0]}{' '}
                       </Text>
                       <Text style={styles.badge}>Online</Text>
                     </View>
@@ -94,7 +91,6 @@ const DoctorsList = ({navigation, route}) => {
                         onPress={() =>
                           navigation.navigate('PatientPersonalInfo', {item})
                         }>
-                        {/* <Image source={require('../images/homeOne.png')} /> */}
                         <BookIcon
                           name="book-medical"
                           size={13}
@@ -104,12 +100,6 @@ const DoctorsList = ({navigation, route}) => {
                           Book Appointment
                         </Text>
                       </TouchableOpacity>
-                      {/* <TouchableOpacity style={styles.childThreeThree}>
-                        <Image source={require('../images/homeOne.png')} />
-                        <Text style={styles.childThreeThreeText}>
-                          Consult Online
-                        </Text>
-                      </TouchableOpacity> */}
                     </View>
                   </View>
                 </View>
@@ -144,7 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#116754',
     fontFamily: Fonts.MEDIUM,
-    // paddingLeft:13
     paddingLeft: 5,
   },
   main: {
@@ -192,12 +181,10 @@ const styles = StyleSheet.create({
   childTwoTwo: {
     display: 'flex',
     flexDirection: 'row',
-    // paddingLeft:9
   },
   childThree: {
     display: 'flex',
     flexDirection: 'row',
-    // paddingLeft:10
   },
   childThreeThree: {
     flexDirection: 'row',

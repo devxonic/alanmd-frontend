@@ -1,19 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
-let initialState = { Role: "" }
+let initialState = {Role: ''};
 
 const UserSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     AddRole: (state, action) => {
-      state.Role = action.payload
+      state.Role = action.payload;
     },
     RemoveRole: (state, action) => {
-      state.Role = ""
-    }
+      state.Role = '';
+    },
   },
-
 });
-export let {AddRole,RemoveRole}=UserSlice.actions
+export let {AddRole, RemoveRole} = UserSlice.actions;
 export default UserSlice.reducer;

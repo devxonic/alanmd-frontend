@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,14 +7,14 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Fonts } from '../components/style';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
 import DropDown from '../components/common/Dropdown';
 import RadioButton from '../components/common/RadioButton';
-import { patientProfileinfo } from '../api/patient';
+import {patientProfileinfo} from '../api/patient';
 
-const PatientContactInfo = ({ route, navigation }) => {
+const PatientContactInfo = ({route, navigation}) => {
   const [formData, setFormData] = useState({
     address: '',
     city: '',
@@ -34,9 +34,9 @@ const PatientContactInfo = ({ route, navigation }) => {
   const routeData = route.params.routeData;
   const FetchedData = route.params.FetchedData;
   let state = [
-    { name: 'New Jersey', value: 'NewJersey', id: 1 },
-    { name: 'New Mexico', value: 'NewMexico', id: 2 },
-    { name: 'New York', value: 'NewYork', id: 2 },
+    {name: 'New Jersey', value: 'NewJersey', id: 1},
+    {name: 'New Mexico', value: 'NewMexico', id: 2},
+    {name: 'New York', value: 'NewYork', id: 2},
   ];
   const handleSubmit = () => {
     let data = {
@@ -46,21 +46,18 @@ const PatientContactInfo = ({ route, navigation }) => {
     patientProfileinfo(data)
       .then(res => {
         const response = res.data;
-        console.warn('res', response);
         navigation.navigate('PatientInsuranceInfo', routeData);
       })
       .catch(error => console.log('ERROR', error));
   };
-  console.log("FetchedData ----------------- " , FetchedData.contactInformation)
   useEffect(() => {
-
-    if (FetchedData) setFormData({ ...FetchedData.contactInformation })
-  }, [])
+    if (FetchedData) setFormData({...FetchedData.contactInformation});
+  }, []);
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.profileContainer}>
-          <View style={{ width: '100%' }}>
+          <View style={{width: '100%'}}>
             <View>
               <View>
                 <Text style={styles.InputHeading}>Address</Text>
@@ -68,11 +65,11 @@ const PatientContactInfo = ({ route, navigation }) => {
                   placeholder="Type Something Here..."
                   value={formData.address}
                   onChangeText={text =>
-                    setFormData({ ...formData, address: text })
+                    setFormData({...formData, address: text})
                   }
                 />
               </View>
-              <View style={[styles.Dflex, { flexWrap: 'wrap' }]}>
+              <View style={[styles.Dflex, {flexWrap: 'wrap'}]}>
                 <View>
                   <Text style={styles.InputParagraph}>
                     Do we have permission to contact you at this address for
@@ -112,11 +109,11 @@ const PatientContactInfo = ({ route, navigation }) => {
               <Input
                 placeholder="Type Something Here..."
                 value={formData.city}
-                onChangeText={text => setFormData({ ...formData, city: text })}
+                onChangeText={text => setFormData({...formData, city: text})}
               />
             </View>
             <View style={styles.Dflex}>
-              <View style={{ flex: 1 }}>
+              <View style={{flex: 1}}>
                 <Text style={styles.InputHeading}>State</Text>
                 <DropDown
                   value={state}
@@ -127,13 +124,13 @@ const PatientContactInfo = ({ route, navigation }) => {
                   prefix={'Choose Your State'}
                 />
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={{flex: 1}}>
                 <Text style={styles.InputHeading}>Zip Code</Text>
                 <Input
                   placeholder="Type Something Here..."
                   value={formData.zipCode}
                   onChangeText={text =>
-                    setFormData({ ...formData, zipCode: text })
+                    setFormData({...formData, zipCode: text})
                   }
                 />
               </View>
@@ -145,7 +142,7 @@ const PatientContactInfo = ({ route, navigation }) => {
                   placeholder="Type Something Here..."
                   value={formData.houseNumber}
                   onChangeText={text =>
-                    setFormData({ ...formData, houseNumber: text })
+                    setFormData({...formData, houseNumber: text})
                   }
                 />
               </View>
@@ -190,7 +187,7 @@ const PatientContactInfo = ({ route, navigation }) => {
                   placeholder="Type Something Here..."
                   value={formData.mobileNumber}
                   onChangeText={text =>
-                    setFormData({ ...formData, mobileNumber: text })
+                    setFormData({...formData, mobileNumber: text})
                   }
                 />
               </View>
@@ -235,12 +232,12 @@ const PatientContactInfo = ({ route, navigation }) => {
                   placeholder="Type Something Here..."
                   value={formData.workNumber}
                   onChangeText={text =>
-                    setFormData({ ...formData, workNumber: text })
+                    setFormData({...formData, workNumber: text})
                   }
                 />
               </View>
               <View style={styles.Dflex}>
-                <View style={{ marginRight: 2 }}>
+                <View style={{marginRight: 2}}>
                   <Text style={styles.InputParagraph}>
                     May we call this number?
                   </Text>
@@ -280,12 +277,12 @@ const PatientContactInfo = ({ route, navigation }) => {
                   placeholder="Type Something Here..."
                   value={formData.emailAddress}
                   onChangeText={text =>
-                    setFormData({ ...formData, emailAddress: text })
+                    setFormData({...formData, emailAddress: text})
                   }
                 />
               </View>
               <View style={styles.Dflex}>
-                <View style={{ marginRight: 2 }}>
+                <View style={{marginRight: 2}}>
                   <Text style={styles.InputParagraph}>
                     May we call this number?
                   </Text>
@@ -323,15 +320,15 @@ const PatientContactInfo = ({ route, navigation }) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={[styles.button, { borderColor: '#5B8F6B', borderWidth: 1 }]}
+            style={[styles.button, {borderColor: '#5B8F6B', borderWidth: 1}]}
             accessibilityLabel="Previous">
-            <Text style={[styles.buttonText, { color: '#5B8F6B' }]}>
+            <Text style={[styles.buttonText, {color: '#5B8F6B'}]}>
               Previous
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleSubmit()}
-            style={[styles.button, { backgroundColor: '#5B8F6B' }]}
+            style={[styles.button, {backgroundColor: '#5B8F6B'}]}
             accessibilityLabel="Logout Button">
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>

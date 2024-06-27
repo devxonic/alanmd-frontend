@@ -42,8 +42,8 @@ const PatientEmergencyInfo = ({route, navigation}) => {
   };
 
   useEffect(() => {
-    if (FetchedData) setFormData({ ...FetchedData.emergencyContact })
-  }, [])
+    if (FetchedData) setFormData({...FetchedData.emergencyContact});
+  }, []);
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>

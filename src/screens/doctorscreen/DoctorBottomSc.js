@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, TouchableOpacity, Image, Text, StyleSheet} from 'react-native';
 import DoctorIcon from 'react-native-vector-icons/Fontisto';
@@ -10,12 +10,8 @@ import Notification from 'react-native-vector-icons/Ionicons';
 import Dashboard from './DocDashboardMain';
 import {Fonts} from '../../components/style';
 import PatientList from '../PatientList';
-import DoctorsList from '../DoctorsList';
 import DoctorProfile from '../DoctorProfile';
 import History from '../DoctorHistory';
-// import DoctorHistory from './DoctorHistory';
-// import DoctorsList from './DoctorsList';
-// import Profile from './Profile';
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -64,7 +60,6 @@ function MyTabs() {
           ),
         }}
       />
-
       <Tab.Screen
         name="DoctorHistory"
         component={History}
@@ -76,7 +71,6 @@ function MyTabs() {
           ),
         }}
       />
-
       <Tab.Screen
         name="DoctorProfile"
         component={DoctorProfile}
@@ -91,9 +85,7 @@ function MyTabs() {
                 color="#116754"
                 style={{marginRight: 18}}
               />
-              <Text style={[styles.backicontext, {marginLeft: -10}]}>
-                back
-              </Text>
+              <Text style={[styles.backicontext, {marginLeft: -10}]}>back</Text>
             </TouchableOpacity>
           ),
           title: null,

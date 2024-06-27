@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   ScrollView,
   Dimensions,
 } from 'react-native';
@@ -21,42 +20,24 @@ import AttachedFile from '../components/common/AttachedFile';
 
 const ParticularPatientScreen = ({route, navigation}) => {
   const {item} = route.params;
-  console.log('ITEM', item);
-
-  // const [isNurse, setIsNurse] = useState(false);
   let data = useSelector(state => state.user.Role);
   const [isLoading, setIsLoading] = useState(false);
-
-  // const [prescriptionFile, setPrescriptionFile] = useState(null);
-  //   const [reportsFile, setReportsFile] = useState(null);
   const [notesFile, setNotesFile] = useState(null);
-
-  // const [prescriptionText, setPrescriptionText] = useState('');
-  //   const [reportsText, setReportText] = useState('');
   const [NotesText, setNotesText] = useState('');
-
-  // const [isPrescriptionListening, setPrescriptionListening] = useState(false);
-  // const [isNotesListening, setNotesListening] = useState(false);
-  // const [isReportListening, setReportListening] = useState(false);
-  // console.log('PRESCRIPTION File', prescriptionFile, reportsFile, notesFile);
   const handleDocumentPicker = async type => {
     try {
       const doc = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
       const formData = new FormData();
-
       const selectedFile = doc?.[0];
       const file = {
-        // Edit Here
         uri: selectedFile.uri, // Edit Here,
         name: selectedFile.name, // Edit Here, Image Name with Extension very important
         type: selectedFile.type, // Edit Here
       };
       formData.append('Media', file);
       const responce = await uploadFile(formData);
-      console.log('RESPONSE', responce.data?.url);
-
       if (type === 'notes') {
         if (!!reportsFile) {
           setNotesFile([
@@ -88,11 +69,8 @@ const ParticularPatientScreen = ({route, navigation}) => {
 
   const handleUpdateAppointment = async () => {
     setIsLoading(true);
-    console.log('assign Nurse ------------------------------------------------')
-    console.log('items  ------------------------------------------------' , item)
-
     let body = {
-      appointmentId : item._id,
+      appointmentId: item._id,
       prescription: item.prescription,
       doctorNotes: NotesText,
       doctorReport: item.doctorReport,
@@ -100,16 +78,12 @@ const ParticularPatientScreen = ({route, navigation}) => {
       doctorNotesMedia: notesFile,
       doctorReportsMedia: item.doctorReportsMedia,
     };
-    console.log('Body ---------------- ', body);
     try {
       const response = await updateAppoinment(body);
-      console.log('RESPONSE', response);
-      console.log('Update Appointment Response => -----------------------------------------', response.data);
       setIsLoading(false);
       navigation.navigate('NurseList', {item: body});
     } catch (error) {
       setIsLoading(false);
-      console.log('Error in Update Appointment =>', error.response);
     }
   };
 
@@ -125,7 +99,6 @@ const ParticularPatientScreen = ({route, navigation}) => {
   }, [item]);
 
   const handleNext = () => {
-    console.log('Item', item);
     let updateditems = {
       ...item,
       doctorNotes: NotesText,
@@ -157,7 +130,9 @@ const ParticularPatientScreen = ({route, navigation}) => {
                 borderRadius: 5,
               }}
               source={{
-                uri: item['patientId']?.image ?? 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
+                uri:
+                  item['patientId']?.image ??
+                  'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
               }}
             />
           </View>
@@ -284,7 +259,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#116754',
     fontFamily: Fonts.MEDIUM,
-    // paddingLeft:13
     paddingLeft: 5,
   },
   main: {
@@ -332,7 +306,6 @@ const styles = StyleSheet.create({
   childTwoTwo: {
     display: 'flex',
     flexDirection: 'row',
-    // paddingLeft:9
   },
   childThree: {
     display: 'flex',

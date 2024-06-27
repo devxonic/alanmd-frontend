@@ -1,65 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { Fonts } from '../components/style';
+import {Fonts} from '../components/style';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import { Platform } from 'react-native';
 import Button from '../components/common/Button';
 import DocumentPicker from 'react-native-document-picker';
-import { BASE_URL, uploadFile } from '../api/apihandler';
-import { updateAppoinment } from '../api/doctor';
-import { useSelector } from 'react-redux';
+import {BASE_URL, uploadFile} from '../api/apihandler';
+import {useSelector} from 'react-redux';
 import PrescriptionInputCard from '../components/Card/VoiceAndMediaCard/PrescriptionInputCard';
 import AttachedFile from '../components/common/AttachedFile';
 
-const ParticularPatientScreen = ({ route, navigation }) => {
-  const { item } = route.params;
-  console.log('ITEM ---------------------------------------- ', item)
-
-  // const [isNurse, setIsNurse] = useState(false);
+const ParticularPatientScreen = ({route, navigation}) => {
+  const {item} = route.params;
   let data = useSelector(state => state.user.Role);
   const [isLoading, setIsLoading] = useState(false);
-
   const [prescriptionFile, setPrescriptionFile] = useState(null);
-  // const [reportsFile, setReportsFile] = useState(null);
-  // const [notesFile, setNotesFile] = useState(null);
-
   const [prescriptionText, setPrescriptionText] = useState('');
-  // const [reportsText, setReportText] = useState('');
-  // const [NotesText, setNotesText] = useState('');
-
-  // const [isPrescriptionListening, setPrescriptionListening] = useState(false);
-  // const [isNotesListening, setNotesListening] = useState(false);
-  // const [isReportListening, setReportListening] = useState(false);
-  // console.log('PRESCRIPTION File', prescriptionFile, reportsFile, notesFile);
-  console.log('PRESCRIPTION Text', prescriptionText, prescriptionFile);
-
   const handleDocumentPicker = async type => {
     try {
       const doc = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
       const formData = new FormData();
-
       const selectedFile = doc?.[0];
       const file = {
-        // Edit Here
         uri: selectedFile.uri, // Edit Here,
         name: selectedFile.name, // Edit Here, Image Name with Extension very important
         type: selectedFile.type, // Edit Here
       };
       formData.append('Media', file);
       const responce = await uploadFile(formData);
-      console.log('RESPONSE', responce.data?.url);
-
       if (type === 'prescription') {
         if (!!prescriptionFile) {
           setPrescriptionFile([
@@ -82,14 +59,10 @@ const ParticularPatientScreen = ({ route, navigation }) => {
       }
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        console.log('User cancel the upload', err);
       } else {
-        console.log(err);
       }
     }
   };
-
-
   useEffect(() => {
     if (item) {
       setPrescriptionFile(item.prescriptionMedia);
@@ -102,11 +75,15 @@ const ParticularPatientScreen = ({ route, navigation }) => {
   }, [item]);
 
   const handleNext = () => {
-    let updateditems = { ...item, prescriptionMedia: prescriptionFile, prescription: prescriptionText }
-    navigation.navigate('patientReports', { item: updateditems });
+    let updateditems = {
+      ...item,
+      prescriptionMedia: prescriptionFile,
+      prescription: prescriptionText,
+    };
+    navigation.navigate('patientReports', {item: updateditems});
   };
   return (
-    <View style={{ backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3 }}>
+    <View style={{backgroundColor: '#e3eeeb', flex: 1, paddingVertical: 3}}>
       <ScrollView>
         <Text
           style={{
@@ -129,7 +106,9 @@ const ParticularPatientScreen = ({ route, navigation }) => {
                 borderRadius: 5,
               }}
               source={{
-                uri: item['patientId']?.image ?? 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
+                uri:
+                  item['patientId']?.image ??
+                  'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
               }}
             />
           </View>
@@ -145,7 +124,7 @@ const ParticularPatientScreen = ({ route, navigation }) => {
               <Text style={styles.light}>Patient #</Text>
               <Text style={styles.light}>Disease Category</Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View
                 style={{
                   backgroundColor: '#116754',
@@ -200,27 +179,27 @@ const ParticularPatientScreen = ({ route, navigation }) => {
 
 export default ParticularPatientScreen;
 
-const AssignNurseButton = ({ onPress }) => {
+const AssignNurseButton = ({onPress}) => {
   return (
-    <View style={{ paddingHorizontal: 15 }}>
+    <View style={{paddingHorizontal: 15}}>
       <Button text="Next" Link={onPress} />
     </View>
   );
 };
 
-const AproveAndCancelButtons = ({ onPressAprove, onPressCancel }) => {
+const AproveAndCancelButtons = ({onPressAprove, onPressCancel}) => {
   return (
-    <View style={{ paddingHorizontal: 15 }}>
+    <View style={{paddingHorizontal: 15}}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={onPressAprove}
-          style={[styles.button, { backgroundColor: '#116754' }]}>
-          <Text style={{ color: 'white', fontSize: 14 }}>Aprove</Text>
+          style={[styles.button, {backgroundColor: '#116754'}]}>
+          <Text style={{color: 'white', fontSize: 14}}>Aprove</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onPressCancel}
-          style={[styles.button, { backgroundColor: '#C54B4B' }]}>
-          <Text style={{ color: 'white', fontSize: 14 }}>Cancel</Text>
+          style={[styles.button, {backgroundColor: '#C54B4B'}]}>
+          <Text style={{color: 'white', fontSize: 14}}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -247,7 +226,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#116754',
     fontFamily: Fonts.MEDIUM,
-    // paddingLeft:13
     paddingLeft: 5,
   },
   main: {
@@ -295,7 +273,6 @@ const styles = StyleSheet.create({
   childTwoTwo: {
     display: 'flex',
     flexDirection: 'row',
-    // paddingLeft:9
   },
   childThree: {
     display: 'flex',

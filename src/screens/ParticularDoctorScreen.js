@@ -1,19 +1,12 @@
 import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Fonts} from '../components/style';
-import BookIcon from 'react-native-vector-icons/FontAwesome6';
 import {Calendar} from 'react-native-calendars';
 import {format} from 'date-fns';
 import Button from '../components/common/Button';
 const ParticularDoctorScreen = ({route, navigation}) => {
   const item = route.params.item;
-
-  console.log('CONFIRM booking', item);
-
-  console.log('itemsparam', item);
   const [selectedDate, setSelectedDate] = useState('Select a Time Slot');
-
-  console.log('seleteddate', selectedDate);
   const handleDayPress = day => {
     const formattedDate = format(new Date(day.dateString), 'd MMM yyyy');
     setSelectedDate(formattedDate);
@@ -22,7 +15,6 @@ const ParticularDoctorScreen = ({route, navigation}) => {
     <View style={{backgroundColor: '#e3eeeb', flex: 1}}>
       <View style={styles.container}>
         <View style={styles.childOne}>
-          {/* <Image style={{width:'100%',height:70,objectFit:'cover'}} source={{ uri: item.profileImage }} /> */}
           <Image
             style={{
               width: '100%',
@@ -38,13 +30,9 @@ const ParticularDoctorScreen = ({route, navigation}) => {
         <View style={styles.childTwo}>
           <View style={styles.childTwoOne}>
             <Text style={styles.headingText}>
-              {item?.email.split('@')?.[0] || item?.username}
+              {item?.username || item?.email.split('@')?.[0]}
             </Text>
           </View>
-          {/* <View style={styles.childTwoTwo}>
-                    <Text style={styles.light}>{item.education}</Text>
-                    <Text style={styles.light}>{item.experience}</Text>
-                  </View> */}
           <Text style={[styles.badge]}>
             Fees:
             <Text
@@ -68,7 +56,6 @@ const ParticularDoctorScreen = ({route, navigation}) => {
           </Text>
         </View>
       </View>
-
       <Text
         style={{
           fontFamily: Fonts.REGULAR,
@@ -167,14 +154,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
   },
-  // scroll: {
-  //   height: 575,
-  // },
   headingText: {
     fontSize: 20,
     color: '#116754',
     fontFamily: Fonts.MEDIUM,
-    // paddingLeft:13
     paddingLeft: 5,
   },
   main: {
@@ -211,12 +194,10 @@ const styles = StyleSheet.create({
   childTwoTwo: {
     display: 'flex',
     flexDirection: 'row',
-    // paddingLeft:9
   },
   childThree: {
     display: 'flex',
     flexDirection: 'row',
-    // paddingLeft:10
   },
   childThreeThree: {
     flexDirection: 'row',

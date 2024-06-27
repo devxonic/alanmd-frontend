@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,12 +7,12 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Fonts } from '../components/style';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
 import DropDown from '../components/common/Dropdown';
-import { patientMedicalInfo } from '../api/patient';
-const PatientMedicalHistory = ({ route, navigation }) => {
+import {patientMedicalInfo} from '../api/patient';
+const PatientMedicalHistory = ({route, navigation}) => {
   const [formData, setFormData] = useState({
     primaryCarePhysician: '',
     currentMedications: '',
@@ -26,12 +26,12 @@ const PatientMedicalHistory = ({ route, navigation }) => {
   const FetchedData = route.params.FetchedData;
   const emergencyContact = route.params.emergencyContact;
   let currentMedications = [
-    { name: '00000000021', value: '00000000021', id: 1 },
-    { name: '00000000022', value: '00000000022', id: 2 },
+    {name: '00000000021', value: '00000000021', id: 1},
+    {name: '00000000022', value: '00000000022', id: 2},
   ];
   let allergies = [
-    { name: 'Something', value: 'something', id: 1 },
-    { name: 'Something else', value: 'something else', id: 2 },
+    {name: 'Something', value: 'something', id: 1},
+    {name: 'Something else', value: 'something else', id: 2},
   ];
   const handleSubmit = () => {
     let data = {
@@ -42,35 +42,34 @@ const PatientMedicalHistory = ({ route, navigation }) => {
     patientMedicalInfo(data)
       .then(res => {
         const response = res.data;
-        console.log('res', response);
         navigation.navigate('ParticularDoctorScreen', routeData);
       })
       .catch(error => console.log('ERROR', error));
   };
 
   useEffect(() => {
-    if (FetchedData) setFormData({ ...FetchedData.medicalHistory })
-  }, [])
+    if (FetchedData) setFormData({...FetchedData.medicalHistory});
+  }, []);
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.profileContainer}>
-          <View style={{ width: '100%' }}>
+          <View style={{width: '100%'}}>
             <View>
               <Text style={styles.InputHeading}>Primary Care Physician</Text>
               <Input
                 placeholder="Type Something Here..."
                 value={formData.primaryCarePhysician}
                 onChangeText={text =>
-                  setFormData({ ...formData, primaryCarePhysician: text })
+                  setFormData({...formData, primaryCarePhysician: text})
                 }
               />
             </View>
-            <View style={(styles.Dflex, { flexDirection: 'column' })}>
+            <View style={(styles.Dflex, {flexDirection: 'column'})}>
               <View>
                 <Text style={styles.InputHeading}>Current Mediciations</Text>
               </View>
-              <View style={{ height: 60 }}>
+              <View style={{height: 60}}>
                 <DropDown
                   value={currentMedications}
                   data={currentMedications}
@@ -81,11 +80,11 @@ const PatientMedicalHistory = ({ route, navigation }) => {
                 />
               </View>
             </View>
-            <View style={(styles.Dflex, { flexDirection: 'column' })}>
+            <View style={(styles.Dflex, {flexDirection: 'column'})}>
               <View>
                 <Text style={styles.InputHeading}>Allergies</Text>
               </View>
-              <View style={{ height: 60 }}>
+              <View style={{height: 60}}>
                 <DropDown
                   value={allergies}
                   data={allergies}
@@ -102,7 +101,7 @@ const PatientMedicalHistory = ({ route, navigation }) => {
                 placeholder="Type Something Here..."
                 value={formData.previousSurgeries}
                 onChangeText={text =>
-                  setFormData({ ...formData, previousSurgeries: text })
+                  setFormData({...formData, previousSurgeries: text})
                 }
               />
             </View>
@@ -112,7 +111,7 @@ const PatientMedicalHistory = ({ route, navigation }) => {
                 placeholder="Type Something Here..."
                 value={formData.familyMedicalHistory}
                 onChangeText={text =>
-                  setFormData({ ...formData, familyMedicalHistory: text })
+                  setFormData({...formData, familyMedicalHistory: text})
                 }
               />
             </View>
@@ -122,7 +121,7 @@ const PatientMedicalHistory = ({ route, navigation }) => {
                 placeholder="Type Something Here..."
                 value={formData.relationshipToPatient}
                 onChangeText={text =>
-                  setFormData({ ...formData, relationshipToPatient: text })
+                  setFormData({...formData, relationshipToPatient: text})
                 }
               />
             </View>
@@ -131,15 +130,15 @@ const PatientMedicalHistory = ({ route, navigation }) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={[styles.button, { borderColor: '#5B8F6B', borderWidth: 1 }]}
+            style={[styles.button, {borderColor: '#5B8F6B', borderWidth: 1}]}
             accessibilityLabel="Previous">
-            <Text style={[styles.buttonText, { color: '#5B8F6B' }]}>
+            <Text style={[styles.buttonText, {color: '#5B8F6B'}]}>
               Previous
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleSubmit()}
-            style={[styles.button, { backgroundColor: '#5B8F6B' }]}
+            style={[styles.button, {backgroundColor: '#5B8F6B'}]}
             accessibilityLabel="Submit Button">
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>

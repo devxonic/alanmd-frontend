@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,15 +7,15 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Fonts } from '../components/style';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
 import DropDown from '../components/common/Dropdown';
-import { getInsureanceInfo } from '../api/patient';
+import {getInsureanceInfo} from '../api/patient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const PatientInsuranceInfo = ({ route, navigation }) => {
-  const [FetchedData, setFetchedData] = useState()
+const PatientInsuranceInfo = ({route, navigation}) => {
+  const [FetchedData, setFetchedData] = useState();
   const [formData, setFormData] = useState({
     insuranceProvider: '',
     policyNumber: '',
@@ -33,41 +33,39 @@ const PatientInsuranceInfo = ({ route, navigation }) => {
     });
   };
   let insuranceProvidr = [
-    { name: '00000000021', value: '00000000021', id: 1 },
-    { name: '00000000022', value: '00000000022', id: 2 },
+    {name: '00000000021', value: '00000000021', id: 1},
+    {name: '00000000022', value: '00000000022', id: 2},
   ];
   let policyNumbr = [
-    { name: '00000000021', value: '00000000021', id: 1 },
-    { name: '00000000022', value: '00000000022', id: 2 },
+    {name: '00000000021', value: '00000000021', id: 1},
+    {name: '00000000022', value: '00000000022', id: 2},
   ];
-
 
   const fetchInsureanceInfo = async () => {
     try {
-      let user = await AsyncStorage.getItem('user')
-      const response = await getInsureanceInfo(JSON.parse(user).id)
-      console.log('Patient Profile Response', response.data)
-      setFetchedData(response.data)
-      setFormData({ ...response.data.insuranceInformation })
+      let user = await AsyncStorage.getItem('user');
+      const response = await getInsureanceInfo(JSON.parse(user).id);
+      setFetchedData(response.data);
+      setFormData({...response.data.insuranceInformation});
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
   useEffect(() => {
-    fetchInsureanceInfo()
-  }, [])
+    fetchInsureanceInfo();
+  }, []);
 
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.profileContainer}>
-          <View style={{ width: '100%' }}>
-            <View style={(styles.Dflex, { flexDirection: 'column' })}>
+          <View style={{width: '100%'}}>
+            <View style={(styles.Dflex, {flexDirection: 'column'})}>
               <View>
                 <Text style={styles.InputHeading}>Insurance Provider</Text>
               </View>
-              <View style={{ height: 60 }}>
+              <View style={{height: 60}}>
                 <DropDown
                   value={insuranceProvidr}
                   data={insuranceProvidr}
@@ -78,11 +76,11 @@ const PatientInsuranceInfo = ({ route, navigation }) => {
                 />
               </View>
             </View>
-            <View style={(styles.Dflex, { flexDirection: 'column' })}>
+            <View style={(styles.Dflex, {flexDirection: 'column'})}>
               <View>
                 <Text style={styles.InputHeading}>Policy Number</Text>
               </View>
-              <View style={{ height: 60 }}>
+              <View style={{height: 60}}>
                 <DropDown
                   value={policyNumbr}
                   data={policyNumbr}
@@ -93,11 +91,11 @@ const PatientInsuranceInfo = ({ route, navigation }) => {
                 />
               </View>
             </View>
-            <View style={(styles.Dflex, { flexDirection: 'column' })}>
+            <View style={(styles.Dflex, {flexDirection: 'column'})}>
               <View>
                 <Text style={styles.InputHeading}>Group Number</Text>
               </View>
-              <View style={{ height: 60 }}>
+              <View style={{height: 60}}>
                 <DropDown
                   value={policyNumbr}
                   data={policyNumbr}
@@ -113,7 +111,7 @@ const PatientInsuranceInfo = ({ route, navigation }) => {
               <Input
                 placeholder="Type Something Here..."
                 value={formData.zipCode}
-                onChangeText={text => setFormData({ ...formData, zipCode: text })}
+                onChangeText={text => setFormData({...formData, zipCode: text})}
               />
             </View>
             <View>
@@ -122,7 +120,7 @@ const PatientInsuranceInfo = ({ route, navigation }) => {
                 placeholder="Type Something Here..."
                 value={formData.primaryInsuredName}
                 onChangeText={text =>
-                  setFormData({ ...formData, primaryInsuredName: text })
+                  setFormData({...formData, primaryInsuredName: text})
                 }
               />
             </View>
@@ -132,7 +130,7 @@ const PatientInsuranceInfo = ({ route, navigation }) => {
                 placeholder="Type Something Here..."
                 value={formData.relationshipToPatient}
                 onChangeText={text =>
-                  setFormData({ ...formData, relationshipToPatient: text })
+                  setFormData({...formData, relationshipToPatient: text})
                 }
               />
             </View>
@@ -141,15 +139,15 @@ const PatientInsuranceInfo = ({ route, navigation }) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={[styles.button, { borderColor: '#5B8F6B', borderWidth: 1 }]}
+            style={[styles.button, {borderColor: '#5B8F6B', borderWidth: 1}]}
             accessibilityLabel="Previous">
-            <Text style={[styles.buttonText, { color: '#5B8F6B' }]}>
+            <Text style={[styles.buttonText, {color: '#5B8F6B'}]}>
               Previous
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleNext()}
-            style={[styles.button, { backgroundColor: '#5B8F6B' }]}
+            style={[styles.button, {backgroundColor: '#5B8F6B'}]}
             accessibilityLabel="Logout Button">
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>

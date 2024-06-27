@@ -1,12 +1,12 @@
-import React from 'react'
-import { View } from 'react-native'
-import BottomNavigation from './BottomNavigation'
+import React from 'react';
+import {View} from 'react-native';
+import BottomNavigation from './BottomNavigation';
 const BottomNavRender = () => {
   return (
-<View style={{flex:1}}>
-<BottomNavigation/>
-</View>
-  )
-}
+    <View style={{flex: 1}}>
+      <BottomNavigation />
+    </View>
+  );
+};
 
-export default BottomNavRender
+export default BottomNavRender;

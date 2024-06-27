@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import DocumentPicker from 'react-native-document-picker';
 
@@ -10,9 +10,7 @@ const UploadImage = () => {
       });
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        console.log('User cancel the upload', err);
       } else {
-        console.log(err);
       }
     }
   };

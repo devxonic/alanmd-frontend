@@ -21,7 +21,6 @@ const App = ({data, formData, setFormData, width, prefix}) => {
     setSelected(item);
     setVisible(false);
     setFormData({...formData, categoryId: item._id});
-    console.log(item);
   };
 
   const renderItem = ({item}) => (

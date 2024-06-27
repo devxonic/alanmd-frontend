@@ -2,7 +2,7 @@ import ApiHandler from './apihandler';
 import endpoint from './endpoints';
 
 export const login = async body => {
-  console.log(body)
+  console.log(body);
   try {
     const response = await ApiHandler().post(endpoint.LOGIN, body);
     console.log('Login Response: 1', response);
@@ -21,9 +21,10 @@ export const signUp = async body => {
     console.log('Sign Up Response:', response.data);
     return response.data;
   } catch (error) {
-    console.error('Sign Up Error:', error.response ? error.response.data : error.message);
+    console.error(
+      'Sign Up Error:',
+      error.response ? error.response.data : error.message,
+    );
     throw error;
   }
 };
-
-

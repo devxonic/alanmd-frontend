@@ -96,7 +96,9 @@ export const patientMedicalInfo = async body => {
 
 export const getPersonalInfo = async id => {
   try {
-    const response = await ApiHandler().get(`${endpoint.PATIENT_PROFILE_INFO}/${id}`);
+    const response = await ApiHandler().get(
+      `${endpoint.PATIENT_PROFILE_INFO}/${id}`,
+    );
     console.log('Patient Medical Response:', response.data);
     return response.data;
   } catch (error) {
@@ -110,7 +112,9 @@ export const getPersonalInfo = async id => {
 
 export const getInsureanceInfo = async id => {
   try {
-    const response = await ApiHandler().get(`${endpoint.PATIENT_MEDICAL_INFO}/${id}`);
+    const response = await ApiHandler().get(
+      `${endpoint.PATIENT_MEDICAL_INFO}/${id}`,
+    );
     console.log('Patient Medical Response:', response.data);
     return response.data;
   } catch (error) {

@@ -1,22 +1,7 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 
-const Dropdown = ({
-  data,
-  formData,
-  setFormData,
-  width,
-  prefix,
-  Objkey,
-  value,
-}) => {
+const Dropdown = ({data, formData, setFormData, width, prefix, Objkey}) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -64,14 +49,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    // backgroundColor:"red"
   },
   container: {
     marginVertical: 5,
   },
   dropdown: {
     width: '100%',
-    // backgroundColor: '#ffffff',
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 8,
@@ -98,7 +81,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#116754',
     width: '100%',
-    // maxHeight: 200, // Set a maximum height for the dropdown list
   },
   item: {
     padding: 10,

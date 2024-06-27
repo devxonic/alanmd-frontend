@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,17 +7,16 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Fonts } from '../components/style';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
 import DropDown from '../components/common/Dropdown';
 import DatePickers from '../components/common/DatePicker';
-import { getPersonalInfo } from '../api/patient';
+import {getPersonalInfo} from '../api/patient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const PatientPersonalInfo = ({ route, navigation }) => {
-
-  const [FetchedData, setFetchedData] = useState()
+const PatientPersonalInfo = ({route, navigation}) => {
+  const [FetchedData, setFetchedData] = useState();
   const [formData, setFormData] = useState({
     firstName: '',
     middleName: '',
@@ -29,42 +28,41 @@ const PatientPersonalInfo = ({ route, navigation }) => {
   });
   const routeData = route.params;
   let GenderCategories = [
-    { name: 'Male', id: 1, value: 'male' },
-    { name: 'female', id: 2, value: 'female' },
+    {name: 'Male', id: 1, value: 'male'},
+    {name: 'female', id: 2, value: 'female'},
   ];
   let Mr = [
-    { name: 'Mr', value: 'mr', id: 1 },
-    { name: 'Mrs', value: 'mrs', id: 2 },
+    {name: 'Mr', value: 'mr', id: 1},
+    {name: 'Mrs', value: 'mrs', id: 2},
   ];
 
   const fetchPresonalInfo = async () => {
     try {
-      let user = await AsyncStorage.getItem('user')
-      const response = await getPersonalInfo(JSON.parse(user).id)
-      console.log('Patient Profile Response', response.data)
-      setFetchedData(response.data)
-      setFormData({ ...response.data.personalInformation })
+      let user = await AsyncStorage.getItem('user');
+      const response = await getPersonalInfo(JSON.parse(user).id);
+      setFetchedData(response.data);
+      setFormData({...response.data.personalInformation});
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
   useEffect(() => {
-    fetchPresonalInfo()
-  }, [])
+    fetchPresonalInfo();
+  }, []);
 
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.profileContainer}>
-          <View style={{ width: '100%' }}>
+          <View style={{width: '100%'}}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignContent: 'center',
               }}>
-              <View style={{ flex: 1 }}>
+              <View style={{flex: 1}}>
                 <Text style={styles.InputHeading}>First Name</Text>
                 <DropDown
                   value={Mr}
@@ -75,7 +73,7 @@ const PatientPersonalInfo = ({ route, navigation }) => {
                   prefix={'Mr'}
                 />
               </View>
-              <View style={{ flex: 3 }}>
+              <View style={{flex: 3}}>
                 <Text style={styles.InputHeading}> </Text>
                 <Input
                   placeholder="Type Something Here..."
@@ -94,25 +92,25 @@ const PatientPersonalInfo = ({ route, navigation }) => {
               placeholder="Type Something Here..."
               value={formData.middleName}
               onChangeText={text =>
-                setFormData({ ...formData, middleName: text })
+                setFormData({...formData, middleName: text})
               }
             />
             <Text style={styles.InputHeading}>Last Name</Text>
             <Input
               placeholder="Type Something Here..."
               value={formData.lastName}
-              onChangeText={text => setFormData({ ...formData, lastName: text })}
+              onChangeText={text => setFormData({...formData, lastName: text})}
             />
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
-              <View style={{ flex: 1 }}>
+              <View style={{flex: 1}}>
                 <Text style={styles.InputHeading}>Date Of Birth</Text>
                 <DatePickers formData={formData} setFormData={setFormData} />
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={{flex: 1}}>
                 <Text style={styles.InputHeading}>Gender</Text>
                 <DropDown
                   value={GenderCategories}
@@ -129,7 +127,7 @@ const PatientPersonalInfo = ({ route, navigation }) => {
               placeholder="Type Something Here..."
               value={formData.maritalStatus}
               onChangeText={text =>
-                setFormData({ ...formData, maritalStatus: text })
+                setFormData({...formData, maritalStatus: text})
               }
             />
           </View>
@@ -137,9 +135,9 @@ const PatientPersonalInfo = ({ route, navigation }) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={[styles.button, { borderColor: '#5B8F6B', borderWidth: 1 }]}
+            style={[styles.button, {borderColor: '#5B8F6B', borderWidth: 1}]}
             accessibilityLabel="Previous">
-            <Text style={[styles.buttonText, { color: '#5B8F6B' }]}>
+            <Text style={[styles.buttonText, {color: '#5B8F6B'}]}>
               Previous
             </Text>
           </TouchableOpacity>
@@ -151,7 +149,7 @@ const PatientPersonalInfo = ({ route, navigation }) => {
                 routeData,
               })
             }
-            style={[styles.button, { backgroundColor: '#5B8F6B' }]}
+            style={[styles.button, {backgroundColor: '#5B8F6B'}]}
             accessibilityLabel="Next">
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
