@@ -15,6 +15,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 const {width} = Dimensions.get('window');
 
 function AttachedFile({AttachementFile}) {
+  console.log('AttachmentFile', AttachementFile);
+
   const getStoragePermission = async () => {
     if (Platform.OS === 'android') {
       try {
@@ -32,17 +34,21 @@ function AttachedFile({AttachementFile}) {
             'Storage permission is required to save files',
           );
         }
-      } catch (err) {}
+      } catch (err) {
+        console.warn(err);
+      }
     }
   };
+
   const downloadFile = async (url, fileName) => {
     await getStoragePermission();
     if (!url || !fileName) return Alert.alert('Make sure did you pass a URL');
     const DesPath =
-      RNFetchBlob.fs.dirs.DownloadDir + '/medicalApp/download/' + fileName; // Set your file path
+      Platform.OS === 'ios'
+        ? RNFetchBlob.fs.dirs.DocumentDir + '/' + fileName
+        : RNFetchBlob.fs.dirs.DownloadDir + '/medicalApp/download/' + fileName;
     try {
       RNFetchBlob.config({
-        fileCache: true,
         addAndroidDownloads: {
           notification: true,
           title: fileName,
@@ -51,10 +57,20 @@ function AttachedFile({AttachementFile}) {
           fileCache: true,
           description: 'Downloading file...',
         },
+        notification: true,
+        title: fileName,
+        useDownloadManager: true,
+        path: DesPath,
+        fileCache: true,
+        description: 'Downloading file...',
       })
         .fetch('GET', url, {})
-        .then(res => {})
-        .catch(err => {});
+        .then(res => {
+          console.log('The file saved to ', res.path());
+        })
+        .catch(err => {
+          console.log(err);
+        });
     } catch (error) {
       Alert.alert('Download Error', `Error downloading file: ${error.message}`);
     }

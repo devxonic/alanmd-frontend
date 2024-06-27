@@ -285,14 +285,6 @@ const App = ({ navigation }) => {
                 </TouchableOpacity>
               ),
               title: null,
-              // headerRight: () => (
-              //   <View style={{ flexDirection: 'row', gap: -5 ,}}>
-              //     <TouchableOpacity style={{backgroundColor:'#116754',padding:10,borderRadius:50}}  >
-              //  <NotificationIcon name='notifications' size={15} color={'white'} />
-              // </TouchableOpacity>
-              //   </View>
-              // ),
-
               tabBarIcon: ({ color }) => (
                 <Entypo name="user-circle-o" color={color} size={25} />
               ),
