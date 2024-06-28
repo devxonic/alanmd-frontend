@@ -1,14 +1,18 @@
 import React, {useState} from 'react';
-import {View, TextInput, StyleSheet, Image,Box} from 'react-native';
-import SearchIcon from 'react-native-vector-icons/Octicons'
-import { Fonts } from '../style';
+import {View, TextInput, StyleSheet, Image, Box} from 'react-native';
+import SearchIcon from 'react-native-vector-icons/Octicons';
+import {Fonts} from '../style';
 const SearchBar = () => {
   const [search, setSearch] = useState('');
 
   return (
     <View style={styles.container}>
-
-      <SearchIcon style={styles.searchIcon} name='search' size={20} color={'#116754'}/>
+      <SearchIcon
+        style={styles.searchIcon}
+        name="search"
+        size={20}
+        color={'#116754'}
+      />
       <TextInput
         style={styles.input}
         placeholder="search for doctors"
@@ -16,10 +20,7 @@ const SearchBar = () => {
         value={search}
         placeholderTextColor="#116754"
       />
-     </View>
-     
-
-    
+    </View>
   );
 };
 
@@ -35,8 +36,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 5,
-    borderWidth:0.5,
-    borderColor:'#116754'
+    borderWidth: 0.5,
+    borderColor: '#116754',
   },
   searchIcon: {
     alignSelf: 'center',
@@ -47,8 +48,8 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 15,
-    fontFamily:Fonts.LIGHT,
-    color:'black'
+    fontFamily: Fonts.LIGHT,
+    color: 'black',
   },
 });
 

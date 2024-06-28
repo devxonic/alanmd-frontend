@@ -4,13 +4,11 @@ import {useNavigation} from '@react-navigation/native';
 import {getCategories} from '../../api/patient';
 import DataNotFound from './DataNotFound';
 import Loader from './Loader';
- 
 
 const Card = () => {
   const navigation = useNavigation();
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-console.log(categories)
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -19,8 +17,7 @@ console.log(categories)
         if (response.data) {
           setCategories(response.data);
           setIsLoading(false);
-        }        console.log(response.data)
-        console.log( "categoryssssss : "  , categories )
+        }
       } catch (error) {
         setIsLoading(false);
         console.error('Error fetching categories:', error);
@@ -29,8 +26,8 @@ console.log(categories)
     fetchCategories();
   }, []);
 
-  const handleDoctorList = (category) => {
-    navigation.navigate('SeletedCategory',{category});
+  const handleDoctorList = category => {
+    navigation.navigate('SeletedCategory', {category});
   };
 
   if (isLoading) {
@@ -44,17 +41,23 @@ console.log(categories)
   return (
     <>
       <View style={styles.main}>
-        {categories.length >= 1 ? categories.map((category, index) => (
-          <TouchableOpacity onPress={()=> navigation.navigate('SeletedCategory',{category})} key={index}>
-            <View style={styles.card}>
-              <Image
-                source={require('../../images/eyeTwo.png')}
-                style={styles.image}
-              />
-              <Text style={styles.text}>{category.name}</Text>
-            </View>
-          </TouchableOpacity>
-        )) : <DataNotFound/>}
+        {categories.length >= 1 ? (
+          categories.map((category, index) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SeletedCategory', {category})}
+              key={index}>
+              <View style={styles.card}>
+                <Image
+                  source={require('../../images/eyeTwo.png')}
+                  style={styles.image}
+                />
+                <Text style={styles.text}>{category.name}</Text>
+              </View>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <DataNotFound />
+        )}
       </View>
     </>
   );
@@ -78,15 +81,12 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
   },
-
   image: {
     height: 60,
     width: 60,
   },
-
   text: {
     fontSize: 12,
   },
 });
-
 export default Card;

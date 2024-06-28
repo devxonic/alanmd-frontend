@@ -5,13 +5,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   ScrollView,
   Dimensions,
 } from 'react-native';
 import {Fonts} from '../components/style';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {Platform} from 'react-native';
 import Button from '../components/common/Button';
 import DocumentPicker from 'react-native-document-picker';
 import {BASE_URL, uploadFile} from '../api/apihandler';
@@ -21,42 +19,24 @@ import AttachedFile from '../components/common/AttachedFile';
 
 const ParticularPatientScreen = ({route, navigation}) => {
   const {item} = route.params;
-console.log('ITEM', item)
-
-  // const [isNurse, setIsNurse] = useState(false);
   let data = useSelector(state => state.user.Role);
   const [isLoading, setIsLoading] = useState(false);
-
-  // const [prescriptionFile, setPrescriptionFile] = useState(null);
   const [reportsFile, setReportsFile] = useState(null);
-  // const [notesFile, setNotesFile] = useState(null);
-
-  // const [prescriptionText, setPrescriptionText] = useState('');
   const [reportsText, setReportText] = useState('');
-  // const [NotesText, setNotesText] = useState('');
-
-  // const [isPrescriptionListening, setPrescriptionListening] = useState(false);
-  // const [isNotesListening, setNotesListening] = useState(false);
-  // const [isReportListening, setReportListening] = useState(false);
-  // console.log('PRESCRIPTION File', prescriptionFile, reportsFile, notesFile);
   const handleDocumentPicker = async type => {
     try {
       const doc = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
       const formData = new FormData();
-
       const selectedFile = doc?.[0];
       const file = {
-        // Edit Here
         uri: selectedFile.uri, // Edit Here,
         name: selectedFile.name, // Edit Here, Image Name with Extension very important
         type: selectedFile.type, // Edit Here
       };
       formData.append('Media', file);
       const responce = await uploadFile(formData);
-      console.log('RESPONSE', responce.data?.url);
-
       if (type === 'report') {
         if (!!reportsFile) {
           setReportsFile([
@@ -86,7 +66,6 @@ console.log('ITEM', item)
     }
   };
 
-
   useEffect(() => {
     if (item) {
       setReportText(item.doctorReport);
@@ -100,7 +79,11 @@ console.log('ITEM', item)
 
   const handleNext = () => {
     console.log('Item', item);
-    let updateditems = {...item , doctorReport: reportsText, doctorReportsMedia: reportsFile}
+    let updateditems = {
+      ...item,
+      doctorReport: reportsText,
+      doctorReportsMedia: reportsFile,
+    };
     navigation.navigate('patientNotes', {item: updateditems});
   };
   return (
@@ -127,7 +110,9 @@ console.log('ITEM', item)
                 borderRadius: 5,
               }}
               source={{
-                uri: 'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
+                uri:
+                  item['patientId']?.image ??
+                  'https://i.pinimg.com/736x/8b/e9/70/8be970b311337d17d37b354b571565b9.jpg',
               }}
             />
           </View>
@@ -189,7 +174,7 @@ console.log('ITEM', item)
             paddingBottom: 20,
             justifyContent: 'space-around',
           }}>
-            <AssignNurseButton onPress={handleNext} />
+          <AssignNurseButton onPress={handleNext} />
         </View>
       </ScrollView>
     </View>
@@ -245,7 +230,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#116754',
     fontFamily: Fonts.MEDIUM,
-    // paddingLeft:13
     paddingLeft: 5,
   },
   main: {
@@ -293,7 +277,6 @@ const styles = StyleSheet.create({
   childTwoTwo: {
     display: 'flex',
     flexDirection: 'row',
-    // paddingLeft:9
   },
   childThree: {
     display: 'flex',

@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 10,
   },
-  
 });
 
 export default Loader;

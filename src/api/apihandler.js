@@ -14,7 +14,6 @@ const ApiHandler = () => {
         const token = await AsyncStorage.getItem('accessToken');
         if (token) {
           config.headers['Authorization'] = `Bearer ${token}`;
-          
         }
         return config;
       } catch (error) {
@@ -23,7 +22,7 @@ const ApiHandler = () => {
     },
     error => {
       return Promise.reject(error);
-    }
+    },
   );
 
   instance.interceptors.response.use(
@@ -32,29 +31,26 @@ const ApiHandler = () => {
       if (error.response && error.response.status === 401) {
       }
       return Promise.reject(error);
-    }
+    },
   );
 
   return instance;
 };
 
-export const uploadFile =async (formData) =>{
+export const uploadFile = async formData => {
   try {
-    const response =  await  axios({
-      method: "post",
-      url: BASE_URL+ "/doctor/upload",
+    const response = await axios({
+      method: 'post',
+      url: BASE_URL + '/doctor/upload',
       data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-  
-    return response.data
-    
+      headers: {'Content-Type': 'multipart/form-data'},
+    });
+
+    return response.data;
   } catch (error) {
-    console.log(error)
-    throw error
-
+    console.log(error);
+    throw error;
   }
-
-}
+};
 
 export default ApiHandler;

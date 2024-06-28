@@ -1,14 +1,7 @@
 import React, {useState} from 'react';
-import {Controller} from 'react-hook-form';
-import EyeIcon from 'react-native-vector-icons/FontAwesome5'
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import { Fonts } from '../style';
+import EyeIcon from 'react-native-vector-icons/FontAwesome5';
+import {View, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import {Fonts} from '../style';
 
 const Input = ({
   props,
@@ -40,8 +33,7 @@ const Input = ({
         <TouchableOpacity
           onPress={togglePasswordVisibility}
           style={styles.toggleButton}>
-            <EyeIcon name="eye" size={21} color={'black'}/>
-          
+          <EyeIcon name="eye" size={21} color={'black'} />
         </TouchableOpacity>
       )}
     </View>
@@ -59,9 +51,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 13,
     color: 'black',
-    fontFamily:Fonts.LIGHT,
-    borderWidth:0.5,
-    borderColor:'#116754'
+    fontFamily: Fonts.LIGHT,
+    borderWidth: 0.5,
+    borderColor: '#116754',
   },
   toggleButton: {
     position: 'absolute',

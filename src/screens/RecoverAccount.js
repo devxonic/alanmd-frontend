@@ -1,18 +1,10 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  SafeAreaView,
-} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, SafeAreaView} from 'react-native';
 import React from 'react';
-import Link from '../components/common/Link';
 import Heading from '../components/common/Heading';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import {useNavigation} from '@react-navigation/native';
-import BackIcon from 'react-native-vector-icons/Ionicons'
+import BackIcon from 'react-native-vector-icons/Ionicons';
 const RecoverAccount = () => {
   const navigation = useNavigation();
   const handleSubmit = () => {
@@ -24,12 +16,11 @@ const RecoverAccount = () => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor:'#e3eeeb',flex:1}}>
+    <SafeAreaView style={{backgroundColor: '#e3eeeb', flex: 1}}>
       <View style={styles.parent}>
         <View style={styles.firstChild}>
           <TouchableOpacity onPress={handleBackPress}>
-            {/* <Image source={require('../images/back.png')} /> */}
-            <BackIcon name = 'chevron-back' size={25} color='black'/>
+            <BackIcon name="chevron-back" size={25} color="black" />
           </TouchableOpacity>
         </View>
         <View style={styles.secondChild}>

@@ -6,50 +6,34 @@ import {
   Text,
   TouchableOpacity,
   Platform,
-  Dimensions,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
-import ProfileImageUpload from '../components/common/ProfileImageUpload';
 import DocumentPicker from 'react-native-document-picker';
 import {BASE_URL, uploadFile} from '../api/apihandler';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {useSelector} from 'react-redux';
-import {updateDoctorProfile} from '../api/doctor';
-import {updateNurseProfile} from '../api/nurse';
-import { updatePateintProfile } from '../api/patient';
+import {updatePateintProfile} from '../api/patient';
 
 const DoctorProfileEdit = ({route, navigation}) => {
   const [formData, setFormData] = useState({name: '', image: '', location: ''});
-
   const role = useSelector(state => state?.user?.Role);
-
-  console.log('FORM DATA', formData, '\n ROLE', role);
-
-  // useEffect(()=> {
-  //   const {name,image,location} = route.params
-  //   setFormData({name,image,location})
-  // },[route.params])
-
   useEffect(() => {
     setFormData({...route.params});
-    console.log("Edit Profile",route.params);
     return () => {
       setFormData({});
-    }
-  },[]);
+    };
+  }, []);
 
   const EditPatientProfile = async () => {
     try {
       const response = await updatePateintProfile(formData);
-      console.log('RESPONSE', response);
       navigation.goBack();
     } catch (error) {
       console.log('ERROR', error);
     }
   };
-
 
   const handleDocumentPicker = async () => {
     try {
@@ -59,7 +43,6 @@ const DoctorProfileEdit = ({route, navigation}) => {
       const MediaData = new FormData();
       const selectedFile = doc?.[0];
       const file = {
-        // Edit Here
         uri: selectedFile.uri, // Edit Here,
         name: selectedFile.name, // Edit Here, Image Name with Extension very important
         type: selectedFile.type, // Edit Here
@@ -67,7 +50,6 @@ const DoctorProfileEdit = ({route, navigation}) => {
       MediaData.append('Media', file);
       MediaData;
       const responce = await uploadFile(MediaData);
-      console.log('RESPONSE', responce.data?.url);
       setFormData({...formData, image: BASE_URL + responce?.data?.url});
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
@@ -81,12 +63,6 @@ const DoctorProfileEdit = ({route, navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.profileContainer}>
-        {/* <View style={styles.imageBorder}>
-            <Image
-              source={{ uri: 'https://static.vecteezy.com/system/resources/previews/008/957/225/non_2x/female-doctor-avatar-clipart-icon-in-flat-design-vector.jpg' }}
-              style={styles.profileImage}
-            />
-          </View> */}
         <View style={styles.imageContainer}>
           {formData.image?.length ? (
             <Image
@@ -110,8 +86,6 @@ const DoctorProfileEdit = ({route, navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* <ProfileImageUpload onUploadClick={handleDocumentPicker} image={formData.image}/> */}
-
         <View style={{width: '100%'}}>
           <Input
             placeholder="Name"
@@ -215,15 +189,6 @@ const styles = StyleSheet.create({
     width: '200%',
     height: 100,
   },
-  //   imageContainer:{
-  //     elevation:2,
-  //     height:200,
-  //     width:200,
-  //     backgroundColor:'#efefef',
-  //     position:'relative',
-  //     borderRadius:999,
-  //     overflow:'hidden',
-  // },
   uploadBtnContainer: {
     opacity: 0.7,
     position: 'absolute',
