@@ -303,7 +303,7 @@ const ConfromBoking = ({route, navigation}) => {
         </View>
       </Modal>
       <View style={{paddingHorizontal: 15, marginBottom: 20}}>
-        <Button text="Conform Booking" Link={handleConfirmBooking} />
+        <Button text="Confirm Booking" Link={handleConfirmBooking} />
       </View>
     </View>
   );
