@@ -110,7 +110,7 @@ const PatientList = ({navigation}) => {
                         <TouchableOpacity
                           style={styles.childThreeThree}
                           onPress={() =>
-                            navigation.navigate('ParticularPatientScreen', {
+                            navigation.navigate('PatientDetails', {
                               item,
                             })
                           }>
