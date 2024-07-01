@@ -111,6 +111,8 @@ const PatientInsuranceInfo = ({route, navigation}) => {
               <Input
                 placeholder="Type Something Here..."
                 value={formData.zipCode}
+                keyboardType="phone-pad"
+                textContentType="telephoneNumber"
                 onChangeText={text => setFormData({...formData, zipCode: text})}
               />
             </View>

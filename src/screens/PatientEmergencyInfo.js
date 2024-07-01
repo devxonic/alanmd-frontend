@@ -79,6 +79,8 @@ const PatientEmergencyInfo = ({route, navigation}) => {
               <Input
                 placeholder="Type Something Here..."
                 value={formData.phoneNumber}
+                keyboardType="phone-pad"
+                textContentType="telephoneNumber"
                 onChangeText={text =>
                   setFormData({...formData, phoneNumber: text})
                 }
@@ -89,6 +91,8 @@ const PatientEmergencyInfo = ({route, navigation}) => {
               <Input
                 placeholder="Type Something Here..."
                 value={formData.alternatePhoneNumber}
+                keyboardType="phone-pad"
+                textContentType="telephoneNumber"
                 onChangeText={text =>
                   setFormData({...formData, alternatePhoneNumber: text})
                 }

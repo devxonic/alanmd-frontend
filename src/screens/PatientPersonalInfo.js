@@ -48,7 +48,6 @@ const PatientPersonalInfo = ({ route, navigation }) => {
       throw error
     }
   }
-
   useEffect(() => {
     fetchPresonalInfo()
   }, [])
@@ -127,6 +126,7 @@ const PatientPersonalInfo = ({ route, navigation }) => {
             <Text style={styles.InputHeading}>Marital Status</Text>
             <Input
               placeholder="Type Something Here..."
+              keyboardType="default"
               value={formData.maritalStatus}
               onChangeText={text =>
                 setFormData({ ...formData, maritalStatus: text })

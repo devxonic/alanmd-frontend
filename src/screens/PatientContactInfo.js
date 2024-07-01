@@ -129,6 +129,8 @@ const PatientContactInfo = ({route, navigation}) => {
                 <Input
                   placeholder="Type Something Here..."
                   value={formData.zipCode}
+                  keyboardType="phone-pad"
+                  textContentType="telephoneNumber"
                   onChangeText={text =>
                     setFormData({...formData, zipCode: text})
                   }
@@ -141,6 +143,8 @@ const PatientContactInfo = ({route, navigation}) => {
                 <Input
                   placeholder="Type Something Here..."
                   value={formData.houseNumber}
+                  keyboardType="phone-pad"
+                  textContentType="telephoneNumber"
                   onChangeText={text =>
                     setFormData({...formData, houseNumber: text})
                   }
@@ -186,6 +190,8 @@ const PatientContactInfo = ({route, navigation}) => {
                 <Input
                   placeholder="Type Something Here..."
                   value={formData.mobileNumber}
+                  keyboardType="phone-pad"
+                  textContentType="telephoneNumber"
                   onChangeText={text =>
                     setFormData({...formData, mobileNumber: text})
                   }
@@ -231,6 +237,8 @@ const PatientContactInfo = ({route, navigation}) => {
                 <Input
                   placeholder="Type Something Here..."
                   value={formData.workNumber}
+                  keyboardType="phone-pad"
+                  textContentType="telephoneNumber"
                   onChangeText={text =>
                     setFormData({...formData, workNumber: text})
                   }
@@ -276,6 +284,8 @@ const PatientContactInfo = ({route, navigation}) => {
                 <Input
                   placeholder="Type Something Here..."
                   value={formData.emailAddress}
+                  keyboardType="email-address"
+                  textContentType="emailAddress"
                   onChangeText={text =>
                     setFormData({...formData, emailAddress: text})
                   }
