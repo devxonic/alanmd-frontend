@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import EyeIcon from 'react-native-vector-icons/FontAwesome5';
-import {View, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {Fonts} from '../style';
-
 const Input = ({
   props,
   placeholder,
@@ -33,7 +38,17 @@ const Input = ({
         <TouchableOpacity
           onPress={togglePasswordVisibility}
           style={styles.toggleButton}>
-          <EyeIcon name="eye" size={21} color={'black'} />
+          {/* <Image
+            source={require('../../assets/icons/Profile.svg')}
+            style={{
+              width: 24,
+              height: 24,
+              tintColor: '#116754',
+              borderColor: '#116754',
+              borderWidth: 1,
+              borderRadius: 5,
+            }}
+          /> */}
         </TouchableOpacity>
       )}
     </View>
