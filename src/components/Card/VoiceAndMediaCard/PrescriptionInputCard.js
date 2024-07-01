@@ -92,6 +92,7 @@ const PrescriptionInputCard = ({
             fontSize: 16,
             color: 'black',
             paddingLeft: 10,
+            paddingTop: 10,
             flex: 1,
           }}>
           {heading || ''}

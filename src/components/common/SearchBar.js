@@ -7,12 +7,14 @@ const SearchBar = () => {
 
   return (
     <View style={styles.container}>
-      <SearchIcon
-        style={styles.searchIcon}
-        name="search"
-        size={20}
-        color={'#116754'}
-      />
+      <View>
+        <SearchIcon
+          style={styles.searchIcon}
+          name="search"
+          size={20}
+          color={'#116754'}
+        />
+      </View>
       <TextInput
         style={styles.input}
         placeholder="search for doctors"
@@ -38,18 +40,24 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderWidth: 0.5,
     borderColor: '#116754',
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   searchIcon: {
     alignSelf: 'center',
     height: 20,
     width: 20,
     marginRight: 10,
+    borderWidth: 0.5,
+    borderColor: '#000',
   },
   input: {
     flex: 1,
     fontSize: 15,
     fontFamily: Fonts.LIGHT,
     color: 'black',
+    height: 40,
   },
 });
 

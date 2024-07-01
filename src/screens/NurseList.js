@@ -54,11 +54,9 @@ const NurseList = ({route, navigation}) => {
   return (
     <SafeAreaView style={{backgroundColor: '#e3eeeb', flex: 1}}>
       <View style={styles.main}>
-        <View>
-          <Header />
-        </View>
         <View
           style={{
+            paddingTop: 10,
             paddingHorizontal: 15,
             backgroundColor: 'white',
             paddingBottom: 15,
