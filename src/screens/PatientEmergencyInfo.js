@@ -11,6 +11,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Fonts} from '../components/style';
 import Input from '../components/common/Input';
 import DropDown2 from '../components/common/Dropdown';
+import ProfileButton from '../components/common/ProfileButton';
 
 const PatientEmergencyInfo = ({route, navigation}) => {
   const [formData, setFormData] = useState({
@@ -121,20 +122,17 @@ const PatientEmergencyInfo = ({route, navigation}) => {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
+          <ProfileButton
+            title="Previous"
+            background={{borderColor: '#5B8F6B', borderWidth: 1}}
+            text={{color: '#5B8F6B'}}
             onPress={() => navigation.goBack()}
-            style={[styles.button, {borderColor: '#5B8F6B', borderWidth: 1}]}
-            accessibilityLabel="Previous">
-            <Text style={[styles.buttonText, {color: '#5B8F6B'}]}>
-              Previous
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          />
+          <ProfileButton
+            title="Next"
+            background={{backgroundColor: '#5B8F6B'}}
             onPress={() => handleNext()}
-            style={[styles.button, {backgroundColor: '#5B8F6B'}]}
-            accessibilityLabel="Next">
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
+          />
         </View>
       </SafeAreaView>
     </ScrollView>
